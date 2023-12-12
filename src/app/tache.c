@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "tache.h"
 
 
@@ -78,14 +79,6 @@
 //     puts("");
 // }
 
-// void verifInt(int *var){
-//     while (scanf("%d", var) != 1){
-//         fprintf(stderr, "\x1B[31mERREUR : Entrez un nombre valide : \x1B[0m");
-//         while (getchar() != '\n');
-//     }
-
-//     while (getchar() != '\n');
-// }
 
 // Tache creerTache(Liste *liste)
 // {
@@ -113,20 +106,38 @@
     
 // }
 
+void verifInt(int *var){
+    while (scanf("%d", var) != 1){
+        fprintf(stderr, "\x1B[31mERREUR : Entrez un nombre valide : \x1B[0m");
+        while (getchar() != '\n');
+    }
+
+    while (getchar() != '\n');
+}
+
 void chargerPrecedences(char* nomFichier) {
     FILE* fe;
-
-    char ligne[MAX_LIGNE];
 
     if ( (fe = fopen(nomFichier, "r")) == NULL ) {
         perror("fopen");
         exit(-1);
     }
 
-    while (fgets(ligne, MAX_LIGNE, fe) != NULL){
-        printf("%s", ligne);
+    fclose(fe);
+}
+
+void afficherPrecedences(char* nomFichier) {
+    FILE* fe;
+    char tache1[21], tache2[21];
+
+    if ( (fe = fopen(nomFichier, "r")) == NULL ) {
+        perror("fopen");
+        exit(-1);
+    }
+
+    while (fscanf(fe, "%s%s\n", tache1, tache2) == 2) {
+        printf("%s -> %s\n", tache1, tache2);
     }
 
     fclose(fe);
 }
-

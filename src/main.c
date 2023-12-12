@@ -5,7 +5,7 @@
 
 
 int main(void){
-	global_client();
+	global();
 
 	exit(EXIT_FAILURE);
 }

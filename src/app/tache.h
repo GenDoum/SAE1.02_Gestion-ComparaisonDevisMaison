@@ -45,6 +45,7 @@ typedef struct Offre {
 } Offre;
 
 void chargerPrecedences(char* nomFichier);
+void afficherPrecedences(char* nomFichier);
 
 // Maillon
 

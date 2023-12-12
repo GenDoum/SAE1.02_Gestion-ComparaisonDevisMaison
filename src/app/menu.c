@@ -32,7 +32,7 @@ void menu_client(int *choix) {
 }
 
 
-void global_client(void) {
+void global(void) {
     int choix;
     char nomFichier[100] = "donnee/precedences.txt";
     do {
@@ -40,11 +40,11 @@ void global_client(void) {
 
         switch (choix) {
             case 1:
-                chargerPrecedences(nomFichier);
+                afficherPrecedences(nomFichier);
                 break;
             case 2:
                 break;
-            case 3:
+            case 3:                
                 break;
             case 4:
                 break;
