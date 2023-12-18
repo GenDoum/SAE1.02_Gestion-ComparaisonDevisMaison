@@ -13,7 +13,7 @@ void affiche_client(void) {
     printf("|| Que voulez-vous faire ?\t\t\t\t\t||\n");
     printf("||\t1 : Afficher les précédences.\t \t\t\t||\n");
     printf("||\t2 : Ajouter une précédence.\t\t\t\t||\n");
-    printf("||\t3 : Ajouter un article au panier.   \t\t\t||\n");
+    printf("||\t3 : Afficher les devis.   \t\t\t\t||\n");
     printf("||\t4 : Supprimer un article du panier. \t\t\t||\n");
     printf("||\t5 : Modifier la quantité d'un article du panier. \t||\n");
     printf("||\t6 : Réinitialiser le panier.\t\t\t\t||\n");
@@ -34,17 +34,20 @@ void menu_client(int *choix) {
 
 void global(void) {
     int choix;
-    char nomFichier[100] = "donnee/precedences.txt";
+    char fichierPrecedences[100] = "donnee/precedences.txt";
+    char fichierDevis[100] = "donnee/devis.txt";
+    Offre offre;
     do {
         menu_client(&choix);
 
         switch (choix) {
             case 1:
-                afficherPrecedences(nomFichier);
+                afficherPrecedences(fichierPrecedences);
                 break;
             case 2:
+                creerPrecedences(fichierPrecedences);
                 break;
-            case 3:                
+            case 3:
                 break;
             case 4:
                 break;

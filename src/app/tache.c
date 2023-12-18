@@ -4,11 +4,6 @@
 #include "tache.h"
 
 
-// void creerMaillonVide(Liste *liste){
-//     liste->suivant = NULL;
-//     liste->fin = NULL;
-// }
-
 
 // void ajouterMaillonFin( Liste *liste, Tache *tache){
 //     Maillon *nouveau;
@@ -106,6 +101,7 @@
     
 // }
 
+
 void verifInt(int *var){
     while (scanf("%d", var) != 1){
         fprintf(stderr, "\x1B[31mERREUR : Entrez un nombre valide : \x1B[0m");
@@ -141,3 +137,30 @@ void afficherPrecedences(char* nomFichier) {
 
     fclose(fe);
 }
+
+void creerPrecedences(char* nomFichier) {
+    FILE* fe;
+    char tache1[21], tache2[21];
+
+    if ( (fe = fopen(nomFichier, "a")) == NULL ) {
+        perror("fopen");
+        exit(-1);
+    }
+
+    printf("Entrez le nom de la tache 1 : ");
+    while ( (scanf("%s", tache1)) != 1 ) {
+        fprintf(stderr, "Entrez un nom de la tache valid ! Pas plus de 20 caractères.\n");
+        while (getchar() != '\n');
+    }
+
+    printf("Entrez le nom de la tache 2 : ");
+    while ( (scanf("%s", tache2)) != 1 ) {
+        fprintf(stderr, "Entrez un nom de la tache valid ! Pas plus de 20 caractères.\n");
+        while (getchar() != '\n');
+    }
+
+    fprintf(fe, "%s %s\n", tache1, tache2);
+
+    fclose(fe);
+}
+
