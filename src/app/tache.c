@@ -163,4 +163,3 @@ void creerPrecedences(char* nomFichier) {
 
     fclose(fe);
 }
-

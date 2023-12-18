@@ -31,7 +31,6 @@ void menu_client(int *choix) {
     }
 }
 
-
 void global(void) {
     int choix;
     char fichierPrecedences[100] = "donnee/precedences.txt";
