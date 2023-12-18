@@ -4,14 +4,21 @@
 #define MAX_TRAVAUX 30
 #define MAX_LIGNE 200
 
+typedef struct adresse{
+    int numero;
+    char nomRue[MAX_LIGNE];
+    char ville[MAX_LIGNE];
+    int codePostale;
+} Adresse;
+
 // Structure pour un devis
 typedef struct Devis {
+    char nomTache[MAX_TRAVAUX];
     char entreprise[MAX_TRAVAUX];
-    char adresse[MAX_TRAVAUX];
+    Adresse adresse;
     int capital;
     int duree;
     int cout;
-    struct Devis* suivant;
 } Devis;
 
 // Structure pour les maillons de la liste de devis
@@ -20,24 +27,30 @@ typedef struct MaillonDevis {
     struct MaillonDevis* suivant;
 } MaillonDevis;
 
+// Structure pour la liste de devis
+typedef struct MaillonDevis* ListeDevis;
+
 // Structure pour une offre de travaux
 typedef struct Offre {
     char travaux[MAX_TRAVAUX];
-    MaillonDevis* ldevis;
+    ListeDevis ldevis;
 } Offre;
+
+
 
 void chargerPrecedences(char* nomFichier);
 void afficherPrecedences(char* nomFichier);
 void creerPrecedences(char* nomFichier);
-int chargerDevis(void);
+int chargerDevis(char* nomFichier, MaillonDevis* liste);
 
 // Maillon
 void creerMaillonDevisVide( MaillonDevis *liste );
-// void ajouterMaillonFin( Liste *liste, Tache *tache );
-// void ajouterMaillonDebut( Liste *liste, Tache *tache );
-// void supprimerDernierMaillon( Liste *liste );
-// void supprimerPremierMaillon( Liste *liste );
-// void afficherListe(Liste *liste);
+void saisieAjouterMaillon( char *nomTache, char *entreprise, char *adresse, int *capital, int *duree, int *cout);
+void ajouterMaillonFin( MaillonDevis *liste, Devis *devis );
+// void ajouterMaillonDebut( MaillonDevis *liste, Devis *devis );
+// void supprimerMaillonFin( Liste *liste );
+// void supprimerMaillonDebut( Liste *liste );
+// void afficherListe( MaillonDevis *liste);
 // void verifInt(int *var);
 
 // Liste
