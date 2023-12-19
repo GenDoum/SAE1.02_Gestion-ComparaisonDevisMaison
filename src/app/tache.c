@@ -184,7 +184,7 @@ void creerPrecedences(char* nomFichier) {
     fclose(fe);
 }
 
-void saisieAjouterMaillon( char *nomTache, char *entreprise, char *adresse, int *capital, int *duree, int *cout)
+void saisieMaillon( char *nomTache, char *entreprise, Adresse *adresse, int *capital, int *duree, int *cout)
 {
     printf("Entrez le nom de la tâche : ");
     while( (scanf("%s", nomTache) != 1 ) )
@@ -201,28 +201,28 @@ void saisieAjouterMaillon( char *nomTache, char *entreprise, char *adresse, int 
     }
 
     printf("Entrez la ville de l'entreprise : ");
-    while( (scanf("%s", adresse.ville) != 1 ) )
+    while( (scanf("%s", adresse->ville) != 1 ) )
     {
         printf("Entrez une adresse correct, avec maximum 100 caractères.\n Entrez ici :");
         while (getchar() != '\n');
     }
 
     printf("Entrez le numéro de rue de l'entreprise : ");
-    while( (scanf("%d", adresse.numero) != 1 ) )
+    while( (scanf("%d", adresse->numero) != 1 ) )
     {
         printf("/!/Entrez un numéro de rue correct./!/\n Entrez ici :");
         while (getchar() != '\n');
     }
 
     printf("Entrez le nom de la rue de l'entreprise : ");
-    while( (scanf("%d", adresse.nomRue) != 1 ) )
+    while( (scanf("%s", adresse->nomRue) != 1 ) )
     {
         printf("/!/Entrez un nom de rue correct./!/\n Entrez ici :");
         while (getchar() != '\n');
     }
     
     printf("Entrez le code postale de l'entreprise : ");
-    while( (scanf("%d", adresse.codePostale) != 1 ) )
+    while( (scanf("%d", adresse->codePostal) != 1 ) )
     {
         printf("/!/Entrez un code postale correct./!/\n Entrez ici :");
         while (getchar() != '\n');
@@ -251,7 +251,52 @@ void saisieAjouterMaillon( char *nomTache, char *entreprise, char *adresse, int 
 
 }
 
-void ajouterMaillonFin( MaillonDevis *liste, Devis *devis )
+void ajouterMaillonDevisFin(ListeDevis *liste) 
 {
-     
+    MaillonDevis *nouveauMaillon = (MaillonDevis*)malloc(sizeof(MaillonDevis));
+    
+    if (nouveauMaillon == NULL)
+    {
+        fprintf(stderr, "Erreur : Échec de l'allocation mémoire.\n");
+        exit(-1);
+    }
+
+    // Utiliser la fonction de saisie du dessus
+    saisieMaillon(nouveauMaillon->devis.nomTache, nouveauMaillon->devis.entreprise, 
+                   &(nouveauMaillon->devis.adresse), &(nouveauMaillon->devis.capital),
+                   &(nouveauMaillon->devis.duree), &(nouveauMaillon->devis.cout));
+
+    nouveauMaillon->suivant = NULL;
+
+    if (*liste == NULL) 
+    {
+        *liste = nouveauMaillon;
+    }
+    else
+    {
+        MaillonDevis *courant = *liste;
+        while (courant->suivant != NULL) {
+            courant = courant->suivant;
+        }
+        courant->suivant = nouveauMaillon;
+    }
+}
+
+void ajouterMaillonDevisDebut(ListeDevis *liste) 
+{
+    MaillonDevis *nouveauMaillon = (MaillonDevis*)malloc(sizeof(MaillonDevis));
+    
+    if (nouveauMaillon == NULL) {
+        fprintf(stderr, "Erreur : Échec de l'allocation mémoire.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    // Utiliser la fonction de saisie du dessus
+    saisieMaillon(nouveauMaillon->devis.nomTache, nouveauMaillon->devis.entreprise, 
+                   &(nouveauMaillon->devis.adresse), &(nouveauMaillon->devis.capital),
+                   &(nouveauMaillon->devis.duree), &(nouveauMaillon->devis.cout));
+
+    nouveauMaillon->suivant = *liste;
+
+    *liste = nouveauMaillon;
 }

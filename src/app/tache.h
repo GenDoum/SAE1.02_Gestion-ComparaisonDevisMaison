@@ -8,7 +8,7 @@ typedef struct adresse{
     int numero;
     char nomRue[MAX_LIGNE];
     char ville[MAX_LIGNE];
-    int codePostale;
+    int codePostal;
 } Adresse;
 
 // Structure pour un devis
@@ -45,9 +45,9 @@ int chargerDevis(char* nomFichier, MaillonDevis* liste);
 
 // Maillon
 void creerMaillonDevisVide( MaillonDevis *liste );
-void saisieAjouterMaillon( char *nomTache, char *entreprise, char *adresse, int *capital, int *duree, int *cout);
-void ajouterMaillonFin( MaillonDevis *liste, Devis *devis );
-// void ajouterMaillonDebut( MaillonDevis *liste, Devis *devis );
+void saisieMaillon( char *nomTache, char *entreprise, Adresse *adresse, int *capital, int *duree, int *cout);
+void ajouterMaillonDevisDebut(ListeDevis *liste);
+void ajouterMaillonDevisFin(ListeDevis *liste);
 // void supprimerMaillonFin( Liste *liste );
 // void supprimerMaillonDebut( Liste *liste );
 // void afficherListe( MaillonDevis *liste);
