@@ -4,6 +4,8 @@
 #define MAX_TRAVAUX 30
 #define MAX_LIGNE 200
 
+typedef enum {false, true} bool;
+
 typedef struct adresse{
     int numero;
     char nomRue[MAX_LIGNE];
@@ -41,6 +43,8 @@ void chargerPrecedences(char* nomFichier);
 void afficherPrecedences(char* nomFichier);
 void creerPrecedences(char* nomFichier);
 int chargerDevis(char* nomFichier, MaillonDevis* liste);
+ListeDevis creerListeDevisVide(void);
+bool estVide(ListeDevis liste);
 
 // Maillon
 void creerMaillonDevisVide( MaillonDevis *liste );
