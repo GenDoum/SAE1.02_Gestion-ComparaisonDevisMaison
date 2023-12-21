@@ -138,25 +138,28 @@ void afficherPrecedences(char* nomFichier) {
     fclose(fe);
 }
 
-ListeDevis charger(char* nomFichier){
-    FILE* fe;
-    ListeDevis lDevis = NULL;
-    MaillonDevis* dernierMaillon = NULL;
+// int chargerDevis(Devis d, int* tabDevis[], int maxDevis){
 
-    if ((fe = fopen(nomFichier, "r")) == NULL){
-        perror("fopen");
-        exit(EXIT_FAILURE);
-    }
+//     int i;
+//     FILE* fe;
+//     if((fe=fopen("donnee/devis.txt","r"))==NULL){
+//         perror("fopen");
+//         exit(-1);
+//     }
 
-    while(!feof(fe)){
-        Devis* nouveauDevis;
-        Adresse adresse;
+//     i=0;
 
-        
-    }
-    
-    
-}
+//     while((fscanf(fe, "%[^\n]\n%[^\n]\n%d, %49[^-] - %d - %49[^\n]\n%d\n%d\n%d\n", d.nomTache, d.entreprise, &d.adresse.numero, d.adresse.nomRue, &d.adresse.ville, d.adresse.codePostal, &d.capital, &d.duree, &d.cout))==9){ //tant que le scan des 9 éléments se fait
+//         if(i>maxDevis){
+//             tabDevis = (Offre *)realloc(tabDevis,sizeof(tabDevis)+1);
+//             ++maxDevis;
+//         }
+//         tabDevis[i]=d;
+//         printf("devis chargé (tableau):\n tache %s\n nom %s\n numero %d\n rue %s\n cp %d\n ville %s\n capital %d\n dure %d\n cout %d\n",tabDevis[i].tache, tabDevis[i].nom, tabDevis[i].adress.numero, tabDevis[i].adress.rue, tabDevis[i].adress.cp, tabDevis[i].adress.ville, tabDevis[i].capital, tabDevis[i].dure, tabDevis[i].coutTache); //vérification en affichant la ligne du tableau
+//         i++; 
+//         puts("");
+//     }
+// }
 
 void creerPrecedences(char* nomFichier) {
     FILE* fe;

@@ -37,7 +37,6 @@ typedef struct Offre {
 } Offre;
 
 
-
 void chargerPrecedences(char* nomFichier);
 void afficherPrecedences(char* nomFichier);
 void creerPrecedences(char* nomFichier);
