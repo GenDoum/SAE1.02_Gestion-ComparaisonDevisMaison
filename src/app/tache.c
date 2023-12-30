@@ -195,7 +195,7 @@ void saisieMaillon( char *nomTache, char *entreprise, Adresse *adresse, int *cap
     }
 
     printf("Entrez le numéro de rue de l'entreprise : ");
-    while( (scanf("%d", adresse->numero) != 1 ) )
+    while( (scanf("%d", &(adresse->numero)) != 1 ) )
     {
         printf("/!/Entrez un numéro de rue correct./!/\n Entrez ici :");
         while (getchar() != '\n');
@@ -209,7 +209,7 @@ void saisieMaillon( char *nomTache, char *entreprise, Adresse *adresse, int *cap
     }
     
     printf("Entrez le code postale de l'entreprise : ");
-    while( (scanf("%d", adresse->codePostal) != 1 ) )
+    while( (scanf("%d", &(adresse->codePostal)) != 1 ) )
     {
         printf("/!/Entrez un code postale correct./!/\n Entrez ici :");
         while (getchar() != '\n');
@@ -290,27 +290,20 @@ void ajouterMaillonDevisDebut(ListeDevis *liste)
     *liste = nouveauMaillon;
 }
 
-void affichDevis( Devis *devis )
-{
-    printf("Devis de l'entreprise %s\n", devis->entreprise );
-    printf("Tâche : %s\n", devis->nomTache);
-    printf("Adresse de l'enreprise : %d %s, %s %s \n", devis->adresse.numero, devis->adresse.nomRue, devis->adresse.ville, devis->adresse.codePostal);
-    printf("Capital de l'entreprise : %d\n", devis->capital);
-    printf("Durée de la tâche : %d jours\n");
-    printf("Cout : %d\n", devis->cout);
-}
-
-void affichListeDevis( MaillonDevis * maillon )
-{
-    if ( maillon == NULL )
-    {
-        printf("La liste est vide.\n");
-        return;
-    }
-
-    if ( maillon->suivant == NULL )
-    {
-        affichDevis(maillon->devis);
+void afficherDevis(ListeDevis liste) {
+    MaillonDevis *courant = liste;
+    while (courant != NULL) {
+        printf("Nom de la tache : %s\n", courant->devis.nomTache);
+        printf("Nom de l'entreprise : %s\n", courant->devis.entreprise);
+        printf("Adresse de l'entreprise : ");
+        printf("%d, ", courant->devis.adresse.numero);
+        printf("%s ", courant->devis.adresse.nomRue);
+        printf(" - %d", courant->devis.adresse.codePostal);
+        printf(" - %s \n", courant->devis.adresse.ville);
+        printf("Capital de l'entreprise : %d\n", courant->devis.capital);
+        printf("Duree de la tache : %d\n", courant->devis.duree);
+        printf("Cout de la tache : %d\n", courant->devis.cout);
+        courant = courant->suivant;
     }
 }
 
@@ -332,71 +325,4 @@ int rechercheDichotomique(Offre* tOffre[], int nbOffre, char* nomTache, int* tro
 
     *trouve = 0;
     return debut;
-}
-
-Devis** chargerFichierDevis(char *nomFic, int *nbDevi, int* max){
-    int trouve, pos, i;
-    char nomTache[21], char entreprise[21], char ville[101], char nomRue[101];
-    int numero, codePostal, capital, duree, cout;
-    FILE *fe;
-
-    if ((fe = fopen(nomFic, "r")) == NULL){
-        perror("fopen");
-        exit(EXIT_FAILURE);
-    }
-    
-    nbDevi = 0;
-    *max = 10;
-    Devis **tDevis, **aux;
-    
-    if ((tDevis = (Devis**)malloc(*max * sizeof(Devis*))) == NULL){
-        perror("malloc");
-        exit(EXIT_FAILURE);
-    }
-
-    fscanf(fe, "%s%s%d%s%s%d%d%d%d", nomTache, entreprise, &numero, nomRue, ville, codePostal, &capital, &duree, &cout);
-    while(!feof(fe)){
-        pos = rechercheDichotomique(tDevis, nbDevi, nomTache, &trouve);
-        if (trouve == 0){
-            if (*nbDevi == *max){
-                *max += 10;
-                if ((aux = (Devis**)realloc(tDevis, *max * sizeof(Devis*))) == NULL){
-                    perror("realloc");
-                    exit(EXIT_FAILURE);
-                }
-                tDevis = aux;
-            }
-            for (i = *nbDevi; i > pos; i--){
-                tDevis[i] = tDevis[i - 1];
-            }
-            if ((tDevis[pos] = (Devis*)malloc(sizeof(Devis))) == NULL){
-                perror("malloc");
-                exit(EXIT_FAILURE);
-            }
-            strcpy(tDevis[pos]->nomTache, nomTache);
-            strcpy(tDevis[pos]->entreprise, entreprise);
-            strcpy(tDevis[pos]->adresse.ville, ville);
-            strcpy(tDevis[pos]->adresse.nomRue, nomRue);
-            tDevis[pos]->adresse.numero = numero;
-            tDevis[pos]->adresse.codePostal = codePostal;
-            tDevis[pos]->capital = capital;
-            tDevis[pos]->duree = duree;
-            tDevis[pos]->cout = cout;
-            (*nbDevi)++;
-        }
-        fscanf(fe, "%s%s%d%s%s%d%d%d%d", nomTache, entreprise, &numero, nomRue, ville, codePostal, &capital, &duree, &cout);
-        fgets(nomTache, 21, fe);
-        nomTache[strlen(nomTache) - 1] = '\0';
-        ajouterMaillonDevisFin(&tDevis[pos]->listeDevis);
-        fscanf(fe, "%s%s%d%s%s%d%d%d%d", nomTache, entreprise, &numero, nomRue, ville, codePostal, &capital, &duree, &cout);
-    }
-    fclose(fe);
-    return tDevis;
-}
-
-void afficherDevis(Devis **tDevis, int nbDevis){
-    int i;
-    for (i = 0; i < nbDevis; i++){
-        affichDevis(tDevis[i]);
-    }
 }

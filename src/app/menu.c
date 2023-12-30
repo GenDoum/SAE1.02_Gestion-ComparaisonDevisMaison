@@ -36,6 +36,7 @@ void global(void) {
     char fichierPrecedences[100] = "donnee/precedences.txt";
     char fichierDevis[100] = "donnee/devis.txt";
     Offre offre;
+    ListeDevis listeDevis = creerListeDevisVide();
     do {
         menu_client(&choix);
 
@@ -47,8 +48,10 @@ void global(void) {
                 creerPrecedences(fichierPrecedences);
                 break;
             case 3:
+                ajouterMaillonDevisFin(&listeDevis);
                 break;
             case 4:
+                afficherDevis(listeDevis);
                 break;
             case 5:
                 break;

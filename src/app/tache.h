@@ -45,8 +45,7 @@ void creerPrecedences(char* nomFichier);
 int chargerDevis(char* nomFichier, MaillonDevis* liste);
 ListeDevis creerListeDevisVide(void);
 bool estVide(ListeDevis liste);
-Devis** chargerFichierDevis(char *nomFic, int *nbDevi, int* max);
-void afficherDevis(Devis **tDevis, int nbDevis);
+void afficherDevis(ListeDevis liste);
 
 // Maillon
 void creerMaillonDevisVide( MaillonDevis *liste );
