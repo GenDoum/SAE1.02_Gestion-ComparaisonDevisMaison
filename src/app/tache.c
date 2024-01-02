@@ -145,7 +145,8 @@ void afficherPrecedences(char* nomFichier) {
     fclose(fe);
 }
 
-void creerPrecedences(char* nomFichier) {
+void creerPrecedences(char* nomFichier) { // Je sais pas si c'est fait exprès masi pk pas faire en sorte que si la tache1 entré est la tache2 d'un autre alors 
+// afficcher dans le fichier en mode : tache1 -> tache2 -> tache 3 ?
     FILE* fe;
     char tache1[21], tache2[21];
 
@@ -195,7 +196,7 @@ void saisieMaillon( char *nomTache, char *entreprise, Adresse *adresse, int *cap
     }
 
     printf("Entrez le numéro de rue de l'entreprise : ");
-    while( (scanf("%d", &(adresse->numero)) != 1 ) )
+    while( (scanf("%d", &(adresse->numero)) != 1 ) && adresse->numero <= 0 )
     {
         printf("/!/Entrez un numéro de rue correct./!/\n Entrez ici :");
         while (getchar() != '\n');
@@ -209,14 +210,14 @@ void saisieMaillon( char *nomTache, char *entreprise, Adresse *adresse, int *cap
     }
     
     printf("Entrez le code postale de l'entreprise : ");
-    while( (scanf("%d", &(adresse->codePostal)) != 1 ) )
+    while( (scanf("%d", &(adresse->codePostal)) != 1 ) && adresse->codePostal <= 0 )
     {
         printf("/!/Entrez un code postale correct./!/\n Entrez ici :");
         while (getchar() != '\n');
     }
 
     printf("Entrez le capital de l'entreprise : ");
-    while( (scanf("%d", capital) != 1 ) )
+    while( (scanf("%d", capital) != 1 ) && *capital <= 0 )
     {
         printf("/!/Entrez un capital correct/!/\n Entrez ici :");
         while (getchar() != '\n');
@@ -237,6 +238,81 @@ void saisieMaillon( char *nomTache, char *entreprise, Adresse *adresse, int *cap
     }
 
 }
+
+void ajouterMaillonDevisFinChargement(ListeDevis *liste, char *nomTache, char *entreprise, Adresse *adresse, int capital, int duree, int cout)
+{
+    printf("iciDevisChargementMaillonFin \n");
+
+    MaillonDevis *nouveauMaillon = (MaillonDevis*)malloc(sizeof(MaillonDevis));
+    printf("iciDevisChargementMaillonFin \n");
+    
+
+    if (nouveauMaillon == NULL) 
+    {
+        fprintf(stderr, "Erreur : Échec de l'allocation mémoire.\n");
+        exit(-1);
+    }
+    printf("iciDevisChargementMaillonFin \n");
+
+
+    // Copie des informations directement dans le maillon
+    strcpy(nouveauMaillon->devis.nomTache, nomTache);
+    printf("iciDevisChargementMaillonFin \n");
+
+    strcpy(nouveauMaillon->devis.entreprise, entreprise);
+    printf("iciDevisChargementMaillonFin \n");
+
+    nouveauMaillon->devis.adresse = *adresse;  // Copie de la structure Adresse
+    printf("iciDevisChargementMaillonFin \n");
+
+    nouveauMaillon->devis.capital = capital;
+    printf("iciDevisChargementMaillonFin \n");
+
+    nouveauMaillon->devis.duree = duree;
+    printf("iciDevisChargementMaillonFin \n");
+
+    nouveauMaillon->devis.cout = cout;
+    printf("iciDevisChargementMaillonFin \n");
+
+    nouveauMaillon->suivant = NULL;
+    printf("iciDevisChargementMaillonFin \n");
+
+    if (*liste == NULL) {
+        printf("iciIF\n");
+        *liste = nouveauMaillon;
+    } 
+    else 
+    {
+        printf("iciIF\n");
+        MaillonDevis *courant = *liste;
+        printf("iciIF\n");
+        // L'ERREUR VIENT DE CEUX BLOC 
+        // résumé : en gros au premier tour de boucle de la fonction de cahrgement on arrive dans cette fonction et on arrive ici
+        // tout ce passe bien puisque normalement pcq tt les printf s'affiche et du coup le if du dessus on ne rentre pas dedans ce qui est bizarre pcq au premier coup la liste est vide
+        // breff après le if il ne va pas dans le while et on passe en dessous et c'est ça qui pose problème 
+        // la ligne "courant->suivant = nouveauMaillon;" fait une erreur de seg alors j'ai foutu un if pour vérifier qeu le pointeur cournat est pas null
+        // mais du coup il est pas null et fait qd même une erreur de seg
+        // Donc la je suis en train de péter un plomb sa mère pcq ça marchait pas avant le nouvel an et que ça s'est pas réglé tout seul pendant que je faisais la fête
+        while (courant->suivant != NULL) 
+        {
+            printf("iciIF\n");
+            courant = courant->suivant;
+            printf("iciIF\n");
+        }
+        printf("iciIF\n");
+        if (courant != NULL) // Vérifie que le pointeur courant n'est pas NULL
+        {
+            courant->suivant = nouveauMaillon;
+        }
+
+        //courant->suivant = nouveauMaillon;
+        printf("iciIF\n");
+
+    }
+    printf("iciDevisChargementMaillonFin \n");
+
+}
+
 
 void ajouterMaillonDevisFin(ListeDevis *liste) 
 {
@@ -326,3 +402,63 @@ int rechercheDichotomique(Offre* tOffre[], int nbOffre, char* nomTache, int* tro
     *trouve = 0;
     return debut;
 }
+
+void chargerDevis(char* nomFichier, Offre* tabTravaux) 
+{
+    FILE* fichier = fopen(nomFichier, "r");
+    if (fichier == NULL) {
+        perror("Erreur lors de l'ouverture du fichier des devis");
+        exit(FILE_ERROR);
+    }
+    printf("iciChargeDevis\n");
+
+    char ligne[MAX_LIGNE];
+    
+    Offre* offreActuelle = tabTravaux;
+    printf("iciChargeDevis\n");
+    int i = 1;
+    while (fgets(ligne, MAX_LIGNE, fichier) != NULL) {
+        // Traitement de chaque ligne pour extraire les informations du devis
+        printf("iciChargeDevis %d\n", i);
+        Devis devis;
+        sscanf(ligne, "%s\n%s\n%d %s %d %s\n%d\n%d\n%d[^\n]",
+               devis.nomTache, devis.entreprise, &devis.adresse.numero, devis.adresse.nomRue,
+               &devis.adresse.codePostal, devis.adresse.ville, &devis.capital, &devis.duree, &devis.cout);
+        printf("iciChargeDevis %d\n", i);
+        // Ajouter le devis à la liste de devis de l'offre actuelle
+        ajouterMaillonDevisFinChargement(&(offreActuelle->ldevis), devis.nomTache, devis.entreprise,
+                                &(devis.adresse), devis.capital, devis.duree, devis.cout);
+        printf("iciChargeDevis %d\n", i);
+        ++i;
+    }
+
+    fclose(fichier);
+}
+
+void supprimerDernierMaillon(ListeDevis *liste) {
+    if (*liste == NULL) {
+        fprintf(stderr, "Erreur : La liste est vide.\n");
+        exit(-1);
+    }
+
+    MaillonDevis *courant = *liste;
+    MaillonDevis *precedent = NULL;
+
+    // va au bout de la chaine et supprime de dernier
+    while (courant->suivant != NULL) {
+        precedent = courant;
+        courant = courant->suivant;
+    }
+    free(courant);
+
+    // met NULL le dernier maillon
+    if (precedent != NULL) {
+        precedent->suivant = NULL;
+    } 
+    else // sinon y'a qu'un élément donc on le supr et la liste est vide
+    { 
+
+        *liste = NULL;
+    }
+}
+

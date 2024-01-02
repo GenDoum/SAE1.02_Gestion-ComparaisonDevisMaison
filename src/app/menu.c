@@ -37,6 +37,8 @@ void global(void) {
     char fichierDevis[100] = "donnee/devis.txt";
     Offre offre;
     ListeDevis listeDevis = creerListeDevisVide();
+    printf("ici\n");
+    //chargerDevis(fichierDevis, &offre);
     do {
         menu_client(&choix);
 
