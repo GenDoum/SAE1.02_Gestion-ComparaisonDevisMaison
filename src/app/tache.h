@@ -3,7 +3,6 @@
 
 #define MAX_TRAVAUX 30
 #define MAX_LIGNE 200
-#define FILE_ERROR -1
 
 typedef enum {false, true} bool;
 
@@ -43,18 +42,16 @@ typedef struct Offre {
 void chargerPrecedences(char* nomFichier);
 void afficherPrecedences(char* nomFichier);
 void creerPrecedences(char* nomFichier);
-void chargerDevis(char* nomFichier, Offre* tabTravaux);
-//int chargerDevis(char* nomFichier, MaillonDevis* liste);
 ListeDevis creerListeDevisVide(void);
 bool estVide(ListeDevis liste);
-void afficherDevis(ListeDevis liste);
+void afficherLesDevis(ListeDevis liste);
+void chargerDevis(char* nomFichier, ListeDevis *liste);
+void afficherDevisPourTypeTravaux(MaillonDevis* liste, char* typeTravaux);
 
 // Maillon
-void creerMaillonDevisVide( MaillonDevis *liste );
 void saisieMaillon( char *nomTache, char *entreprise, Adresse *adresse, int *capital, int *duree, int *cout);
 void ajouterMaillonDevisDebut(ListeDevis *liste);
 void ajouterMaillonDevisFin(ListeDevis *liste);
-void ajouterMaillonDevisFinChargement(ListeDevis *liste, char *nomTache, char *entreprise, Adresse *adresse, int capital, int duree, int cout);
 void supprimerMaillonFin( ListeDevis *liste );
 // void supprimerMaillonDebut( Liste *liste );
 // void afficherListe( MaillonDevis *liste);

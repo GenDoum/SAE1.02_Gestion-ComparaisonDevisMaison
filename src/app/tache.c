@@ -239,79 +239,6 @@ void saisieMaillon( char *nomTache, char *entreprise, Adresse *adresse, int *cap
 
 }
 
-void ajouterMaillonDevisFinChargement(ListeDevis *liste, char *nomTache, char *entreprise, Adresse *adresse, int capital, int duree, int cout)
-{
-    printf("iciDevisChargementMaillonFin \n");
-
-    MaillonDevis *nouveauMaillon = (MaillonDevis*)malloc(sizeof(MaillonDevis));
-    printf("iciDevisChargementMaillonFin \n");
-    
-
-    if (nouveauMaillon == NULL) 
-    {
-        fprintf(stderr, "Erreur : Échec de l'allocation mémoire.\n");
-        exit(-1);
-    }
-    printf("iciDevisChargementMaillonFin \n");
-
-
-    // Copie des informations directement dans le maillon
-    strcpy(nouveauMaillon->devis.nomTache, nomTache);
-    printf("iciDevisChargementMaillonFin \n");
-
-    strcpy(nouveauMaillon->devis.entreprise, entreprise);
-    printf("iciDevisChargementMaillonFin \n");
-
-    nouveauMaillon->devis.adresse = *adresse;  // Copie de la structure Adresse
-    printf("iciDevisChargementMaillonFin \n");
-
-    nouveauMaillon->devis.capital = capital;
-    printf("iciDevisChargementMaillonFin \n");
-
-    nouveauMaillon->devis.duree = duree;
-    printf("iciDevisChargementMaillonFin \n");
-
-    nouveauMaillon->devis.cout = cout;
-    printf("iciDevisChargementMaillonFin \n");
-
-    nouveauMaillon->suivant = NULL;
-    printf("iciDevisChargementMaillonFin \n");
-
-    if (*liste == NULL) {
-        printf("iciIF\n");
-        *liste = nouveauMaillon;
-    } 
-    else 
-    {
-        printf("iciIF\n");
-        MaillonDevis *courant = *liste;
-        printf("iciIF\n");
-        // L'ERREUR VIENT DE CEUX BLOC 
-        // résumé : en gros au premier tour de boucle de la fonction de cahrgement on arrive dans cette fonction et on arrive ici
-        // tout ce passe bien puisque normalement pcq tt les printf s'affiche et du coup le if du dessus on ne rentre pas dedans ce qui est bizarre pcq au premier coup la liste est vide
-        // breff après le if il ne va pas dans le while et on passe en dessous et c'est ça qui pose problème 
-        // la ligne "courant->suivant = nouveauMaillon;" fait une erreur de seg alors j'ai foutu un if pour vérifier qeu le pointeur cournat est pas null
-        // mais du coup il est pas null et fait qd même une erreur de seg
-        // Donc la je suis en train de péter un plomb sa mère pcq ça marchait pas avant le nouvel an et que ça s'est pas réglé tout seul pendant que je faisais la fête
-        while (courant->suivant != NULL) 
-        {
-            printf("iciIF\n");
-            courant = courant->suivant;
-            printf("iciIF\n");
-        }
-        printf("iciIF\n");
-        if (courant != NULL) // Vérifie que le pointeur courant n'est pas NULL
-        {
-            courant->suivant = nouveauMaillon;
-        }
-
-        //courant->suivant = nouveauMaillon;
-        printf("iciIF\n");
-
-    }
-    printf("iciDevisChargementMaillonFin \n");
-
-}
 
 
 void ajouterMaillonDevisFin(ListeDevis *liste) 
@@ -345,9 +272,56 @@ void ajouterMaillonDevisFin(ListeDevis *liste)
     }
 }
 
+void chargerDevis(char* nomFichier, ListeDevis *liste) {
+    FILE* fe;
+    char ligne[MAX_LIGNE];
 
+    if ((fe = fopen(nomFichier, "r")) == NULL) {
+        perror("fopen");
+        exit(-1);
+    }
 
-void ajouterMaillonDevisDebut(ListeDevis *liste) 
+    while (fgets(ligne, sizeof(ligne), fe) != NULL) {
+        MaillonDevis *nouveauMaillon = (MaillonDevis*)malloc(sizeof(MaillonDevis));
+        if (nouveauMaillon == NULL) {
+            fprintf(stderr, "Erreur : Échec de l'allocation mémoire.\n");
+            exit(-1);
+        }
+
+        sscanf(ligne, "%s", nouveauMaillon->devis.nomTache);
+        fgets(ligne, sizeof(ligne), fe);
+        sscanf(ligne, "%[^\n]", nouveauMaillon->devis.entreprise);
+
+        fgets(ligne, sizeof(ligne), fe);
+        sscanf(ligne, "%d %[^0-9] %d %s", &nouveauMaillon->devis.adresse.numero,
+               nouveauMaillon->devis.adresse.nomRue,
+               &nouveauMaillon->devis.adresse.codePostal,
+               nouveauMaillon->devis.adresse.ville);
+
+        fscanf(fe, "%d", &nouveauMaillon->devis.capital);
+        fscanf(fe, "%d", &nouveauMaillon->devis.duree);
+        fscanf(fe, "%d", &nouveauMaillon->devis.cout);
+
+        nouveauMaillon->suivant = NULL;
+
+        if (*liste == NULL) {
+            *liste = nouveauMaillon;
+        } else {
+            MaillonDevis *courant = *liste;
+            while (courant->suivant != NULL) {
+                courant = courant->suivant;
+            }
+            courant->suivant = nouveauMaillon;
+        }
+
+        // enlève le caractère de nouvelle ligne restant (il y avait un décalage à chaque nouvelle tâche)
+        fgetc(fe);
+    }
+
+    fclose(fe);
+}
+
+void ajouterMaillonDevisDebut(ListeDevis *liste)
 {
     MaillonDevis *nouveauMaillon = (MaillonDevis*)malloc(sizeof(MaillonDevis));
     
@@ -366,7 +340,7 @@ void ajouterMaillonDevisDebut(ListeDevis *liste)
     *liste = nouveauMaillon;
 }
 
-void afficherDevis(ListeDevis liste) {
+void afficherLesDevis(ListeDevis liste) {
     MaillonDevis *courant = liste;
     while (courant != NULL) {
         printf("Nom de la tache : %s\n", courant->devis.nomTache);
@@ -374,7 +348,7 @@ void afficherDevis(ListeDevis liste) {
         printf("Adresse de l'entreprise : ");
         printf("%d, ", courant->devis.adresse.numero);
         printf("%s ", courant->devis.adresse.nomRue);
-        printf(" - %d", courant->devis.adresse.codePostal);
+        printf("- %d", courant->devis.adresse.codePostal);
         printf(" - %s \n", courant->devis.adresse.ville);
         printf("Capital de l'entreprise : %d\n", courant->devis.capital);
         printf("Duree de la tache : %d\n", courant->devis.duree);
@@ -383,56 +357,34 @@ void afficherDevis(ListeDevis liste) {
     }
 }
 
-int rechercheDichotomique(Offre* tOffre[], int nbOffre, char* nomTache, int* trouve){
-    int debut = 0;
-    int fin = nbOffre - 1, milieu;
-
-    while (debut <= fin){
-        milieu = (debut + fin) / 2;
-        if (strcmp(tOffre[milieu]->travaux, nomTache) == 0){
-            *trouve = 1;
-            return milieu;
-        } else if (strcmp(tOffre[milieu]->travaux, nomTache) < 0){
-            debut = milieu + 1;
-        } else {
-            fin = milieu - 1;
-        }
-    }
-
-    *trouve = 0;
-    return debut;
+void afficherUnDevis(Devis* devis){
+    printf("Nom de la tache : %s\n", devis->nomTache);
+    printf("Nom de l'entreprise : %s\n", devis->entreprise);
+    printf("Adresse de l'entreprise : ");
+    printf("%d, ", devis->adresse.numero);
+    printf("%s ", devis->adresse.nomRue);
+    printf("- %d", devis->adresse.codePostal);
+    printf(" - %s \n", devis->adresse.ville);
+    printf("Capital de l'entreprise : %d\n", devis->capital);
+    printf("Duree de la tache : %d\n", devis->duree);
+    printf("Cout de la tache : %d\n", devis->cout);
 }
 
-void chargerDevis(char* nomFichier, Offre* tabTravaux) 
-{
-    FILE* fichier = fopen(nomFichier, "r");
-    if (fichier == NULL) {
-        perror("Erreur lors de l'ouverture du fichier des devis");
-        exit(FILE_ERROR);
-    }
-    printf("iciChargeDevis\n");
+void afficherDevisPourTypeTravaux(MaillonDevis* liste, char* typeTravaux) {
+    MaillonDevis* courant = liste;
+    int trouve = 0;
 
-    char ligne[MAX_LIGNE];
-    
-    Offre* offreActuelle = tabTravaux;
-    printf("iciChargeDevis\n");
-    int i = 1;
-    while (fgets(ligne, MAX_LIGNE, fichier) != NULL) {
-        // Traitement de chaque ligne pour extraire les informations du devis
-        printf("iciChargeDevis %d\n", i);
-        Devis devis;
-        sscanf(ligne, "%s\n%s\n%d %s %d %s\n%d\n%d\n%d[^\n]",
-               devis.nomTache, devis.entreprise, &devis.adresse.numero, devis.adresse.nomRue,
-               &devis.adresse.codePostal, devis.adresse.ville, &devis.capital, &devis.duree, &devis.cout);
-        printf("iciChargeDevis %d\n", i);
-        // Ajouter le devis à la liste de devis de l'offre actuelle
-        ajouterMaillonDevisFinChargement(&(offreActuelle->ldevis), devis.nomTache, devis.entreprise,
-                                &(devis.adresse), devis.capital, devis.duree, devis.cout);
-        printf("iciChargeDevis %d\n", i);
-        ++i;
+    while (courant != NULL) {
+        if (strcmp(courant->devis.nomTache, typeTravaux) == 0) {
+            afficherUnDevis(&courant->devis);
+            trouve = 1;
+        }
+        courant = courant->suivant;
     }
 
-    fclose(fichier);
+    if (!trouve) {
+        printf("Aucun devis trouvé pour le type de travaux : %s\n", typeTravaux);
+    }
 }
 
 void supprimerDernierMaillon(ListeDevis *liste) {

@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include "menu.h"
 #include "tache.h"
 
@@ -32,13 +31,12 @@ void menu_client(int *choix) {
 }
 
 void global(void) {
-    int choix;
+    int choix, nbOffre = 0;
     char fichierPrecedences[100] = "donnee/precedences.txt";
     char fichierDevis[100] = "donnee/devis.txt";
-    Offre offre;
+    char typeTravaux[100];
     ListeDevis listeDevis = creerListeDevisVide();
-    printf("ici\n");
-    //chargerDevis(fichierDevis, &offre);
+    chargerDevis(fichierDevis, &listeDevis);
     do {
         menu_client(&choix);
 
@@ -53,9 +51,12 @@ void global(void) {
                 ajouterMaillonDevisFin(&listeDevis);
                 break;
             case 4:
-                afficherDevis(listeDevis);
+                afficherLesDevis(listeDevis);
                 break;
             case 5:
+                printf("Saisir le type de travaux : ");
+                scanf("%s%*c", typeTravaux);
+                afficherDevisPourTypeTravaux(listeDevis, typeTravaux);
                 break;
             case 6:
                 break;

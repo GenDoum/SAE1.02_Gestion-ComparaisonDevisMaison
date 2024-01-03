@@ -1,7 +1,7 @@
 Plomberie
 Pros De L'eau
 12 Av. la république 63000 Clermont-Ferrand
-500 000
+500000
 35
 25000
 Électricité
@@ -13,6 +13,6 @@ Electro Maître
 Plomberie
 DolcéAqua
 33 zone Industriel Aubière 63170 Aubière
-450 000
+450000
 40
 27000
