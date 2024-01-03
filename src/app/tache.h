@@ -39,23 +39,14 @@ typedef struct Offre {
 } Offre;
 
 
-void chargerPrecedences(char* nomFichier);
-void afficherPrecedences(char* nomFichier);
 void creerPrecedences(char* nomFichier);
-ListeDevis creerListeDevisVide(void);
-bool estVide(ListeDevis liste);
 void afficherLesDevis(ListeDevis liste);
-void chargerDevis(char* nomFichier, ListeDevis *liste);
-void afficherDevisPourTypeTravaux(MaillonDevis* liste, char* typeTravaux);
 
 // Maillon
 void saisieMaillon( char *nomTache, char *entreprise, Adresse *adresse, int *capital, int *duree, int *cout);
 void ajouterMaillonDevisDebut(ListeDevis *liste);
 void ajouterMaillonDevisFin(ListeDevis *liste);
 void supprimerMaillonFin( ListeDevis *liste );
-// void supprimerMaillonDebut( Liste *liste );
-// void afficherListe( MaillonDevis *liste);
-// void verifInt(int *var);
 
 // Liste
 

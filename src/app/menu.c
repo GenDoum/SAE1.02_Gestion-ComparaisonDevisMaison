@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include "menu.h"
 #include "tache.h"
+#include "chargement.h"
+#include "affichage.h"
 
 void affiche_client(void) {
     printf("\n");
@@ -8,17 +10,17 @@ void affiche_client(void) {
     printf("|| Bonjour ! ||\n");
     printf("+-------------+\n");
     printf("\n");
-    printf("+----------------------------------------------------------------+\n");
-    printf("|| Que voulez-vous faire ?\t\t\t\t\t||\n");
-    printf("||\t1 : Afficher les précédences.\t \t\t\t||\n");
-    printf("||\t2 : Ajouter une précédence.\t\t\t\t||\n");
-    printf("||\t3 : Afficher les devis.   \t\t\t\t||\n");
-    printf("||\t4 : Supprimer un article du panier. \t\t\t||\n");
-    printf("||\t5 : Modifier la quantité d'un article du panier. \t||\n");
-    printf("||\t6 : Réinitialiser le panier.\t\t\t\t||\n");
-    printf("||\t7 : Passer au payement.\t\t\t\t\t||\n");
-    printf("||\t9 : Quitter.\t\t\t\t\t\t||\n");
-    printf("+----------------------------------------------------------------+\n");
+    printf("+----------------------------------------------------------------------------------------+\n");
+    printf("|| Que voulez-vous faire ?\t\t\t\t\t\t\t\t||\n");
+    printf("||\t1 : Afficher les précédences.\t\t\t\t\t\t\t||\n");
+    printf("||\t2 : Ajouter une précédence.\t\t\t\t\t\t\t||\n");
+    printf("||\t3 : Afficher les devis.   \t\t\t\t\t\t\t||\n");
+    printf("||\t4 : Ajouter un devis. \t\t\t\t\t\t\t\t||\n");
+    printf("||\t5 : Afficher l’ensemble des devis pour un type de travaux. \t\t\t||\n");
+    printf("||\t6 : Afficher le devis d’une entreprise donnée pour un type de travaux donnée.\t||\n");
+    printf("||\t7 : Passer au payement.\t\t\t\t\t\t\t\t||\n");
+    printf("||\t9 : Quitter.\t\t\t\t\t\t\t\t\t||\n");
+    printf("+----------------------------------------------------------------------------------------+\n");
 }
 
 void menu_client(int *choix) {
@@ -31,12 +33,14 @@ void menu_client(int *choix) {
 }
 
 void global(void) {
-    int choix, nbOffre = 0;
+    int choix;
     char fichierPrecedences[100] = "donnee/precedences.txt";
     char fichierDevis[100] = "donnee/devis.txt";
-    char typeTravaux[100];
-    ListeDevis listeDevis = creerListeDevisVide();
-    chargerDevis(fichierDevis, &listeDevis);
+    Offre *tOffre[10];
+    int nbOffres = 0;
+    nbOffres = chargerDevis(fichierDevis, tOffre);
+
+    printf("Nombre de devis chargés : %d\n", nbOffres);
     do {
         menu_client(&choix);
 
@@ -48,17 +52,16 @@ void global(void) {
                 creerPrecedences(fichierPrecedences);
                 break;
             case 3:
-                ajouterMaillonDevisFin(&listeDevis);
+                //ajouterMaillonDevisFin(&listeDevis);
                 break;
             case 4:
-                afficherLesDevis(listeDevis);
+                afficherOffres(tOffre, nbOffres);
                 break;
             case 5:
-                printf("Saisir le type de travaux : ");
-                scanf("%s%*c", typeTravaux);
-                afficherDevisPourTypeTravaux(listeDevis, typeTravaux);
+                afficherDevisParTypeTravaux(tOffre, nbOffres);
                 break;
             case 6:
+                afficherDevisEntrepriseType(tOffre, nbOffres);
                 break;
             case 7:
                 break;
