@@ -26,8 +26,6 @@ void afficherOffres(Offre** tOffre, int nbOffres) {
         printf("=== Offre n°%d ===\n", i + 1);
         printf("Type de travaux : %s\n", tOffre[i]->travaux);
 
-        // Si vous avez une liste de devis à afficher, vous pouvez parcourir cette liste ici
-        // Par exemple :
         MaillonDevis* courant = tOffre[i]->ldevis;
         while (courant != NULL) {
             printf("Nom de la tâche : %s\n", courant->devis.nomTache);
