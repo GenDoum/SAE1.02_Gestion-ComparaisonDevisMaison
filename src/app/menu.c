@@ -36,7 +36,7 @@ void global(void) {
     int choix;
     char fichierPrecedences[100] = "donnee/precedences.txt";
     char fichierDevis[100] = "donnee/devis.txt";
-    Offre *tOffre[10];
+    Offre *tOffre[100];
     int nbOffres = 0;
     nbOffres = chargerDevis(fichierDevis, tOffre);
 
@@ -52,10 +52,9 @@ void global(void) {
                 creerPrecedences(fichierPrecedences);
                 break;
             case 3:
-                //ajouterMaillonDevisFin(&listeDevis);
+                afficherOffres(tOffre, nbOffres);
                 break;
             case 4:
-                afficherOffres(tOffre, nbOffres);
                 break;
             case 5:
                 afficherDevisParTypeTravaux(tOffre, nbOffres);

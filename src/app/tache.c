@@ -158,41 +158,6 @@ void ajouterMaillonDevisDebut(ListeDevis *liste)
     *liste = nouveauMaillon;
 }
 
-
-//void afficherDevisPourTypeTravaux(MaillonDevis* liste, char* typeTravaux) {
-//    MaillonDevis* courant = liste;
-//    int trouve = 0;
-//
-//    while (courant != NULL) {
-//        if (strcmp(courant->devis.nomTache, typeTravaux) == 0) {
-//            afficherUnDevis(&courant->devis);
-//            trouve = 1;
-//        }
-//        courant = courant->suivant;
-//    }
-//
-//    if (!trouve) {
-//        printf("Aucun devis trouvé pour le type de travaux : %s\n", typeTravaux);
-//    }
-//}
-//
-//void afficherDevisPourTypeTravauxEtEntreprise(MaillonDevis* liste, char* typeTravaux, char* nomEntreprise) {
-//    MaillonDevis* courant = liste;
-//    int trouve = 0;
-//
-//    while (courant != NULL) {
-//        if (strcmp(courant->devis.nomTache, typeTravaux) == 0 && strcmp(courant->devis.entreprise, nomEntreprise) == 0) {
-//            afficherUnDevis(&courant->devis);
-//            trouve = 1;
-//        }
-//        courant = courant->suivant;
-//    }
-//
-//    if (!trouve) {
-//        printf("Aucun devis trouvé pour le type de travaux : %s et l'entreprise : %s\n", typeTravaux, nomEntreprise);
-//    }
-//}
-
 void supprimerDernierMaillon(ListeDevis *liste) {
     if (*liste == NULL) {
         fprintf(stderr, "Erreur : La liste est vide.\n");
@@ -220,3 +185,25 @@ void supprimerDernierMaillon(ListeDevis *liste) {
     }
 }
 
+
+
+void sauvegarderDevis(Offre** tOffre, int nbDevis, const char* nomFichier) {
+    FILE* fichier = fopen(nomFichier, "w");
+    if (fichier == NULL) {
+        perror("Erreur lors de l'ouverture du fichier");
+        exit(EXIT_FAILURE);
+    }
+
+    for (int i = 0; i < nbDevis; i++) {
+        MaillonDevis* courant = tOffre[i]->ldevis;
+        while (courant != NULL) {
+            fprintf(fichier, "%s\n", tOffre[i]->travaux);
+            fprintf(fichier, "%s\n", courant->devis.nomTache);
+            fprintf(fichier, "%s\n", courant->devis.entreprise);
+            // Sauvegardez les autres champs du devis ici
+            courant = courant->suivant;
+        }
+    }
+
+    fclose(fichier);
+}

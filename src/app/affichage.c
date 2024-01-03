@@ -56,7 +56,6 @@ void afficherUnTravaux(Offre* offre) {
     }
 }
 
-
 void afficherDevisParTypeTravaux(Offre** tOffre, int nbDevis) {
     char typeTravaux[MAX_LIGNE];
     bool devisTrouve = false;
@@ -91,8 +90,6 @@ void afficherDevisEntrepriseType(Offre** tOffre, int nbDevis) {
 
     printf("Veuillez entrer le nom de l'entreprise pour afficher les devis correspondants : ");
     scanf("%[^\n]", nomEntreprise);
-
-
 
     for (int i = 0; i < nbDevis; i++) {
         if (strcmp(tOffre[i]->travaux, typeTravaux) == 0) {

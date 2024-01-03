@@ -41,6 +41,7 @@ typedef struct Offre {
 
 void creerPrecedences(char* nomFichier);
 void afficherLesDevis(ListeDevis liste);
+void ajouterDevis(Offre* offre);
 
 // Maillon
 void saisieMaillon( char *nomTache, char *entreprise, Adresse *adresse, int *capital, int *duree, int *cout);
