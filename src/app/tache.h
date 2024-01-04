@@ -39,19 +39,29 @@ typedef struct Offre {
 } Offre;
 
 
+/**
+ * @brief creer une précédence.
+ *
+ * @param nomFichier le nom du fichier
+ * @return void
+ */
 void creerPrecedences(char* nomFichier);
-void afficherLesDevis(ListeDevis liste);
-void ajouterDevis(Offre* offre);
 
 // Maillon
+/**
+ * @brief Les différentes saisies pour un devis
+ *
+ * @param nomTache le nom de la tache
+ * @param entreprise le nom de l'entreprise
+ * @param adresse les différents champs de l'adresse
+ * @param capital le capital de l'entreprise en euro
+ * @param duree la durée de la tache en jour
+ * @param cout le cout de la tache en euro
+ */
 void saisieMaillon( char *nomTache, char *entreprise, Adresse *adresse, int *capital, int *duree, int *cout);
+
 void ajouterMaillonDevisDebut(ListeDevis *liste);
 void ajouterMaillonDevisFin(ListeDevis *liste);
 void supprimerMaillonFin( ListeDevis *liste );
-
-// Liste
-
-// Tache
-
 
 #endif // TACHE_H
