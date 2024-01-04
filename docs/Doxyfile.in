@@ -1,0 +1,3 @@
+INPUT = src/ src/app/
+
+OUTPUT_DIRECTORY = docs/
