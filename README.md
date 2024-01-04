@@ -13,7 +13,7 @@ Assurez-vous d'avoir les éléments suivants installés sur votre système :
 1. **Cloner le dépôt Git :**
    ```bash
    $ git clone https://codefirst.iut.uca.fr/git/matheo.hersan/SAE1.02.git
-   $ cd SAE_101
+   $ cd SAE1.02
 2. **Exécuter le script de lancement :**
    ```bash
    $ ./build.sh -rbuild
