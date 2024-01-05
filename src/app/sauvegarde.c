@@ -20,7 +20,7 @@ void sauvegarderDevis(Offre** tOffre, int nbDevis, const char* nomFichier) {
             fprintf(fichier, "%s\n", tOffre[i]->travaux);
             fprintf(fichier, "%s\n", courant->devis.nomTache);
             fprintf(fichier, "%s\n", courant->devis.entreprise);
-            // Sauvegardez les autres champs du devis ici
+            // ...
             courant = courant->suivant;
         }
     }

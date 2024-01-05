@@ -30,18 +30,16 @@ Offre** chargement(char* nomFichier, int* nbOffre, int* max){
         printf("Type de travaux lu : %s\n", travaux);  // Débogage
         pos = rechercheDichotomique(tOffre, *nbOffre, travaux, &trouve);
         if (trouve == 0){
-            printf("Offre insérée à la position %d:\n", pos);  // Ajoutez cette ligne pour le débogage
-            printf("Type de travaux : %s\n", tOffre[pos]->travaux);  // Ajoutez cette ligne pour le débogage
-            // Afficher d'autres détails de l'offre pour le débogage...
+            printf("Offre insérée à la position %d:\n", pos);  // débogage
+            printf("Type de travaux : %s\n", tOffre[pos]->travaux);  // débogage
 
             // Pour vérifier les pointeurs
-            printf("Adresse de l'offre à la position %d : %p\n", pos, (void *)tOffre[pos]);  // Ajoutez cette ligne pour le débogage
+            printf("Adresse de l'offre à la position %d : %p\n", pos, (void *)tOffre[pos]);  // débogage
 
             // Pour vérifier les offres précédentes
             for (int j = 0; j < pos; j++) {
-                printf("Offre à la position %d:\n", j);  // Ajoutez cette ligne pour le débogage
-                printf("Type de travaux : %s\n", tOffre[j]->travaux);  // Ajoutez cette ligne pour le débogage
-                // Afficher d'autres détails de l'offre pour le débogage...
+                printf("Offre à la position %d:\n", j);  // débogage
+                printf("Type de travaux : %s\n", tOffre[j]->travaux);  // débogage
             }
             if (*nbOffre == *max){
                 *max += 10;

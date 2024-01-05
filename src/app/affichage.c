@@ -63,7 +63,7 @@ void afficherDevisPourType(Offre** tOffre, int nbOffre) {
             printf("Type de travaux : %s\n", tOffre[i]->travaux);
             afficherListeDevis(tOffre[i]->ldevis, i + 1);
             printf("\n");
-            break; // Sortir de la boucle une fois que le type de travaux est trouvé
+            break;
         }
     }
     if (!trouve) {
@@ -89,7 +89,7 @@ void afficherDevisEntreprisePourType(Offre** tOffre, int nbOffre) {
                     printf("Type de travaux : %s\n", tOffre[i]->travaux);
                     afficherListeDevis(ldevis, i + 1);
                     printf("\n");
-                    break; // Sortir de la boucle une fois que le devis de l'entreprise est trouvé
+                    break;
                 }
                 ldevis = ldevis->suivant;
             }
