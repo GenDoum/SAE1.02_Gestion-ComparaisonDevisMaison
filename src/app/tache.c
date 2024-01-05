@@ -2,6 +2,23 @@
 #include <stdlib.h>
 #include <string.h>
 #include "tache.h"
+#include "affichage.h"
+
+
+ListeDevis supprimer(ListeDevis l, char* nomTache){
+    if (l == NULL){
+        fprintf(stderr, "Erreur : La liste est vide.\n");
+        exit(EXIT_FAILURE);
+    }
+    if (strcmp(l->devis.nomTache, nomTache) > 0){
+        return l;
+    }
+    if (strcmp(l->devis.nomTache, nomTache) == 0){
+        return supprimerEnTete(l);
+    }
+    l->suivant = supprimer(l->suivant, nomTache);
+    return l;
+}
 
 void verifInt(int *var){
     while (scanf("%d", var) != 1){
@@ -108,102 +125,12 @@ void saisieMaillon( char *nomTache, char *entreprise, Adresse *adresse, int *cap
 
 }
 
-void ajouterMaillonDevisFin(ListeDevis *liste) 
-{
-    MaillonDevis *nouveauMaillon = (MaillonDevis*)malloc(sizeof(MaillonDevis));
-    
-    if (nouveauMaillon == NULL)
-    {
-        fprintf(stderr, "Erreur : Échec de l'allocation mémoire.\n");
-        exit(-1);
-    }
-
-    // Utiliser la fonction de saisie du dessus
-    saisieMaillon(nouveauMaillon->devis.nomTache, nouveauMaillon->devis.entreprise, 
-                   &(nouveauMaillon->devis.adresse), &(nouveauMaillon->devis.capital),
-                   &(nouveauMaillon->devis.duree), &(nouveauMaillon->devis.cout));
-
-    nouveauMaillon->suivant = NULL;
-
-    if (*liste == NULL) 
-    {
-        *liste = nouveauMaillon;
-    }
-    else
-    {
-        MaillonDevis *courant = *liste;
-        while (courant->suivant != NULL) {
-            courant = courant->suivant;
-        }
-        courant->suivant = nouveauMaillon;
+void supprimerDevis(Offre** tOffre, int nb){
+    char nomTache[MAX_TRAVAUX];
+    printf("Entrez le nom de la tâche à supprimer : ");
+    scanf("%s", nomTache);
+    for (int i = 0; i < nb; i++){
+        tOffre[i]->ldevis = supprimer(tOffre[i]->ldevis, nomTache);
     }
 }
 
-void ajouterMaillonDevisDebut(ListeDevis *liste)
-{
-    MaillonDevis *nouveauMaillon = (MaillonDevis*)malloc(sizeof(MaillonDevis));
-    
-    if (nouveauMaillon == NULL) {
-        fprintf(stderr, "Erreur : Échec de l'allocation mémoire.\n");
-        exit(EXIT_FAILURE);
-    }
-
-    // Utiliser la fonction de saisie du dessus
-    saisieMaillon(nouveauMaillon->devis.nomTache, nouveauMaillon->devis.entreprise, 
-                   &(nouveauMaillon->devis.adresse), &(nouveauMaillon->devis.capital),
-                   &(nouveauMaillon->devis.duree), &(nouveauMaillon->devis.cout));
-
-    nouveauMaillon->suivant = *liste;
-
-    *liste = nouveauMaillon;
-}
-
-void supprimerDernierMaillon(ListeDevis *liste) {
-    if (*liste == NULL) {
-        fprintf(stderr, "Erreur : La liste est vide.\n");
-        exit(-1);
-    }
-
-    MaillonDevis *courant = *liste;
-    MaillonDevis *precedent = NULL;
-
-    // va au bout de la chaine et supprime de dernier
-    while (courant->suivant != NULL) {
-        precedent = courant;
-        courant = courant->suivant;
-    }
-    free(courant);
-
-    // met NULL le dernier maillon
-    if (precedent != NULL) {
-        precedent->suivant = NULL;
-    } 
-    else // sinon y'a qu'un élément donc on le supr et la liste est vide
-    { 
-
-        *liste = NULL;
-    }
-}
-
-
-
-void sauvegarderDevis(Offre** tOffre, int nbDevis, const char* nomFichier) {
-    FILE* fichier = fopen(nomFichier, "w");
-    if (fichier == NULL) {
-        perror("Erreur lors de l'ouverture du fichier");
-        exit(EXIT_FAILURE);
-    }
-
-    for (int i = 0; i < nbDevis; i++) {
-        MaillonDevis* courant = tOffre[i]->ldevis;
-        while (courant != NULL) {
-            fprintf(fichier, "%s\n", tOffre[i]->travaux);
-            fprintf(fichier, "%s\n", courant->devis.nomTache);
-            fprintf(fichier, "%s\n", courant->devis.entreprise);
-            // Sauvegardez les autres champs du devis ici
-            courant = courant->suivant;
-        }
-    }
-
-    fclose(fichier);
-}

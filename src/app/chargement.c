@@ -1,56 +1,111 @@
 #include "chargement.h"
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
 
-int chargerDevis(char* nomFichier, Offre** tOffre) {
-    FILE *fe;
-    char ligne[MAX_LIGNE];
-    int nbDevis = 0;
 
-    if ((fe = fopen(nomFichier, "r")) == NULL) {
+Offre** chargement(char* nomFichier, int* nbOffre, int* max){
+    int trouve, pos, i;
+    int capital, duree, cout, codePostal, numero;
+    char travaux[MAX_TRAVAUX], ligne[MAX_TRAVAUX], entreprise[MAX_TRAVAUX], nomRue[MAX_TRAVAUX], ville[MAX_TRAVAUX];
+    Adresse adresse;
+    FILE* fe;
+
+    if ((fe = fopen(nomFichier, "r")) == NULL){
         perror("fopen");
-        exit(-1);
+        exit(EXIT_FAILURE);
     }
 
-    while (fgets(ligne, sizeof(ligne), fe) != NULL) {
-        Offre *nouvelleOffre = (Offre *) malloc(sizeof(Offre));
-        if (nouvelleOffre == NULL) {
-            fprintf(stderr, "Erreur : Échec de l'allocation mémoire pour l'offre.\n");
-            exit(-1);
+    *nbOffre = 0;
+    *max = 10;
+    Offre** tOffre, **tmp;
+
+    if ((tOffre = (Offre**)malloc(*max * sizeof(Offre*))) == NULL){
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
+
+    while (fgets(ligne, sizeof(ligne), fe) != NULL){
+        sscanf(ligne, "%s", travaux);
+        printf("Type de travaux lu : %s\n", travaux);  // Débogage
+        pos = rechercheDichotomique(tOffre, *nbOffre, travaux, &trouve);
+        if (trouve == 0){
+            printf("Offre insérée à la position %d:\n", pos);  // Ajoutez cette ligne pour le débogage
+            printf("Type de travaux : %s\n", tOffre[pos]->travaux);  // Ajoutez cette ligne pour le débogage
+            // Afficher d'autres détails de l'offre pour le débogage...
+
+            // Pour vérifier les pointeurs
+            printf("Adresse de l'offre à la position %d : %p\n", pos, (void *)tOffre[pos]);  // Ajoutez cette ligne pour le débogage
+
+            // Pour vérifier les offres précédentes
+            for (int j = 0; j < pos; j++) {
+                printf("Offre à la position %d:\n", j);  // Ajoutez cette ligne pour le débogage
+                printf("Type de travaux : %s\n", tOffre[j]->travaux);  // Ajoutez cette ligne pour le débogage
+                // Afficher d'autres détails de l'offre pour le débogage...
+            }
+            if (*nbOffre == *max){
+                *max += 10;
+                if ((tmp = (Offre**)realloc(tOffre, *max * sizeof(Offre*))) == NULL){
+                    perror("realloc");
+                    exit(EXIT_FAILURE);
+                }
+                tOffre = tmp;
+            }
+            for (i = *nbOffre; i > pos; --i){
+                tOffre[i] = tOffre[i - 1];
+            }
+            if ((tOffre[pos] = (Offre*)malloc(sizeof(Offre))) == NULL){
+                perror("malloc");
+                exit(EXIT_FAILURE);
+            }
+            strcpy(tOffre[pos]->travaux, travaux);
+            tOffre[pos]->ldevis = listeVide();
+            ++(*nbOffre);
         }
 
-        nouvelleOffre->ldevis = (ListeDevis) malloc(sizeof(MaillonDevis));
-        if (nouvelleOffre->ldevis == NULL) {
-            fprintf(stderr, "Erreur : Échec de l'allocation mémoire pour la liste de devis.\n");
-            exit(-1);
+        fgets(ligne, sizeof(ligne), fe);
+        sscanf(ligne, "%[^\n]", entreprise);
+        printf("Nom de l'entreprise lu : %s\n", entreprise);  // Débogage
+
+        fgets(ligne, sizeof(ligne), fe);
+        sscanf(ligne, "%d %[^0-9] %d %s", &numero, nomRue, &codePostal, ville);
+        printf("Adresse lu : %d %s, %d %s\n", numero, nomRue, codePostal, ville);  // Débogage
+
+        if (fscanf(fe, "%d", &capital) != 1) {
+            printf("Erreur lors de la lecture du capital.\n");
+            break;
         }
+        printf("Capital lu : %d\n", capital);
 
-        sscanf(ligne, "%s", nouvelleOffre->travaux);
+        if (fscanf(fe, "%d", &duree) != 1) {
+            printf("Erreur lors de la lecture de la durée.\n");
+            break;
+        }
+        printf("Durée lu : %d\n", duree);
 
-        sscanf(ligne, "%[^\n]", nouvelleOffre->ldevis->devis.nomTache);
-        fgets(ligne, sizeof(ligne), fe);
-        sscanf(ligne, "%[^\n]", nouvelleOffre->ldevis->devis.entreprise);
+        if (fscanf(fe, "%d", &cout) != 1) {
+            printf("Erreur lors de la lecture du coût.\n");
+            break;
+        }
+        printf("Coût lu : %d\n", cout);
 
-        fgets(ligne, sizeof(ligne), fe);
-        sscanf(ligne, "%d %[^0-9] %d %s",
-               &(nouvelleOffre->ldevis->devis.adresse.numero),
-               nouvelleOffre->ldevis->devis.adresse.nomRue,
-               &(nouvelleOffre->ldevis->devis.adresse.codePostal),
-               nouvelleOffre->ldevis->devis.adresse.ville);
+        adresse.numero = numero;
+        strcpy(adresse.nomRue, nomRue);
+        strcpy(adresse.ville, ville);
+        adresse.codePostal = codePostal;
 
-        fscanf(fe, "%d", &(nouvelleOffre->ldevis->devis.capital));
-        fscanf(fe, "%d", &(nouvelleOffre->ldevis->devis.duree));
-        fscanf(fe, "%d", &(nouvelleOffre->ldevis->devis.cout));
-
-        tOffre[nbDevis] = nouvelleOffre;
-        nbDevis++;
-
-        // enlève le caractère de nouvelle ligne restant (il y avait un décalage à chaque nouvelle tâche)
-        fgetc(fe);
+        nouveauDevis(tOffre, *nbOffre, travaux, entreprise, adresse, capital, duree, cout);
+        if (fscanf(fe, "%s", travaux) == EOF) {
+            printf("Fin du fichier atteinte.\n");
+            break;
+        }
 
     }
 
     fclose(fe);
-    return nbDevis;
+    return tOffre;
 }
+
 
 void chargerPrecedences(char* nomFichier) {
     FILE* fe;

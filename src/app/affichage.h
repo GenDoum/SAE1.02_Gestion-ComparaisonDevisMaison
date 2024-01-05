@@ -5,9 +5,6 @@
 #ifndef SAE1_02_AFFICHAGE_H
 #define SAE1_02_AFFICHAGE_H
 
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
 #include "tache.h"
 
 /**
@@ -25,7 +22,7 @@ void afficherPrecedences(char* nomFichier);
  * @param nbOffres la taille logique du tableau d'offres
  * @return void
  */
-void afficherOffres(Offre** tOffre, int nbOffres);
+//void afficherOffres(Offre** tOffre, int nbOffres);
 
 /**
  * @brief Affiche les devis par type de travaux
@@ -33,7 +30,7 @@ void afficherOffres(Offre** tOffre, int nbOffres);
  * @param tOffre le tableau d'offres
  * @param nbDevis la taille logique du tableau d'offres
  */
-void afficherDevisParTypeTravaux(Offre** tOffre, int nbDevis);
+//void afficherDevisParTypeTravaux(Offre** tOffre, int nbDevis);
 
 /**
  * @brief Affiche les devis par entreprise
@@ -41,7 +38,7 @@ void afficherDevisParTypeTravaux(Offre** tOffre, int nbDevis);
  * @param tOffre le tableau d'offres
  * @param nbDevis la taille logique du tableau d'offres
  */
-void afficherUnTravaux(Offre* offre);
+//void afficherUnTravaux(Offre* offre);
 
 /**
  * @brief Affiche les devis par entreprise et par type de travaux
@@ -49,7 +46,14 @@ void afficherUnTravaux(Offre* offre);
  * @param tOffre le tableau d'offres
  * @param nbDevis la taille logique du tableau d'offres
  */
-void afficherDevisEntrepriseType(Offre** tOffre, int nbDevis);
+//void afficherDevisEntrepriseType(Offre** tOffre, int nbDevis);
 
+
+void afficherListeDevis(ListeDevis l, int nbDevis);
+
+
+void afficher(Offre** tOffre, int nbOffre);
+void afficherDevisPourType(Offre** tOffre, int nbOffre);
+void afficherDevisEntreprisePourType(Offre** tOffre, int nbOffre);
 
 #endif //SAE1_02_AFFICHAGE_H

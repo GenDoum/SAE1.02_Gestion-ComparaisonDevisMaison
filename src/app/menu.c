@@ -38,29 +38,26 @@ void global(void) {
     char fichierDevis[100] = "donnee/devis.txt";
     Offre *tOffre[100];
     int nbOffres = 0;
-    nbOffres = chargerDevis(fichierDevis, tOffre);
+    ListeDevis l = listeVide();
 
-    printf("Nombre de devis chargés : %d\n", nbOffres);
     do {
         menu_client(&choix);
 
         switch (choix) {
             case 1:
                 afficherPrecedences(fichierPrecedences);
+
                 break;
             case 2:
                 creerPrecedences(fichierPrecedences);
                 break;
             case 3:
-                afficherOffres(tOffre, nbOffres);
                 break;
             case 4:
                 break;
             case 5:
-                afficherDevisParTypeTravaux(tOffre, nbOffres);
                 break;
             case 6:
-                afficherDevisEntrepriseType(tOffre, nbOffres);
                 break;
             case 7:
                 break;

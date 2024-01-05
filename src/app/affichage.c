@@ -3,6 +3,9 @@
 //
 
 #include "affichage.h"
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
 
 void afficherPrecedences(char* nomFichier) {
     FILE* fe;
@@ -20,92 +23,79 @@ void afficherPrecedences(char* nomFichier) {
     fclose(fe);
 }
 
-void afficherOffres(Offre** tOffre, int nbOffres) {
-    printf("Liste des offres :\n");
-    for (int i = 0; i < nbOffres; i++) {
-        printf("=== Offre n°%d ===\n", i + 1);
+void afficher(Offre** tOffre, int nbOffre) {
+    for (int i = 0; i < nbOffre; i++) {
         printf("Type de travaux : %s\n", tOffre[i]->travaux);
-
-        MaillonDevis* courant = tOffre[i]->ldevis;
-        while (courant != NULL) {
-            printf("Nom de la tâche : %s\n", courant->devis.nomTache);
-            printf("Nom de l'entreprise : %s\n", courant->devis.entreprise);
-            printf("Adresse : %d %s, %d %s\n", courant->devis.adresse.numero, courant->devis.adresse.nomRue, courant->devis.adresse.codePostal, courant->devis.adresse.ville);
-            printf("Capital : %d\n", courant->devis.capital);
-            printf("Durée : %d\n", courant->devis.duree);
-            printf("Coût : %d\n", courant->devis.cout);
-            courant = courant->suivant;
-        }
-
+        afficherListeDevis(tOffre[i]->ldevis, i + 1);
         printf("\n");
     }
 }
 
-void afficherUnTravaux(Offre* offre) {
-    printf("Type de travaux : %s\n", offre->travaux);
-    MaillonDevis* courant = offre->ldevis;
-    while (courant != NULL) {
-        printf("Nom de la tâche : %s\n", courant->devis.nomTache);
-        printf("Nom de l'entreprise : %s\n", courant->devis.entreprise);
-        printf("Adresse : %d %s, %d %s\n", courant->devis.adresse.numero, courant->devis.adresse.nomRue, courant->devis.adresse.codePostal, courant->devis.adresse.ville);
-        printf("Capital : %d\n", courant->devis.capital);
-        printf("Durée : %d\n", courant->devis.duree);
-        printf("Coût : %d\n", courant->devis.cout);
-        puts("");
-        courant = courant->suivant;
+void afficherListeDevis(ListeDevis l, int nbDevis) {
+    if (l == NULL) {
+        printf("Liste vide.\n");
+        return;
+    }
+
+    while (l != NULL) {
+        printf("=== Offre n°%d ===\n", nbDevis);
+        printf("Nom de la tâche : %s\n", l->devis.nomTache);
+        printf("Nom de l'entreprise : %s\n", l->devis.entreprise);
+        printf("Adresse : %d %s, %d %s\n", l->devis.adresse.numero, l->devis.adresse.nomRue, l->devis.adresse.codePostal, l->devis.adresse.ville);
+        printf("Capital : %d\n", l->devis.capital);
+        printf("Durée : %d\n", l->devis.duree);
+        printf("Coût : %d\n", l->devis.cout);
+        printf("\n");
+        l = l->suivant;
     }
 }
 
-void afficherDevisParTypeTravaux(Offre** tOffre, int nbDevis) {
-    char typeTravaux[MAX_LIGNE];
-    bool devisTrouve = false;
-    printf("Veuillez entrer le type de travaux pour afficher les devis correspondants : ");
-    scanf("%s", typeTravaux);
+void afficherDevisPourType(Offre** tOffre, int nbOffre) {
+    int trouve = 0;
+    char typeTravaux[MAX_TRAVAUX];
 
-    for (int i = 0; i < nbDevis; i++) {
+    printf("Saisir le type de travaux : ");
+    scanf("%s%*c", typeTravaux);
+
+    for (int i = 0; i < nbOffre; i++) {
         if (strcmp(tOffre[i]->travaux, typeTravaux) == 0) {
-            MaillonDevis* courant = tOffre[i]->ldevis;
-            while (courant != NULL) {
-                printf("=== Offre n°%d ===\n", i + 1);
-                afficherUnTravaux(tOffre[i]);
-                courant = courant->suivant;
-            }
-            devisTrouve = true;
+            trouve = 1;
+            printf("Type de travaux : %s\n", tOffre[i]->travaux);
+            afficherListeDevis(tOffre[i]->ldevis, i + 1);
+            printf("\n");
+            break; // Sortir de la boucle une fois que le type de travaux est trouvé
         }
     }
-
-    if (!devisTrouve) {
-        printf("Aucun devis pour le type de travaux.\n");
+    if (!trouve) {
+        printf("Aucun devis trouvé pour le type de travaux : %s\n", typeTravaux);
     }
 }
 
+void afficherDevisEntreprisePourType(Offre** tOffre, int nbOffre) {
+    int trouve = 0;
+    char typeTravaux[MAX_TRAVAUX], nomEntreprise[MAX_TRAVAUX];
 
-void afficherDevisEntrepriseType(Offre** tOffre, int nbDevis) {
-    char typeTravaux[MAX_LIGNE], nomEntreprise[MAX_LIGNE];
-    bool devisTrouve = false;
-    printf("Veuillez entrer le type de travaux pour afficher les devis correspondants : ");
-    scanf("%s", typeTravaux);
+    printf("Saisir le type de travaux : ");
+    scanf("%s%*c", typeTravaux);
+    printf("Saisir le nom de l'entreprise : ");
+    scanf("%s%*c", nomEntreprise);
 
-    while ((getchar()) != '\n');
-
-    printf("Veuillez entrer le nom de l'entreprise pour afficher les devis correspondants : ");
-    scanf("%[^\n]", nomEntreprise);
-
-    for (int i = 0; i < nbDevis; i++) {
+    for (int i = 0; i < nbOffre; i++) {
         if (strcmp(tOffre[i]->travaux, typeTravaux) == 0) {
-            MaillonDevis* courant = tOffre[i]->ldevis;
-            while (courant != NULL) {
-                if (strcmp(courant->devis.entreprise, nomEntreprise) == 0) {
-                    printf("=== Offre n°%d ===\n", i + 1);
-                    afficherUnTravaux(tOffre[i]);
-                    devisTrouve = true;
+            ListeDevis ldevis = tOffre[i]->ldevis;
+            while (ldevis != NULL) {
+                if (strcmp(ldevis->devis.entreprise, nomEntreprise) == 0) {
+                    trouve = 1;
+                    printf("Type de travaux : %s\n", tOffre[i]->travaux);
+                    afficherListeDevis(ldevis, i + 1);
+                    printf("\n");
+                    break; // Sortir de la boucle une fois que le devis de l'entreprise est trouvé
                 }
-                courant = courant->suivant;
+                ldevis = ldevis->suivant;
             }
         }
     }
-
-    if (!devisTrouve) {
-        printf("Aucun devis pour le type de travaux et l'entreprise.\n");
+    if (!trouve) {
+        printf("Aucun devis trouvé pour l'entreprise : %s et le type de travaux : %s\n", nomEntreprise, typeTravaux);
     }
 }
