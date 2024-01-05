@@ -66,22 +66,6 @@ void ajouterMaillonDevisDebut(ListeDevis *liste);
 void ajouterMaillonDevisFin(ListeDevis *liste);
 void supprimerMaillonFin( ListeDevis *liste );
 
-
-
-ListeDevis listeVide(void);
-ListeDevis insererEnTete(ListeDevis l, char nomTache[], char entreprise[], Adresse adresse, int capital, int duree, int cout);
-ListeDevis insertionCroissante(ListeDevis l, char nomTache[], char entreprise[], Adresse adresse, int capital, int duree, int cout);
-void quickSort(Offre** tOffre, int tLogique);
-void nouveauDevis(Offre** tOffre, int nbDevis, char* nomTache, char* entreprise, Adresse adresse, int capital, int duree, int cout);
-int appartient(ListeDevis l, char* nomTache);
-int rechercheDichotomique(Offre** tOffre, int tLogique, char* nomTache, int* trouve);
-bool vide(ListeDevis l);
-int len(ListeDevis l);
-Offre** chargement(char* nomFichier, int* nbOffre, int* max);
-
-
-
-
 ListeDevis supprimerEnTete(ListeDevis l);
 ListeDevis supprimer(ListeDevis l, char* nomTache);
 void supprimerDevis(Offre** tOffre, int nb);

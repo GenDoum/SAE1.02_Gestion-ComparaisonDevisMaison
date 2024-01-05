@@ -2,6 +2,7 @@
 #define SAE1_02_CHARGEMENT_H
 
 #include "tache.h"
+#include "utils.h"
 
 Offre** chargement(char* nomFichier, int* nbOffre, int* max);
 
