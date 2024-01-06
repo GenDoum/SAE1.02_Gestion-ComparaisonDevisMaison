@@ -4,22 +4,6 @@
 #include "tache.h"
 #include "affichage.h"
 
-
-ListeDevis supprimer(ListeDevis l, char* nomTache){
-    if (l == NULL){
-        fprintf(stderr, "Erreur : La liste est vide.\n");
-        exit(EXIT_FAILURE);
-    }
-    if (strcmp(l->devis.nomTache, nomTache) > 0){
-        return l;
-    }
-    if (strcmp(l->devis.nomTache, nomTache) == 0){
-        return supprimerEnTete(l);
-    }
-    l->suivant = supprimer(l->suivant, nomTache);
-    return l;
-}
-
 void verifInt(int *var){
     while (scanf("%d", var) != 1){
         fprintf(stderr, "\x1B[31mERREUR : Entrez un nombre valide : \x1B[0m");
@@ -125,12 +109,4 @@ void saisieMaillon( char *nomTache, char *entreprise, Adresse *adresse, int *cap
 
 }
 
-void supprimerDevis(Offre** tOffre, int nb){
-    char nomTache[MAX_TRAVAUX];
-    printf("Entrez le nom de la tâche à supprimer : ");
-    scanf("%s", nomTache);
-    for (int i = 0; i < nb; i++){
-        tOffre[i]->ldevis = supprimer(tOffre[i]->ldevis, nomTache);
-    }
-}
 

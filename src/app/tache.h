@@ -40,25 +40,38 @@ typedef struct Offre {
     ListeDevis ldevis;
 } Offre;
 
+/**
+ * @brief Vérifie et récupère une valeur entière saisie par l'utilisateur.
+ *
+ * Cette fonction vérifie si l'entrée de l'utilisateur est un entier valide.
+ * Si ce n'est pas le cas, elle affiche un message d'erreur et invite l'utilisateur à saisir à nouveau.
+ *
+ * @param var Un pointeur vers la variable où stocker la valeur entière saisie par l'utilisateur.
+ */
+void verifInt(int *var);
 
 /**
- * @brief creer une précédence.
+ * @brief Crée une nouvelle précédence entre deux tâches et l'ajoute à un fichier.
  *
- * @param nomFichier le nom du fichier
- * @return void
+ * Cette fonction permet à l'utilisateur de créer une nouvelle précédence entre deux tâches
+ * et de l'ajouter à un fichier spécifié.
+ *
+ * @param nomFichier Le chemin du fichier où ajouter la précédence.
  */
 void creerPrecedences(char* nomFichier);
 
-// Maillon
 /**
- * @brief Les différentes saisies pour un devis
+ * @brief Saisie des informations d'un maillon (tâche, entreprise, adresse, etc.) par l'utilisateur.
  *
- * @param nomTache le nom de la tache
- * @param entreprise le nom de l'entreprise
- * @param adresse les différents champs de l'adresse
- * @param capital le capital de l'entreprise en euro
- * @param duree la durée de la tache en jour
- * @param cout le cout de la tache en euro
+ * Cette fonction guide l'utilisateur à travers le processus de saisie des informations nécessaires
+ * pour créer un nouveau maillon (tâche) avec ses détails associés (entreprise, adresse, capital, durée, coût).
+ *
+ * @param nomTache Un pointeur vers une chaîne où stocker le nom de la tâche.
+ * @param entreprise Un pointeur vers une chaîne où stocker le nom de l'entreprise.
+ * @param adresse Un pointeur vers une structure Adresse où stocker les détails de l'adresse.
+ * @param capital Un pointeur vers une variable où stocker le capital de l'entreprise.
+ * @param duree Un pointeur vers une variable où stocker la durée de la tâche.
+ * @param cout Un pointeur vers une variable où stocker le coût de la tâche.
  */
 void saisieMaillon( char *nomTache, char *entreprise, Adresse *adresse, int *capital, int *duree, int *cout);
 
@@ -66,8 +79,5 @@ void ajouterMaillonDevisDebut(ListeDevis *liste);
 void ajouterMaillonDevisFin(ListeDevis *liste);
 void supprimerMaillonFin( ListeDevis *liste );
 
-ListeDevis supprimerEnTete(ListeDevis l);
-ListeDevis supprimer(ListeDevis l, char* nomTache);
-void supprimerDevis(Offre** tOffre, int nb);
 
 #endif // TACHE_H

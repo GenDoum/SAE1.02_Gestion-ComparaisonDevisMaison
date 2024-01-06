@@ -8,52 +8,61 @@
 #include "tache.h"
 
 /**
- * @brief Affiche les precedences
+ * @brief Affiche les précédences entre les tâches à partir d'un fichier.
  *
- * @param nomFichier le nom du fichier
- * @return void
+ * Cette fonction lit un fichier contenant des paires de tâches et affiche leurs précédences.
+ * Les paires de tâches sont lues ligne par ligne du fichier, et les précédences sont affichées
+ * sur la sortie standard.
+ *
+ * @param nomFichier Le nom du fichier à partir duquel lire les précédences.
  */
-void afficherPrecedences(char* nomFichier);
+ void afficherPrecedences(char* nomFichier);
 
 /**
- * @brief Affiche les Offres
- *
- * @param tOffre le tableau d'offres
- * @param nbOffres la taille logique du tableau d'offres
- * @return void
- */
-//void afficherOffres(Offre** tOffre, int nbOffres);
-
-/**
- * @brief Affiche les devis par type de travaux
- *
- * @param tOffre le tableau d'offres
- * @param nbDevis la taille logique du tableau d'offres
- */
-//void afficherDevisParTypeTravaux(Offre** tOffre, int nbDevis);
-
-/**
- * @brief Affiche les devis par entreprise
- *
- * @param tOffre le tableau d'offres
- * @param nbDevis la taille logique du tableau d'offres
- */
-//void afficherUnTravaux(Offre* offre);
-
-/**
- * @brief Affiche les devis par entreprise et par type de travaux
- *
- * @param tOffre le tableau d'offres
- * @param nbDevis la taille logique du tableau d'offres
- */
-//void afficherDevisEntrepriseType(Offre** tOffre, int nbDevis);
-
-
+* @brief Affiche les informations de tous les devis dans une liste de devis.
+*
+* Cette fonction parcourt une liste de devis et affiche les informations de chaque devis.
+* Les informations affichées incluent le nom de la tâche, le nom de l'entreprise, l'adresse,
+* le capital, la durée et le coût du devis.
+*
+* @param l La liste de devis à afficher.
+* @param nbDevis Le numéro de l'offre associée aux devis.
+*/
 void afficherListeDevis(ListeDevis l, int nbDevis);
 
-
+/**
+ * @brief Affiche les informations de toutes les offres.
+ *
+ * Cette fonction parcourt un tableau d'offres et affiche les informations de chaque offre.
+ * Pour chaque offre, elle affiche le type de travaux et la liste des devis associés.
+ *
+ * @param tOffre Un tableau de pointeurs vers des structures Offre.
+ * @param nbOffre Le nombre total d'offres dans le tableau.
+ */
 void afficher(Offre** tOffre, int nbOffre);
+
+/**
+ * @brief Affiche les devis correspondant à un type de travaux donné.
+ *
+ * Cette fonction permet à l'utilisateur de saisir un type de travaux.
+ * Elle recherche ensuite dans un tableau d'offres tous les devis correspondant à ce type
+ * et les affiche si trouvés.
+ *
+ * @param tOffre Un tableau de pointeurs vers des structures Offre.
+ * @param nbOffre Le nombre total d'offres dans le tableau.
+ */
 void afficherDevisPourType(Offre** tOffre, int nbOffre);
+
+/**
+ * @brief Affiche les devis d'une entreprise donnée pour un type de travaux donné.
+ *
+ * Cette fonction permet à l'utilisateur de saisir un type de travaux et le nom d'une entreprise.
+ * Elle recherche ensuite dans un tableau d'offres tous les devis de cette entreprise correspondant à ce type
+ * et les affiche si trouvés.
+ *
+ * @param tOffre Un tableau de pointeurs vers des structures Offre.
+ * @param nbOffre Le nombre total d'offres dans le tableau.
+ */
 void afficherDevisEntreprisePourType(Offre** tOffre, int nbOffre);
 
 #endif //SAE1_02_AFFICHAGE_H
