@@ -69,23 +69,8 @@
 //}
 
 int main(void){
-	//global();
 
-    int nbOffre = 0, max;
-    Offre** tOffre = chargement("donnee/devis.txt", &nbOffre, &max);
-    printf("chargement ok\n");
-
-    // Afficher les offres et leurs listes de devis
-//    afficher(tOffre, nbOffre);
-//    afficherDevisPourType(tOffre, nbOffre);
-    afficherDevisEntreprisePourType(tOffre, nbOffre);
-
-    // Libérer la mémoire
-    for (int i = 0; i < nbOffre; ++i) {
-        free(tOffre[i]);
-    }
-    free(tOffre);
-
+	global();
 
     exit(EXIT_FAILURE);
 }

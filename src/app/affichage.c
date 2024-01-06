@@ -76,9 +76,12 @@ void afficherDevisEntreprisePourType(Offre** tOffre, int nbOffre) {
     char typeTravaux[MAX_TRAVAUX], nomEntreprise[MAX_TRAVAUX];
 
     printf("Saisir le type de travaux : ");
-    scanf("%s%*c", typeTravaux);
+    scanf("%s", typeTravaux);
+
+    while ((getchar()) != '\n');
+
     printf("Saisir le nom de l'entreprise : ");
-    scanf("%s%*c", nomEntreprise);
+    scanf("%[^\n]", nomEntreprise);
 
     for (int i = 0; i < nbOffre; i++) {
         if (strcmp(tOffre[i]->travaux, typeTravaux) == 0) {
