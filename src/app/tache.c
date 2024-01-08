@@ -101,6 +101,5 @@ void selectionnerEntreprises(Offre** tOffre, int nbOffre) {
 
         printf("Tâche : %s\nEntreprise : %s\nCoût : %d\nCapital : %d\n", meilleurDevis->devis.nomTache, meilleurDevis->devis.entreprise, meilleurDevis->devis.cout, meilleurDevis->devis.capital);
 
-        tOffre[i]->ldevis = supprimer(tOffre[i]->ldevis, meilleurDevis->devis.nomTache);
-    }
+        tOffre[i]->ldevis = supprimer(tOffre[i]->ldevis, meilleurDevis->devis.nomTache);    }
 }
