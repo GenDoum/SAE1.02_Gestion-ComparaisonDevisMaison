@@ -66,7 +66,7 @@ function execute {
     show_command "$command"
     if [ -x "$executable" ]; then
         show_arrows_jump
-        "$command" || show_error "Error during execution."
+        "$command" || show_error "Error during execution." &> 2
     else
         show_error "Error during execution. The file $executable is not executable."
     fi
