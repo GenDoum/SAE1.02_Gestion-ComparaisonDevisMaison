@@ -78,48 +78,13 @@ void comparerDevis(Offre ** tOffre, int nbOffre)
 
 }
 
-
-void selectionnerEntreprises(Offre** tOffre, int nbOffre) {
-    for (int i = 0; i < nbOffre; i++) {
-        MaillonDevis* courant = tOffre[i]->ldevis;
-        MaillonDevis* meilleurDevis = courant;
-        ListeDevis nouvelleListe = listeVide();
-
-        while (courant != NULL) {
-            if (courant->devis.cout < meilleurDevis->devis.cout ||
-                (courant->devis.cout == meilleurDevis->devis.cout && courant->devis.capital > meilleurDevis->devis.capital)) {
-                meilleurDevis = courant;
-                strcpy(meilleurDevis->devis.nomTache, courant->devis.nomTache);
-            }
-            courant = courant->suivant;
-        }
-
-        // Ajouter le meilleur devis à la nouvelle liste
-        nouvelleListe = insererEnTete(nouvelleListe, meilleurDevis->devis.nomTache, meilleurDevis->devis.entreprise, meilleurDevis->devis.adresse, meilleurDevis->devis.capital, meilleurDevis->devis.duree, meilleurDevis->devis.cout);
-
-        // Libérer la mémoire de l'ancienne liste de devis
-        while (tOffre[i]->ldevis != NULL) {
-            MaillonDevis* tmp = tOffre[i]->ldevis;
-            tOffre[i]->ldevis = tOffre[i]->ldevis->suivant;
-            free(tmp);
-        }
-
-        // Remplacer l'ancienne liste de devis par la nouvelle
-        tOffre[i]->ldevis = nouvelleListe;
-
-        printf("Tâche : %s, Entreprise : %s, Coût : %d, Capital : %d\n", meilleurDevis->devis.nomTache, meilleurDevis->devis.entreprise, meilleurDevis->devis.cout, meilleurDevis->devis.capital);
-//        printf("Tâche : %s, Entreprise : %s, Coût : %d, Capital : %d\n", meilleurDevis->devis.nomTache, meilleurDevis->devis.entreprise, meilleurDevis->devis.cout, meilleurDevis->devis.capital);
-    }
-}
-
-
-/*
 void selectionnerEntreprises(Offre** tOffre, int nbOffre) {
     for (int i = 0; i < nbOffre; i++) {
         MaillonDevis* courant = tOffre[i]->ldevis;
         MaillonDevis* meilleurDevis = courant;
 
         while (courant != NULL) {
+            printf("Courant : %s, %d\n", courant->devis.nomTache, courant->devis.cout);
             if (courant->devis.cout < meilleurDevis->devis.cout ||
                 (courant->devis.cout == meilleurDevis->devis.cout && courant->devis.capital > meilleurDevis->devis.capital)) {
                 meilleurDevis = courant;
@@ -138,4 +103,3 @@ void selectionnerEntreprises(Offre** tOffre, int nbOffre) {
         printf("Tâche : %s\n, Entreprise : %s\n, Coût : %d\n, Capital : %d\n", meilleurDevis->devis.nomTache, meilleurDevis->devis.entreprise, meilleurDevis->devis.cout, meilleurDevis->devis.capital);
     }
 }
-*/

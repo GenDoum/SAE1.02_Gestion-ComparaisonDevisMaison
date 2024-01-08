@@ -143,14 +143,13 @@ ListeDevis supprimer(ListeDevis l, char* nomTache){
         exit(EXIT_FAILURE);
     }
 
-    l->suivant = supprimer(l->suivant, nomTache);
-
     if (strcmp(l->devis.nomTache, nomTache) > 0){
         return l;
     }
     if (strcmp(l->devis.nomTache, nomTache) == 0){
         return supprimerEnTete(l);
     }
+    l->suivant = supprimer(l->suivant, nomTache);
     return l;
 }
 
