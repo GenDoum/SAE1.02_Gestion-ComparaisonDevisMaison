@@ -3,6 +3,7 @@
 #include <string.h>
 #include "tache.h"
 #include "affichage.h"
+#include "utils.h"
 
 void verifInt(int *var){
     while (scanf("%d", var) != 1){
@@ -41,72 +42,4 @@ void creerPrecedences(char* nomFichier) { // Je sais pas si c'est fait exprès m
 
     fclose(fe);
 }
-
-void saisieMaillon( char *nomTache, char *entreprise, Adresse *adresse, int *capital, int *duree, int *cout)
-{
-    printf("Entrez le nom de la tâche : ");
-    while( (scanf("%s", nomTache) != 1 ) )
-    {
-        printf("Entrez un nom correct, avec maximum 30 caractères.\n Entrez ici :");
-        while (getchar() != '\n');
-    }
-
-    printf("Entrez le nom de l'entreprise : ");
-    while( (scanf("%s", entreprise) != 1 ) )
-    {
-        printf("Entrez un nom correct, avec maximum 30 caractères.\n Entrez ici :");
-        while (getchar() != '\n');
-    }
-
-    printf("Entrez la ville de l'entreprise : ");
-    while( (scanf("%s", adresse->ville) != 1 ) )
-    {
-        printf("Entrez une adresse correct, avec maximum 100 caractères.\n Entrez ici :");
-        while (getchar() != '\n');
-    }
-
-    printf("Entrez le numéro de rue de l'entreprise : ");
-    while( (scanf("%d", &(adresse->numero)) != 1 ) && adresse->numero <= 0 )
-    {
-        printf("/!/Entrez un numéro de rue correct./!/\n Entrez ici :");
-        while (getchar() != '\n');
-    }
-
-    printf("Entrez le nom de la rue de l'entreprise : ");
-    while( (scanf("%s", adresse->nomRue) != 1 ) )
-    {
-        printf("/!/Entrez un nom de rue correct./!/\n Entrez ici :");
-        while (getchar() != '\n');
-    }
-    
-    printf("Entrez le code postale de l'entreprise : ");
-    while( (scanf("%d", &(adresse->codePostal)) != 1 ) && adresse->codePostal <= 0 )
-    {
-        printf("/!/Entrez un code postale correct./!/\n Entrez ici :");
-        while (getchar() != '\n');
-    }
-
-    printf("Entrez le capital de l'entreprise : ");
-    while( (scanf("%d", capital) != 1 ) && *capital <= 0 )
-    {
-        printf("/!/Entrez un capital correct/!/\n Entrez ici :");
-        while (getchar() != '\n');
-    }
-
-    printf("Entrez la durée en jours de la tâche : ");
-    while( (scanf("%d", duree) != 1 ) )
-    {
-        printf("/!/Entrez une durée correct./!/\n Entrez ici :");
-        while (getchar() != '\n');
-    }
-
-    printf("Entrez le cout de la tâche : ");
-    while( (scanf("%d", cout) != 1 ) )
-    {
-        printf(" /!/ Entrez un cout correct. /!/\n Entrez ici :");
-        while (getchar() != '\n');
-    }
-
-}
-
 

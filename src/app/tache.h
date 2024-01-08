@@ -104,6 +104,8 @@ void creerPrecedences(char* nomFichier);
  */
 void saisieMaillon( char *nomTache, char *entreprise, Adresse *adresse, int *capital, int *duree, int *cout);
 
+void ajouterDevis(Offre*** tOffre, int* nbOffre, int* max);
+
 void ajouterMaillonDevisDebut(ListeDevis *liste);
 void ajouterMaillonDevisFin(ListeDevis *liste);
 void supprimerMaillonFin( ListeDevis *liste );

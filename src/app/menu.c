@@ -37,7 +37,7 @@ void global(void) {
     char fichierPrecedences[100] = "donnee/precedences.txt";
     char fichierDevis[100] = "donnee/devis.txt";
     int nbOffre = 0, max;
-    Offre** tOffre = chargement("donnee/devis.txt", &nbOffre, &max);
+    Offre** tOffre = chargement(fichierDevis, &nbOffre, &max);
 
     do {
         menu_client(&choix);
@@ -45,7 +45,6 @@ void global(void) {
         switch (choix) {
             case 1:
                 afficherPrecedences(fichierPrecedences);
-
                 break;
             case 2:
                 creerPrecedences(fichierPrecedences);
@@ -54,7 +53,6 @@ void global(void) {
                 afficher(tOffre, nbOffre);
                 break;
             case 4:
-                // TODO : Faire la création de devis.
                 break;
             case 5:
                 afficherDevisPourType(tOffre, nbOffre);
