@@ -43,43 +43,11 @@ void creerPrecedences(char* nomFichier) { // Je sais pas si c'est fait exprès m
     fclose(fe);
 }
 
-void comparerDevis(Offre ** tOffre, int nbOffre)
-{
-
-    for ( int i = 0; i < nbOffre; ++i)
-    {
-        MaillonDevis* courant = tOffre[i]->ldevis;
-        MaillonDevis* meilleurDevis = courant;
-
-        while ( courant != NULL )
-        {
-            if ( courant->devis.cout < meilleurDevis->devis.cout || ( courant->devis.cout == meilleurDevis->devis.cout && courant->devis.capital > meilleurDevis->devis.capital ) )
-            {
-                meilleurDevis = courant;
-            }
-            courant = courant->suivant;
-        }
-
-        courant = tOffre[i]->ldevis;
-        while ( courant != NULL )
-        {
-            if ( courant != meilleurDevis )
-            {
-                tOffre[i]->ldevis = supprimer(tOffre[i]->ldevis, courant->devis.nomTache);
-            }
-            courant = courant->suivant;
-        }
-
-        printf("Tâche : %s\n, Entreprise : %s\n, Coût : %d\n, Capital : %d\n", meilleurDevis->devis.nomTache, meilleurDevis->devis.entreprise, meilleurDevis->devis.cout, meilleurDevis->devis.capital);
-        
-    }
-
-}
-
 void selectionnerEntreprises(Offre** tOffre, int nbOffre) {
     for (int i = 0; i < nbOffre; i++) {
         MaillonDevis* courant = tOffre[i]->ldevis;
         MaillonDevis* meilleurDevis = courant;
+        ListeDevis aSupprimer = listeVide();
 
         while (courant != NULL) {
             printf("Courant : %s, %d\n", courant->devis.nomTache, courant->devis.cout);
@@ -87,19 +55,14 @@ void selectionnerEntreprises(Offre** tOffre, int nbOffre) {
                 (courant->devis.cout == meilleurDevis->devis.cout && courant->devis.capital > meilleurDevis->devis.capital)) {
                 meilleurDevis = courant;
             }
+            if (courant != meilleurDevis) {
+                aSupprimer = insererEnTete(aSupprimer, courant->devis.nomTache, "", (Adresse){0, "", "", 0}, 0, 0, 0);
+            }
             courant = courant->suivant;
         }
 
-        courant = tOffre[i]->ldevis;
-        while (courant != NULL) {
-            MaillonDevis* suivant = courant->suivant;
-            if (courant != meilleurDevis) {
-                tOffre[i]->ldevis = supprimer(tOffre[i]->ldevis, courant->devis.nomTache);
-            }
-            courant = suivant;
-        }
+        supprimerMauvaisDevis(tOffre, i, meilleurDevis);
 
         printf("Tâche : %s\nEntreprise : %s\nCoût : %d\nCapital : %d\n", meilleurDevis->devis.nomTache, meilleurDevis->devis.entreprise, meilleurDevis->devis.cout, meilleurDevis->devis.capital);
-
-        tOffre[i]->ldevis = supprimer(tOffre[i]->ldevis, meilleurDevis->devis.nomTache);    }
+    }
 }

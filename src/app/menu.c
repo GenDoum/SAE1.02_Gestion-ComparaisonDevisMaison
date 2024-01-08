@@ -55,7 +55,7 @@ void global(void) {
                 afficher(tOffre, nbOffre);
                 break;
             case 4:
-                supprimerDevis(tOffre, nbOffre);
+//                supprimerDevis(tOffre, nbOffre);
                 break;
             case 5:
                 afficherDevisPourType(tOffre, nbOffre);

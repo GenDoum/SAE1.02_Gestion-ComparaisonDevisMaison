@@ -137,40 +137,26 @@ int len(ListeDevis l){
     return cpt;
 }
 
-ListeDevis supprimer(ListeDevis l, char* nomTache){
-    if (l == NULL){
-        fprintf(stderr, "Erreur : La liste est vide.\n");
-        exit(EXIT_FAILURE);
-    }
-
-    if (strcmp(l->devis.nomTache, nomTache) > 0){
-        return l;
-    }
-    if (strcmp(l->devis.nomTache, nomTache) == 0){
-        return supprimerEnTete(l);
-    }
-    l->suivant = supprimer(l->suivant, nomTache);
-    return l;
-}
-
-ListeDevis supprimerEnTete(ListeDevis l){
-    MaillonDevis *tmp;
-
-    if (l == NULL){
-        fprintf(stderr, "Fin de liste.\n");
-    }
-
-    tmp = l;
-    l = l->suivant;
-    free(tmp);
-    return l;
-}
-
-void supprimerDevis(Offre** tOffre, int nb){
-    char nomTache[MAX_TRAVAUX];
-    printf("Entrez le nom de la tâche à supprimer : ");
-    scanf("%s", nomTache);
-    for (int i = 0; i < nb; i++){
-        tOffre[i]->ldevis = supprimer(tOffre[i]->ldevis, nomTache);
+void supprimerMauvaisDevis(Offre** tOffre, int i, MaillonDevis* meilleurDevis) {
+    MaillonDevis* courant = tOffre[i]->ldevis;
+    MaillonDevis* prec = NULL;
+    while (courant != NULL) {
+        if (courant != meilleurDevis) {
+            if (prec == NULL) {
+                tOffre[i]->ldevis = courant->suivant;
+            } else {
+                prec->suivant = courant->suivant;
+            }
+            free(courant);
+            if (prec == NULL) {
+                courant = tOffre[i]->ldevis;
+            } else {
+                courant = prec->suivant;
+            }
+        } else {
+            prec = courant;
+            courant = courant->suivant;
+        }
     }
 }
+

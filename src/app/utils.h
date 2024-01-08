@@ -135,7 +135,7 @@ int len(ListeDevis l);
  * @param nomTache Le nom de la tâche du devis à supprimer.
  * @return La liste mise à jour après suppression.
  */
-ListeDevis supprimer(ListeDevis l, char* nomTache);
+//ListeDevis supprimer(ListeDevis l, char* nomTache);
 
 /**
  * @brief Supprime le maillon en tête d'une liste de devis.
@@ -157,5 +157,6 @@ ListeDevis supprimerEnTete(ListeDevis l);
  * @param nb Le nombre d'offres dans le tableau d'offres.
  */
 void supprimerDevis(Offre** tOffre, int nb);
+void supprimerMauvaisDevis(Offre** tOffre, int i, MaillonDevis* meilleurDevis);
 
 #endif //SAE1_02_UTILS_H
