@@ -7,6 +7,7 @@
 #include<stdlib.h>
 #include<string.h>
 
+
 void afficherPrecedences(char* nomFichier) {
     FILE* fe;
     char tache1[21], tache2[21];
@@ -23,16 +24,6 @@ void afficherPrecedences(char* nomFichier) {
     fclose(fe);
 }
 
-#define RESET "\033[0m"
-#define BOLD "\033[1m"
-#define ITALIC "\033[3m"
-#define UNDERLINE "\033[4m"
-#define RED "\033[31m"
-#define GREEN "\033[92m"
-#define PURPLE "\033[35m"  // Nouvelle couleur pour le violet
-#define BLUE "\033[94m"
-#define MAGENTA "\033[95m"
-#define CYAN "\033[96m"
 
 void afficher(Offre** tOffre, int nbOffre) {
     for (int i = 0; i < nbOffre; i++) {

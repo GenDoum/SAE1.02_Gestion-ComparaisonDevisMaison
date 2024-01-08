@@ -72,9 +72,7 @@ void comparerDevis(Offre ** tOffre, int nbOffre)
 
         printf("Tâche : %s\n, Entreprise : %s\n, Coût : %d\n, Capital : %d\n", meilleurDevis->devis.nomTache, meilleurDevis->devis.entreprise, meilleurDevis->devis.cout, meilleurDevis->devis.capital);
         
-
     }
-
 
 }
 
@@ -100,6 +98,6 @@ void selectionnerEntreprises(Offre** tOffre, int nbOffre) {
             courant = courant->suivant;
         }
 
-        printf("Tâche : %s\n, Entreprise : %s\n, Coût : %d\n, Capital : %d\n", meilleurDevis->devis.nomTache, meilleurDevis->devis.entreprise, meilleurDevis->devis.cout, meilleurDevis->devis.capital);
+        printf("Tâche : %s\nEntreprise : %s\nCoût : %d\nCapital : %d\n", meilleurDevis->devis.nomTache, meilleurDevis->devis.entreprise, meilleurDevis->devis.cout, meilleurDevis->devis.capital);
     }
 }

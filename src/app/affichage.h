@@ -7,6 +7,17 @@
 
 #include "tache.h"
 
+#define RESET "\033[0m"
+#define BOLD "\033[1m"
+#define ITALIC "\033[3m"
+#define UNDERLINE "\033[4m"
+#define RED "\033[31m"
+#define GREEN "\033[92m"
+#define PURPLE "\033[35m"  // Nouvelle couleur pour le violet
+#define BLUE "\033[94m"
+#define MAGENTA "\033[95m"
+#define CYAN "\033[96m"
+
 /**
  * @brief Affiche les précédences entre les tâches à partir d'un fichier.
  *

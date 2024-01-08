@@ -7,7 +7,7 @@
 void affiche_client(void) {
     printf("\n");
     printf("+-------------+\n");
-    printf("|| Bonjour ! ||\n");
+    printf("|| \x1b[5;33mBonjour ! %s||\n",RESET);
     printf("+-------------+\n");
     printf("\n");
     printf("+----------------------------------------------------------------------------------------+\n");
@@ -23,6 +23,7 @@ void affiche_client(void) {
     printf("||\t9 : Quitter.\t\t\t\t\t\t\t\t\t||\n");
     printf("+----------------------------------------------------------------------------------------+\n");
 }
+
 
 void menu_client(int *choix) {
     affiche_client();
