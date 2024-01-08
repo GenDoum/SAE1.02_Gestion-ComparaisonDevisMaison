@@ -23,31 +23,51 @@ void afficherPrecedences(char* nomFichier) {
     fclose(fe);
 }
 
+#define RESET "\033[0m"
+#define BOLD "\033[1m"
+#define ITALIC "\033[3m"
+#define UNDERLINE "\033[4m"
+#define RED "\033[91m"
+#define GREEN "\033[92m"
+#define PURPLE "\033[35m"  // Nouvelle couleur pour le violet
+#define BLUE "\033[94m"
+#define MAGENTA "\033[95m"
+#define CYAN "\033[96m"
+
 void afficher(Offre** tOffre, int nbOffre) {
     for (int i = 0; i < nbOffre; i++) {
-        printf("Type de travaux : %s\n", tOffre[i]->travaux);
+        printf(CYAN BOLD "========================================\n" RESET);
+        printf(BOLD GREEN "   OFFRE %d\n" RESET, i + 1);
+        printf(CYAN BOLD "----------------------------------------\n" RESET);
+        printf(PURPLE "   Type de travaux : %s\n" RESET, tOffre[i]->travaux);
+        printf(CYAN BOLD "----------------------------------------\n" RESET);
         afficherListeDevis(tOffre[i]->ldevis, i + 1);
-        printf("\n");
+        printf(CYAN BOLD "========================================\n\n" RESET);
     }
 }
 
 void afficherListeDevis(ListeDevis l, int nbDevis) {
     if (l == NULL) {
-        printf("Liste vide.\n");
+        printf(RED BOLD "Aucun devis disponible.\n" RESET);
         return;
     }
 
-    
+    int count = 1;
     while (l != NULL) {
-        
-        printf("Nom de la tâche : %s\n", l->devis.nomTache);
-        printf("Nom de l'entreprise : %s\n", l->devis.entreprise);
-        printf("Adresse : %d %s, %d %s\n", l->devis.adresse.numero, l->devis.adresse.nomRue, l->devis.adresse.codePostal, l->devis.adresse.ville);
-        printf("Capital : %d\n", l->devis.capital);
-        printf("Durée : %d\n", l->devis.duree);
-        printf("Coût : %d\n", l->devis.cout);
-        printf("\n");
+        printf(BOLD GREEN "   DEVIS %d\n" RESET, count);
+
+        // Affichage des informations avec soulignement
+        printf(UNDERLINE PURPLE "\tNom de la tâche : " RESET "%s\n", l->devis.nomTache);
+        printf(UNDERLINE PURPLE "\tNom de l'entreprise : " RESET "%s\n", l->devis.entreprise);
+        printf(UNDERLINE PURPLE "\tAdresse : " RESET "%d %s, %d %s\n", l->devis.adresse.numero, l->devis.adresse.nomRue, l->devis.adresse.codePostal, l->devis.adresse.ville);
+        printf(UNDERLINE PURPLE "\tCapital : " RESET "%d\n", l->devis.capital);
+        printf(UNDERLINE PURPLE "\tDurée : " RESET "%d\n", l->devis.duree);
+        printf(UNDERLINE PURPLE "\tCoût : " RESET "%d\n", l->devis.cout);
+
+        printf(CYAN BOLD "----------------------------------------\n" RESET);
+
         l = l->suivant;
+        count++;
     }
 }
 
