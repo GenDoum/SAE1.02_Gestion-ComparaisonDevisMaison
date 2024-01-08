@@ -61,7 +61,7 @@ void afficherListeDevis(ListeDevis l, int nbDevis) {
         printf(UNDERLINE PURPLE "\tNom de l'entreprise : " RESET "%s\n", l->devis.entreprise);
         printf(UNDERLINE PURPLE "\tAdresse : " RESET "%d %s, %d %s\n", l->devis.adresse.numero, l->devis.adresse.nomRue, l->devis.adresse.codePostal, l->devis.adresse.ville);
         printf(UNDERLINE PURPLE "\tCapital : " RESET "%d\n", l->devis.capital);
-        printf(UNDERLINE PURPLE "\tDurée : " RESET "%d\n", l->devis.duree);
+        printf("\t %sDurée :%s %d\n", UNDERLINE PURPLE, RESET, l->devis.duree);
         printf(UNDERLINE PURPLE "\tCoût : " RESET "%d\n", l->devis.cout);
 
         printf(CYAN BOLD "----------------------------------------\n" RESET);
