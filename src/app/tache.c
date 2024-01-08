@@ -92,13 +92,15 @@ void selectionnerEntreprises(Offre** tOffre, int nbOffre) {
 
         courant = tOffre[i]->ldevis;
         while (courant != NULL) {
-            MaillonDevis* next = courant->suivant;
+            MaillonDevis* suivant = courant->suivant;
             if (courant != meilleurDevis) {
                 tOffre[i]->ldevis = supprimer(tOffre[i]->ldevis, courant->devis.nomTache);
             }
-            courant = next;
+            courant = suivant;
         }
 
         printf("Tâche : %s\nEntreprise : %s\nCoût : %d\nCapital : %d\n", meilleurDevis->devis.nomTache, meilleurDevis->devis.entreprise, meilleurDevis->devis.cout, meilleurDevis->devis.capital);
+
+        tOffre[i]->ldevis = supprimer(tOffre[i]->ldevis, meilleurDevis->devis.nomTache);
     }
 }
