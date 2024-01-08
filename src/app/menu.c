@@ -7,7 +7,7 @@
 void affiche_client(void) {
     printf("\n");
     printf("+-------------+\n");
-    printf("|| \x1b[5;33mBonjour ! %s||\n",RESET);
+    printf("|| Bonjour ! ||\n");
     printf("+-------------+\n");
     printf("\n");
     printf("+----------------------------------------------------------------------------------------+\n");
