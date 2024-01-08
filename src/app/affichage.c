@@ -37,8 +37,9 @@ void afficherListeDevis(ListeDevis l, int nbDevis) {
         return;
     }
 
+    
     while (l != NULL) {
-        printf("=== Offre n°%d ===\n", nbDevis);
+        
         printf("Nom de la tâche : %s\n", l->devis.nomTache);
         printf("Nom de l'entreprise : %s\n", l->devis.entreprise);
         printf("Adresse : %d %s, %d %s\n", l->devis.adresse.numero, l->devis.adresse.nomRue, l->devis.adresse.codePostal, l->devis.adresse.ville);

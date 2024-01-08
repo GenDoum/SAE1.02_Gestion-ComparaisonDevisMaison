@@ -142,13 +142,15 @@ ListeDevis supprimer(ListeDevis l, char* nomTache){
         fprintf(stderr, "Erreur : La liste est vide.\n");
         exit(EXIT_FAILURE);
     }
+
+    l->suivant = supprimer(l->suivant, nomTache);
+
     if (strcmp(l->devis.nomTache, nomTache) > 0){
         return l;
     }
     if (strcmp(l->devis.nomTache, nomTache) == 0){
         return supprimerEnTete(l);
     }
-    l->suivant = supprimer(l->suivant, nomTache);
     return l;
 }
 
@@ -156,7 +158,7 @@ ListeDevis supprimerEnTete(ListeDevis l){
     MaillonDevis *tmp;
 
     if (l == NULL){
-        fprintf(stderr, "Erreur : La liste est vide.\n");
+        fprintf(stderr, "Fin de liste.\n");
     }
 
     tmp = l;

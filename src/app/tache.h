@@ -69,6 +69,16 @@ typedef struct Offre {
     ListeDevis ldevis; /**< La liste de devis associée à l'offre. */
 } Offre;
 
+typedef struct
+{
+    char tache[20]; /**< Le nom de la tâche. */
+    int duree; /**< La durée de la tâche. */
+    int nbPred; /**< Le nombre de prédécesseurs de la tâche. */
+    ListeDevis succ; /**< La liste des successeurs de la tâche. */
+    int dateDebut;   /**< La date de début de la tâche. */
+    bool traite; /**< Un booléen indiquant si la tâche a été traitée. */
+} Tache;
+
 /**
  * @brief Vérifie et récupère une valeur entière saisie par l'utilisateur.
  *
@@ -104,11 +114,11 @@ void creerPrecedences(char* nomFichier);
  */
 void saisieMaillon( char *nomTache, char *entreprise, Adresse *adresse, int *capital, int *duree, int *cout);
 
-void ajouterDevis(Offre*** tOffre, int* nbOffre, int* max);
-
 void ajouterMaillonDevisDebut(ListeDevis *liste);
 void ajouterMaillonDevisFin(ListeDevis *liste);
 void supprimerMaillonFin( ListeDevis *liste );
+void comparerDevis(Offre ** tOffre, int nbOffre);
+void selectionnerEntreprises(Offre** tOffre, int nbOffre);
 
 
 #endif // TACHE_H

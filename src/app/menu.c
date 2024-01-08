@@ -15,10 +15,11 @@ void affiche_client(void) {
     printf("||\t1 : Afficher les précédences.\t\t\t\t\t\t\t||\n");
     printf("||\t2 : Ajouter une précédence.\t\t\t\t\t\t\t||\n");
     printf("||\t3 : Afficher les devis.   \t\t\t\t\t\t\t||\n");
-    printf("||\t4 : Ajouter un devis. \t\t\t\t\t\t\t\t||\n");
+    printf("||\t4 : Supprimer un devis.\t\t\t\t\t\t\t\t||\n");
     printf("||\t5 : Afficher l’ensemble des devis pour un type de travaux. \t\t\t||\n");
     printf("||\t6 : Afficher le devis d’une entreprise donnée pour un type de travaux donnée.\t||\n");
     printf("||\t7 : Passer au payement.\t\t\t\t\t\t\t\t||\n");
+    printf("||\t8 : Comparer Devis\t\t\t\t\t\t\t\t||\n");
     printf("||\t9 : Quitter.\t\t\t\t\t\t\t\t\t||\n");
     printf("+----------------------------------------------------------------------------------------+\n");
 }
@@ -26,7 +27,7 @@ void affiche_client(void) {
 void menu_client(int *choix) {
     affiche_client();
     printf("Vous choisissez: ");
-    while (scanf("%d", choix) != 1 || *choix < 0 || *choix > 9 || (*choix > 7 && *choix < 9)) {
+    while (scanf("%d", choix) != 1 || *choix < 0 || *choix > 9 ) {
         while (getchar() != '\n');
         fprintf(stderr, "\x1B[31mERREUR : Veuillez entrer un choix valide :\x1B[0m ");
     }
@@ -53,6 +54,7 @@ void global(void) {
                 afficher(tOffre, nbOffre);
                 break;
             case 4:
+                supprimerDevis(tOffre, nbOffre);
                 break;
             case 5:
                 afficherDevisPourType(tOffre, nbOffre);
@@ -61,6 +63,9 @@ void global(void) {
                 afficherDevisEntreprisePourType(tOffre, nbOffre);
                 break;
             case 7:
+                break;
+            case 8:
+                selectionnerEntreprises(tOffre, nbOffre);
                 break;
             case 9:
                 return;
