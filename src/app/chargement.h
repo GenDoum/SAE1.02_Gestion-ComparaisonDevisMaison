@@ -18,5 +18,6 @@
 Offre** chargement(char* nomFichier, int* nbOffre, int* max);
 
 void chargerPrecedences(char* nomFichier);
+Tache** chargerTaches(char* nomFichier);
 
 #endif //SAE1_02_CHARGEMENT_H

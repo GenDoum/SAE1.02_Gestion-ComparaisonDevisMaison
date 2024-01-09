@@ -1,4 +1,4 @@
-GCCFLAGS = -g -Wall -Wextra -pedantic -Isrc -g -MMD -MP
+GCCFLAGS = -Wall -Wextra -pedantic -Isrc -g -MMD -MP
 BUILD_DIR = build
 SOURCES = $(shell find src -name '*.c')
 TARGETS = $(patsubst %.c, %.o, $(SOURCES))
