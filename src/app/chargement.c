@@ -28,24 +28,24 @@ Offre** chargement(char* nomFichier, int* nbOffre, int* max){
     while (fgets(ligne, sizeof(ligne), fe) != NULL){
         sscanf(ligne, "%s", travaux);
 
-        #ifndef DEBUG
+        #ifdef DEBUG
         printf("Type de travaux lu : %s\n", travaux);  // Débogage
         #endif
 
         pos = rechercheDichotomique(tOffre, *nbOffre, travaux, &trouve);
         if (trouve == 0){
 
-            #ifndef DEBUG
+            #ifdef DEBUG
             printf("Offre insérée à la position %d:\n", pos);  // débogage
             printf("Type de travaux : %s\n", tOffre[pos]->travaux);  // débogage
             #endif
 
-            #ifndef DEBUG
+            #ifdef DEBUG
             // Pour vérifier les pointeurs
             printf("Adresse de l'offre à la position %d : %p\n", pos, (void *)tOffre[pos]);  // débogage
             #endif
 
-            #ifndef DEBUG
+            #ifdef DEBUG
             // Pour vérifier les offres précédentes
             for (int j = 0; j < pos; j++) {
                 printf("Offre à la position %d:\n", j);  // débogage
@@ -76,14 +76,14 @@ Offre** chargement(char* nomFichier, int* nbOffre, int* max){
         fgets(ligne, sizeof(ligne), fe);
         sscanf(ligne, "%[^\n]", entreprise);
 
-        #ifndef DEBUG
+        #ifdef DEBUG
         printf("Nom de l'entreprise lu : %s\n", entreprise);  // Débogage
         #endif
 
         fgets(ligne, sizeof(ligne), fe);
         sscanf(ligne, "%d %[^0-9] %d %s", &numero, nomRue, &codePostal, ville);
 
-        #ifndef DEBUG
+        #ifdef DEBUG
         printf("Adresse lu : %d %s, %d %s\n", numero, nomRue, codePostal, ville);  // Débogage
         #endif
 
@@ -92,7 +92,7 @@ Offre** chargement(char* nomFichier, int* nbOffre, int* max){
             break;
         }
 
-        #ifndef DEBUG
+        #ifdef DEBUG
         printf("Capital lu : %d\n", capital);
         #endif
 
@@ -101,7 +101,7 @@ Offre** chargement(char* nomFichier, int* nbOffre, int* max){
             break;
         }
 
-        #ifndef DEBUG
+        #ifdef DEBUG
         printf("Durée lu : %d\n", duree);
         #endif
 
@@ -110,7 +110,7 @@ Offre** chargement(char* nomFichier, int* nbOffre, int* max){
             break;
         }
 
-        #ifndef DEBUG
+        #ifdef DEBUG
         printf("Coût lu : %d\n", cout);
         #endif
 

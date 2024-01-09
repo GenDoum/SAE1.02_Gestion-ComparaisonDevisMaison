@@ -1,4 +1,4 @@
-GCCFLAGS = -Wall -Wextra -pedantic -Isrc -g -MMD -MP
+GCCFLAGS = -Wall -Wextra -pedantic -Isrc -MMD -MP
 BUILD_DIR = build
 SOURCES = $(shell find src -name '*.c')
 TARGETS = $(patsubst %.c, %.o, $(SOURCES))
@@ -30,6 +30,10 @@ $(TARGETS): $(SOURCES)
 # Ajout de la règle pour afficher les dépendances
 show-dependencies:
 	@cat $(TARGETS:.o=.d)
+
+# Règle pour lancer en mode débogage
+debug: GCCFLAGS += -DDEBUG
+debug: all
 
 clean:
 	@rm -rf $(BUILD_DIR) $(APP_NAME)

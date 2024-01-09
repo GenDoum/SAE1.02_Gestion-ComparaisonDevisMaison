@@ -103,8 +103,10 @@ while [ "$#" -gt 0 ]; do
             echo -e "➔ Configuring compilation in debug mode..."
             show_command "make debug"
             make debug || show_error "Error configuring in debug mode."
+            clean
             build
             execute
+            debug
             shift
             ;;
         -run | -r)

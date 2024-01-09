@@ -83,15 +83,22 @@ void quickSort(Offre** tOffre, int tLogique){
 int rechercheDichotomique(Offre** tOffre, int tLogique, char* nomTache, int* trouve){
     int debut = 0, fin = tLogique - 1, milieu;
 
+    #ifdef DEBUG
     printf("Recherche de la tâche : %s\n", nomTache); // Débogage
+    #endif
 
     while (debut <= fin){
         milieu = (debut + fin) / 2;
-//        printf("Milieu : %d\n", milieu); // Débogage
+
+    #ifdef DEBUG
+        printf("Milieu : %d\n", milieu); // Débogage
+    #endif
 
         if (strcmp(nomTache, tOffre[milieu]->travaux) == 0){
             *trouve = 1;
+            #ifdef DEBUG
             printf("Tâche trouvée à la position : %d\n", milieu); // Débogage
+            #endif
             return milieu;
         }
         if (strcmp(nomTache, tOffre[milieu]->travaux) < 0){
@@ -102,15 +109,19 @@ int rechercheDichotomique(Offre** tOffre, int tLogique, char* nomTache, int* tro
         }
     }
     *trouve = 0;
+
+    #ifdef DEBUG
     printf("Tâche non trouvée. Insérer à la position : %d\n", debut);  // Débogage
+    #endif
     return debut;
 }
 
 void nouveauDevis(Offre** tOffre, int nbDevis, char* nomTache, char* entreprise, Adresse adresse, int capital, int duree, int cout){
     int trouve, pos;
 
+    #ifdef DEBUG
     printf("Appel à nouveauDevis avec : %s, %s, %d, %d, %d, %d\n", nomTache, entreprise, capital, duree, cout, nbDevis);  // Débogage
-
+    #endif
 
     pos = rechercheDichotomique(tOffre, nbDevis, nomTache, &trouve);
 
