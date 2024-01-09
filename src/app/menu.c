@@ -38,9 +38,13 @@ void global(void) {
     int choix;
     char fichierPrecedences[100] = "donnee/precedences.txt";
     char fichierDevis[100] = "donnee/devis.txt";
-    int nbOffre = 0, max;
+    char tabNomPrecedence[MAX_PREC];
+    int nbOffre = 0, max, tPhysique = 100, nbPrec, tabPrec[MAX_PREC], tabSuc[MAX_PREC];
     Offre** tOffre = chargement(fichierDevis, &nbOffre, &max);
-
+    printf("dd\n");
+    Precedences **tPrec = chargerPrecedences(fichierPrecedences, &tPhysique, &nbPrec);
+    initialiserDeuxTableauxZero(tabPrec, tabSuc, MAX_PREC);
+    
     do {
         menu_client(&choix);
 
@@ -56,6 +60,11 @@ void global(void) {
                 break;
             case 4:
 //                supprimerDevis(tOffre, nbOffre);
+                printf("dd\n");
+                compterPrecedences(tPrec, nbPrec, tabNomPrecedence, tabPrec, tabSuc);
+                printf("dd\n");
+                afficherResultats(tabNomPrecedence, tabPrec, tabSuc, tPhysique);
+                //affichPrecedence(tPrec, nbPrec);
                 break;
             case 5:
                 afficherDevisPourType(tOffre, nbOffre);

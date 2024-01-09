@@ -76,4 +76,15 @@ void afficherDevisPourType(Offre** tOffre, int nbOffre);
  */
 void afficherDevisEntreprisePourType(Offre** tOffre, int nbOffre);
 
+/**
+ * @brief Affiche les précédences
+ * 
+ * Cette fonction permet à l'utilisateur d'afficher les précédences.
+ * 
+ * @param tPrec Un tableau de pointeurs vers des structures de précédence.
+ * @param nbPrec La nombre total de précédences total.
+*/
+void affichPrecedence(Precedences **tPrec, int nbPrec);
+
+
 #endif //SAE1_02_AFFICHAGE_H

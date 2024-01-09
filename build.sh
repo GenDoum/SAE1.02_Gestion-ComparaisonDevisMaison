@@ -72,6 +72,15 @@ function execute {
     fi
 }
 
+function debug {
+    local command="make debug"
+    echo -e "➔ Building in debug mode..."
+    show_command "$command"
+    make debug > /dev/null || show_error "Error during debug compilation."
+    show_success "Debug compilation completed."
+}
+
+
 # --help
 function show_help {
     echo "Usage: $SCRIPT_NAME [options]"
@@ -104,9 +113,8 @@ while [ "$#" -gt 0 ]; do
             show_command "make debug"
             make debug || show_error "Error configuring in debug mode."
             clean
-            build
-            execute
             debug
+            execute
             shift
             ;;
         -run | -r)

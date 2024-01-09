@@ -3,6 +3,9 @@
 
 #include "tache.h"
 #include "utils.h"
+#include "affichage.h"
+#define MAX_TACHES 100
+
 
 /**
  * @brief Charge les données des offres à partir d'un fichier.
@@ -17,7 +20,10 @@
  */
 Offre** chargement(char* nomFichier, int* nbOffre, int* max);
 
-void chargerPrecedences(char* nomFichier);
 Tache** chargerTaches(char* nomFichier);
+Precedences **chargerPrecedences(char* nomFichier, int *tPhysique, int *nbPrec);
+void compterPrecedences(Precedences **tPrec, int tLog, char *nomPrecedence, int *tabPrec, int *tabSucc);
+void afficherResultats(char **nomPrecedence, int *nbPrec, int *nbSucc, int size);
+void initialiserDeuxTableauxZero(int *tabPrec, int *tabSuc, int taille);
 
 #endif //SAE1_02_CHARGEMENT_H

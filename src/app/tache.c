@@ -5,6 +5,8 @@
 #include "affichage.h"
 #include "utils.h"
 
+
+
 void verifInt(int *var){
     while (scanf("%d", var) != 1){
         fprintf(stderr, "\x1B[31mERREUR : Entrez un nombre valide : \x1B[0m");

@@ -35,7 +35,7 @@ ListeDevis insertionCroissante(ListeDevis l, char nomTache[], char entreprise[],
     if (l == NULL){
         return insererEnTete(l, nomTache, entreprise, adresse, capital, duree, cout);
     }
-    if (strcmp(nomTache, l->devis.nomTache) < 0){
+    if (strcmp(entreprise, l->devis.entreprise) < 0){
         return insererEnTete(l, nomTache, entreprise, adresse, capital, duree, cout);
     }
     l->suivant = insertionCroissante(l->suivant, nomTache, entreprise, adresse, capital, duree, cout);

@@ -4,6 +4,8 @@
 #define MAX_TRAVAUX 500
 #define MAX_LIGNE 200
 #define MAX_OFFRE 100
+#define MAX_PREC 100
+
 
 
 typedef enum {false, true} bool;
@@ -78,6 +80,19 @@ typedef struct
     int dateDebut;   /**< La date de début de la tâche. */
     bool traite; /**< Un booléen indiquant si la tâche a été traitée. */
 } Tache;
+
+/**
+ * @struct Précédence
+ * @brief Structure représentant les précédences et leurs quantité
+ * 
+ * Cette structure va nous permettre de connaitre les précédences existance
+ * et de compter combien de fois elle apparaisent
+*/
+typedef struct {
+    char premier[MAX_LIGNE];
+    char deuxieme[MAX_LIGNE];
+} Precedences;
+
 
 /**
  * @brief Vérifie et récupère une valeur entière saisie par l'utilisateur.

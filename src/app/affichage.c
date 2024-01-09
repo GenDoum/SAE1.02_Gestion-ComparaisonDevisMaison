@@ -114,3 +114,12 @@ void afficherDevisEntreprisePourType(Offre** tOffre, int nbOffre) {
         printf("Aucun devis trouvé pour l'entreprise : %s et le type de travaux : %s\n", nomEntreprise, typeTravaux);
     }
 }
+
+void affichPrecedence(Precedences **tPrec, int nbPrec)
+{
+    printf("Liste des précédences : \n");
+    for( int i = 0; i < nbPrec; ++i)
+    {
+        printf("%s --> %s\n", tPrec[i]->premier, tPrec[i]->deuxieme);
+    }
+}
