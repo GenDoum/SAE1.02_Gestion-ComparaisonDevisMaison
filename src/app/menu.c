@@ -43,8 +43,7 @@ void global(void) {
     Offre** tOffre = chargement(fichierDevis, &nbOffre, &max);
     printf("dd\n");
     Precedences **tPrec = chargerPrecedences(fichierPrecedences, &tPhysique, &nbPrec);
-    initialiserDeuxTableauxZero(tabPrec, tabSuc, MAX_PREC);
-    
+
     do {
         menu_client(&choix);
 
@@ -59,12 +58,16 @@ void global(void) {
                 afficher(tOffre, nbOffre);
                 break;
             case 4:
-//                supprimerDevis(tOffre, nbOffre);
-                printf("dd\n");
-                compterPrecedences(tPrec, nbPrec, tabNomPrecedence, tabPrec, tabSuc);
-                printf("dd\n");
-                afficherResultats(tabNomPrecedence, tabPrec, tabSuc, tPhysique);
-                //affichPrecedence(tPrec, nbPrec);
+                // Ajoutez cette option pour tester la fonction
+                calculerPrecedences(fichierPrecedences, &nbPrec, &tPrec);
+                printf("Nombre de prédécesseurs : %d\n", nbPrec);
+                printf("Liste des prédécesseurs :\n");
+                for (int i = 0; i < nbPrec; i++) {
+                    printf("%s -> %s\n", tPrec[i]->premier, tPrec[i]->deuxieme);
+                }
+
+                // Utilisation de la fonction pour afficher la liste des noms de successeurs
+                construireListeSuccesseurs(tPrec, nbPrec);
                 break;
             case 5:
                 afficherDevisPourType(tOffre, nbOffre);

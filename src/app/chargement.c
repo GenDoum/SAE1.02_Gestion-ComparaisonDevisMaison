@@ -218,62 +218,49 @@ Offre** chargement(char* nomFichier, int* nbOffre, int* max){
     return tPrec;
 }
 
+void calculerPrecedences(const char *nomFichier, int *nbPrec, Precedences ***tPrec) {
+    FILE *fe;
+    char line[MAX_LIGNE];
+    *nbPrec = 0;
 
-
-void compterPrecedences(Precedences **tPrec, int tLog, char *nomPrecedence, int *tabPrec, int *tabSucc) {
-    
-    if( tPrec == NULL || nomPrecedence == NULL || tabPrec == NULL || tabSucc == NULL )
-    {
-        fprintf(stderr, "Erreur lors du comptage des précédences. %s %s", UNDERLINE RED, RESET);
+    if ((fe = fopen(nomFichier, "r")) == NULL) {
+        perror("Erreur lors de l'ouverture du fichier");
         exit(EXIT_FAILURE);
     }
-    printf("dd\n");
-    for (int i = 0; i < tLog; ++i) 
-    {
-        #ifdef DEBUG
-        printf("Itération %d\n", i);
-        printf(" premier : '%s', deuxieme : '%s', nomPrecedence : '%s'\n", tPrec[i]->premier, tPrec[i]->deuxieme, nomPrecedence);
-        #endif
-        if (strcmp(tPrec[i]->premier, nomPrecedence) == 0) {
-            (*tabPrec)++;
-        } else if (strcmp(tPrec[i]->deuxieme, nomPrecedence) == 0) {
-            (*tabSucc)++;
+
+    Precedences **tmp = NULL;
+    while (fgets(line, sizeof(line), fe) != NULL) {
+        (*nbPrec)++;
+        tmp = realloc(tmp, *nbPrec * sizeof(Precedences *));
+        if (tmp == NULL) {
+            perror("Erreur lors de la réallocation du tableau");
+            exit(EXIT_FAILURE);
         }
-
-        printf("Valeur de tabPrec à la fin : %d\n", tabPrec[i]);
-        printf("Valeur de tabSucc à la fin : %d\n", tabSucc[i]); 
+        tmp[*nbPrec - 1] = malloc(sizeof(Precedences));
+        if (tmp[*nbPrec - 1] == NULL) {
+            perror("Erreur lors de l'allocation de la structure");
+            exit(EXIT_FAILURE);
+        }
+        sscanf(line, "%s %s", tmp[*nbPrec - 1]->premier, tmp[*nbPrec - 1]->deuxieme);
     }
+    fclose(fe);
+    *tPrec = tmp;
 }
 
-void afficherResultats(char **nomPrecedence, int *nbPrec, int *nbSucc, int size) {
-    printf("df\n");
-    for (int i = 0; i < size; ++i) {
-        printf("df\n");
-
-        #ifdef DEBUG
-        printf("Debug info: tâche %s : \n", nomPrecedence[i]);
-        printf("Debug info: tâche %s, nbPrec %d : \n", nomPrecedence[i], nbPrec[i]);
-        printf("Debug info: tâche %s, nbPrec %d, nbSucc %d\n", nomPrecedence[i], nbPrec[i], nbSucc[i]);
-
-        #endif
-
-        printf("Debug info: tâche %s : \n", nomPrecedence[i]);
-        printf("Debug info: tâche %s, nbPrec %d : \n", nomPrecedence[i], nbPrec[i]);
-        printf("Debug info: tâche %s, nbPrec %d, nbSucc %d\n", nomPrecedence[i], nbPrec[i], nbSucc[i]);
-
-        //printf("Pour la tâche %s, nombre de precedences %d, nombre de successeurs %d\n", nomPrecedence[i], nbPrec[i], nbSucc[i]);
+void construireListeSuccesseurs(Precedences **tPrec, int nbPrec) {
+    printf("\nListe des noms de successeurs :\n");
+    for (int i = 0; i < nbPrec; i++) {
+        int count = 0;
+        for (int j = 0; j < nbPrec; j++) {
+            if (strcmp(tPrec[i]->premier, tPrec[j]->deuxieme) == 0) {
+                count++;
+                printf("%s -> %s\n", tPrec[j]->deuxieme, tPrec[j]->premier);
+            }
+        }
+        if (count == 0) {
+            printf("%s -> Aucun successeur\n", tPrec[i]->deuxieme);
+        }
     }
-}
-
-void initialiserDeuxTableauxZero(int *tabPrec, int *tabSuc, int taille) {
-    for (int i = 0; i < taille; ++i) {
-        tabPrec[i] = 0;
-        tabSuc[i] = 0;
-    }
-
-    #ifdef DEBUG 
-    printf("Fin fonction initialiserDeuxTableauZero\n%s %s", UNDERLINE PURPLE, RESET);
-    #endif
 }
 
 Tache** chargerTaches(char* nomFichier/* apporter tableau des précédences*/) {
