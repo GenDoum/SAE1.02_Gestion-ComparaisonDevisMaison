@@ -38,11 +38,9 @@ void global(void) {
     int choix;
     char fichierPrecedences[100] = "donnee/precedences.txt";
     char fichierDevis[100] = "donnee/devis.txt";
-    char tabNomPrecedence[MAX_PREC];
-    int nbOffre = 0, max, tPhysique = 100, nbPrec, tabPrec[MAX_PREC], tabSuc[MAX_PREC];
+    int nbOffre = 0, max, tPhysique = 100, nbPrec;
     Offre** tOffre = chargement(fichierDevis, &nbOffre, &max);
-    printf("dd\n");
-    Precedences **tPrec = chargerPrecedences(fichierPrecedences, &tPhysique, &nbPrec);
+    Precedences **tPrecs = chargerPrecedences(fichierPrecedences, &tPhysique, &nbPrec);
 
     do {
         menu_client(&choix);
@@ -58,16 +56,7 @@ void global(void) {
                 afficher(tOffre, nbOffre);
                 break;
             case 4:
-                // Ajoutez cette option pour tester la fonction
-                calculerPrecedences(fichierPrecedences, &nbPrec, &tPrec);
-                printf("Nombre de prédécesseurs : %d\n", nbPrec);
-                printf("Liste des prédécesseurs :\n");
-                for (int i = 0; i < nbPrec; i++) {
-                    printf("%s -> %s\n", tPrec[i]->premier, tPrec[i]->deuxieme);
-                }
-
-                // Utilisation de la fonction pour afficher la liste des noms de successeurs
-                construireListeSuccesseurs(tPrec, nbPrec);
+                affichPrecedence(tPrecs, nbPrec);
                 break;
             case 5:
                 afficherDevisPourType(tOffre, nbOffre);

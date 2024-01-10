@@ -218,55 +218,108 @@ Offre** chargement(char* nomFichier, int* nbOffre, int* max){
     return tPrec;
 }
 
-void calculerPrecedences(const char *nomFichier, int *nbPrec, Precedences ***tPrec) {
-    FILE *fe;
-    char line[MAX_LIGNE];
-    *nbPrec = 0;
 
-    if ((fe = fopen(nomFichier, "r")) == NULL) {
-        perror("Erreur lors de l'ouverture du fichier");
+void compterPrecedences( Precedences **tPrecs, int tLogTabPrecedence, char **nomTache,int tLogTabNomTache, Precedence **tPrec)
+{
+    #ifdef DEBUG
+    printf("\nDebug compterPrecedances\n choix : %d\ntaille logique, tLogique : %d\n %s %s", choix, tLogique, UNDERLINE PURPLE, RESET);
+    #endif 
+
+    if ( (tPrec = (Precedence**)malloc(sizeof(Precedence*) * tLogTabNomTache) ) == NULL )
+    {
+        perror("malloc tableauStrucPrecedence");
         exit(EXIT_FAILURE);
     }
 
-    Precedences **tmp = NULL;
-    while (fgets(line, sizeof(line), fe) != NULL) {
-        (*nbPrec)++;
-        tmp = realloc(tmp, *nbPrec * sizeof(Precedences *));
-        if (tmp == NULL) {
-            perror("Erreur lors de la réallocation du tableau");
+    int maxtLog = (tLogTabPrecedence > tLogTabNomTache) ? tLogTabPrecedence : tLogTabNomTache;
+    // pour chaque ligne de precedences for chaque if de nom de tache ajouter !!!! for à cahnger ??
+    for( int j = 0; j < maxtLog; ++j)
+    {
+        if ( (tPrec[j] = (Precedence *)malloc(sizeof(Precedence))) == NULL )
+        {
+            perror("malloc tPrec[j]");
             exit(EXIT_FAILURE);
         }
-        tmp[*nbPrec - 1] = malloc(sizeof(Precedences));
-        if (tmp[*nbPrec - 1] == NULL) {
-            perror("Erreur lors de l'allocation de la structure");
-            exit(EXIT_FAILURE);
-        }
-        sscanf(line, "%s %s", tmp[*nbPrec - 1]->premier, tmp[*nbPrec - 1]->deuxieme);
-    }
-    fclose(fe);
-    *tPrec = tmp;
-}
 
-void construireListeSuccesseurs(Precedences **tPrec, int nbPrec) {
-    printf("\nListe des noms de successeurs :\n");
-    for (int i = 0; i < nbPrec; i++) {
-        int count = 0;
-        for (int j = 0; j < nbPrec; j++) {
-            if (strcmp(tPrec[i]->premier, tPrec[j]->deuxieme) == 0) {
-                count++;
-                printf("%s -> %s\n", tPrec[j]->deuxieme, tPrec[j]->premier);
+        if ( j < tLogTabNomTache ) // si il reste des tâches on continu
+        {
+            strcpy(tPrec[j]->nom, nomTache[j]);
+        }
+
+        if ( j < tLogTabPrecedence )
+        {
+            if ( strcmp(tPrecs[j]->premier, nomTache[j]) == 0 )
+            {
+                ++(tPrec[j]->nbSuccesseur);
+            }
+            if ( strcmp(tPrecs[j]->deuxieme, nomTache[j]) == 0 )
+            {
+                ++(tPrec[j]->nbPredecesseur);
             }
         }
-        if (count == 0) {
-            printf("%s -> Aucun successeur\n", tPrec[i]->deuxieme);
+
+    }
+}
+
+/* Version que j'ai demandé à caht pour paufiner ce qui allait pas trop
+
+void compterPrecedences(Precedences **tPrecs, int tLogTabPrecedence, char **nomTache, int tLogTabNomTache, Precedence **tPrec)
+{
+    #ifdef DEBUG
+    printf("\nDebug compterPrecedances\n choix : %d\ntaille logique, tLogique : %d\n %s %s", choix, tLogTabPrecedence, UNDERLINE_PURPLE, RESET_COLOR);
+    #endif
+
+    // Determine the maximum logical size
+    int maxLogSize = (tLogTabPrecedence > tLogTabNomTache) ? tLogTabPrecedence : tLogTabNomTache;
+
+    // Allocate memory for tPrec
+    if ((tPrec = (Precedence **)malloc(sizeof(Precedence *) * maxLogSize)) == NULL)
+    {
+        perror("malloc tableauStrucPrecedence");
+        exit(EXIT_FAILURE);
+    }
+
+    // Iterate over all elements in both arrays
+    for (int j = 0; j < maxLogSize; ++j)
+    {
+        // Allocate memory for each tPrec element
+        if ((tPrec[j] = (Precedence *)malloc(sizeof(Precedence))) == NULL)
+        {
+            perror("malloc tPrec[j]");
+            exit(EXIT_FAILURE);
+        }
+
+        // Copy nomTache if it exists
+        if (j < tLogTabNomTache)
+        {
+            strcpy(tPrec[j]->nom, nomTache[j]);
+        }
+
+        // Verify if nomTache is in tPrecs and update counts
+        for (int k = 0; k < tLogTabPrecedence; ++k)
+        {
+            if (j < tLogTabNomTache && strcmp(tPrecs[k]->premier, nomTache[j]) == 0)
+            {
+                ++(tPrec[j]->nbSuccesseur);
+            }
+
+            if (j < tLogTabNomTache && strcmp(tPrecs[k]->deuxieme, nomTache[j]) == 0)
+            {
+                ++(tPrec[j]->nbPredecesseur);
+            }
         }
     }
 }
 
-Tache** chargerTaches(char* nomFichier/* apporter tableau des précédences*/) {
+*/
+
+
+
+Tache** chargerTaches(char* nomFichier, Precedences **tPrecs, int tLogTabPrecedence, char **nomTache, int tLogTabNomTache) 
+{
     FILE* fichier = fopen(nomFichier, "r");
     if (fichier == NULL) {
-        fprintf(stderr, "Erreur : impossible d'ouvrir le fichier %s\n", nomFichier);
+        fprintf(stderr, "Erreur : impossible d'ouvrir le fichier %s\n%s %s", nomFichier, UNDERLINE RED, RESET);
         exit(EXIT_FAILURE);
     }
 
@@ -274,25 +327,29 @@ Tache** chargerTaches(char* nomFichier/* apporter tableau des précédences*/) {
     if ( (taches = malloc(MAX_TACHES * sizeof(Tache*))) == NULL )
     {
         perror("malloc Taches");
+        exit(EXIT_FAILURE);
     }
-
     int nbTaches = 0;
+    char ligne[MAX_LIGNE];
+    Precedence **tPrec = NULL;
+    compterPrecedences(tPrecs, tLogTabPrecedence, nomTache, tLogTabNomTache, tPrec);
 
-    char ligne[100];
     while (fgets(ligne, sizeof(ligne), fichier) != NULL) {
         Tache* tache;
 
-        if ( (tache = malloc(sizeof(Tache))) == NULL ) 
+        if ( (tache = malloc(sizeof(Tache*))) == NULL ) 
         {
             perror("malloc tache");
+            exit(EXIT_FAILURE);
         }
-
         if ( sscanf(ligne, "%s %d", tache->tache, &(tache->duree)) != 2 )
         {
-            fprintf(stderr, "\x1B[31mErreur lors du scan de la ligne:\x1B[0m ");
+            fprintf(stderr, "Erreur lors du scan de la ligne%s %s", UNDERLINE RED, RESET);
+            exit(EXIT_FAILURE);
         }
         else
         {
+
             tache->nbPred = 0; // à calculer à partir du fichier precedences.txt
             tache->succ = listeVide(); // à calculer à partir du fichier precedences.txt
             tache->dateDebut = 0;

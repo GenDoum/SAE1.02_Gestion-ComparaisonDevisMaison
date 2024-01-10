@@ -82,8 +82,8 @@ typedef struct
 } Tache;
 
 /**
- * @struct Précédence
- * @brief Structure représentant les précédences et leurs quantité
+ * @struct Précédences
+ * @brief Structure représentant les précédences du fichier precedences.txt
  * 
  * Cette structure va nous permettre de connaitre les précédences existance
  * et de compter combien de fois elle apparaisent
@@ -92,6 +92,12 @@ typedef struct {
     char premier[MAX_LIGNE];
     char deuxieme[MAX_LIGNE];
 } Precedences;
+
+typedef struct {
+    char nom[MAX_LIGNE];
+    int nbPredecesseur;
+    int nbSuccesseur;
+} Precedence;
 
 
 /**

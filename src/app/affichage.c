@@ -115,10 +115,10 @@ void afficherDevisEntreprisePourType(Offre** tOffre, int nbOffre) {
     }
 }
 
-void affichPrecedence(Precedences **tPrec, int nbPrec)
+void affichPrecedence(Precedences **tPrec, int tLogique)
 {
     printf("Liste des précédences : \n");
-    for( int i = 0; i < nbPrec; ++i)
+    for( int i = 0; i < tLogique; ++i)
     {
         printf("%s --> %s\n", tPrec[i]->premier, tPrec[i]->deuxieme);
     }
