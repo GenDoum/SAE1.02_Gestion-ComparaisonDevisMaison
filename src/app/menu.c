@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include "menu.h"
-#include "tache.h"
 #include "chargement.h"
-#include "affichage.h"
 
 void affiche_client(void) {
     printf("\n");
@@ -20,15 +18,15 @@ void affiche_client(void) {
     printf("||\t6 : Afficher le devis d’une entreprise donnée pour un type de travaux donnée.\t||\n");
     printf("||\t7 : Passer au payement.\t\t\t\t\t\t\t\t||\n");
     printf("||\t8 : Comparer Devis\t\t\t\t\t\t\t\t||\n");
-    printf("||\t9 : Quitter.\t\t\t\t\t\t\t\t\t||\n");
+    printf("||\t9 : Afficher les informations sur le projet.\t\t\t\t\t||\n");
+    printf("||\t10 : Quitter.\t\t\t\t\t\t\t\t\t||\n");
     printf("+----------------------------------------------------------------------------------------+\n");
 }
-
 
 void menu_client(int *choix) {
     affiche_client();
     printf("Vous choisissez: ");
-    while (scanf("%d", choix) != 1 || *choix < 0 || *choix > 9 ) {
+    while (scanf("%d", choix) != 1 || *choix < 0 || *choix > 10 ) {
         while (getchar() != '\n');
         fprintf(stderr, "\x1B[31mERREUR : Veuillez entrer un choix valide :\x1B[0m ");
     }
@@ -38,12 +36,17 @@ void global(void) {
     int choix;
     char fichierPrecedences[100] = "donnee/precedences.txt";
     char fichierDevis[100] = "donnee/devis.txt";
-    int nbOffre = 0, max, tPhysique = 100, tLogPrecs = 0, *tLogNomTache = 0, tLogTaches = 0, tPhyTaches = MAX_TACHES;
+    int nbOffre = 0, max;
     Offre** tOffre = chargement(fichierDevis, &nbOffre, &max);
-    Precedences **tPrecs = chargerPrecedences(fichierPrecedences, &tPhysique, &tLogPrecs);
-    Tache** taches = NULL;
-    printf("%s", tPrecs[0]->premier);
-    char **nomTache = NULL;
+    Tache** tabTaches = tacheVide(nbOffre);
+    ListeFile file = fileVide();
+
+    int status = chargerTache(tOffre, tabTaches, &file, nbOffre, fichierPrecedences);
+    if (status != 0) {
+        fprintf(stderr, "Erreur lors du chargement des tâches.\n");
+        return;
+    }
+
     do {
         menu_client(&choix);
 
@@ -52,15 +55,13 @@ void global(void) {
                 afficherPrecedences(fichierPrecedences);
                 break;
             case 2:
-                creerPrecedences(fichierPrecedences);
+                // Ajouter la fonction pour ajouter une précédence
                 break;
             case 3:
                 afficher(tOffre, nbOffre);
                 break;
             case 4:
-                taches = listerTache(tPrecs, tLogPrecs, &tLogTaches, &tPhyTaches);
-                //taches = chargerTaches(tPrecs, tLogPrecs, nomTache, tLogNomTache, &tLogTaches);
-                //affichPrecedence(tPrecs, tLogPrecs);
+                // Ajouter la fonction pour supprimer un devis
                 break;
             case 5:
                 afficherDevisPourType(tOffre, nbOffre);
@@ -69,12 +70,19 @@ void global(void) {
                 afficherDevisEntreprisePourType(tOffre, nbOffre);
                 break;
             case 7:
+                // Ajouter la fonction pour passer au paiement
                 break;
             case 8:
                 selectionnerEntreprises(tOffre, nbOffre);
                 break;
             case 9:
+                // Afficher les informations sur le projet
+                afficherTachesParOrdreExecution(tabTaches, nbOffre);
+                calculerDureeProjet(tabTaches, nbOffre);
+                listerTachesRestantes(tabTaches, nbOffre, 8);
+                break;
+            case 10:
                 return;
         }
-    } while (choix != 9);
+    } while (choix != 10);
 }

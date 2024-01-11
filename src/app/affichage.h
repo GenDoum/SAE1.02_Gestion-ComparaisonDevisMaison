@@ -5,15 +5,14 @@
 #ifndef SAE1_02_AFFICHAGE_H
 #define SAE1_02_AFFICHAGE_H
 
-#include "tache.h"
+#include "../struct.h"
 
 #define RESET "\033[0m"
 #define BOLD "\033[1m"
-#define ITALIC "\033[3m"
 #define UNDERLINE "\033[4m"
 #define RED "\033[31m"
 #define GREEN "\033[92m"
-#define PURPLE "\033[35m"  // Nouvelle couleur pour le violet
+#define PURPLE "\033[35m"
 #define BLUE "\033[94m"
 #define MAGENTA "\033[95m"
 #define CYAN "\033[96m"
@@ -37,9 +36,8 @@
 * le capital, la durée et le coût du devis.
 *
 * @param l La liste de devis à afficher.
-* @param nbDevis Le numéro de l'offre associée aux devis.
 */
-void afficherListeDevis(ListeDevis l, int nbDevis);
+void afficherListeDevis(ListeDevis l);
 
 /**
  * @brief Affiche les informations de toutes les offres.
@@ -75,16 +73,5 @@ void afficherDevisPourType(Offre** tOffre, int nbOffre);
  * @param nbOffre Le nombre total d'offres dans le tableau.
  */
 void afficherDevisEntreprisePourType(Offre** tOffre, int nbOffre);
-
-/**
- * @brief Affiche les précédences
- * 
- * Cette fonction permet à l'utilisateur d'afficher les précédences.
- * 
- * @param tPrec Un tableau de pointeurs vers des structures de précédence.
- * @param tLogique La nombre total de précédences total, sa taille logique.
-*/
-void affichPrecedence(Precedences **tPrec, int tLogique);
-
 
 #endif //SAE1_02_AFFICHAGE_H

@@ -32,12 +32,12 @@ void afficher(Offre** tOffre, int nbOffre) {
         printf(CYAN BOLD "----------------------------------------\n" RESET);
         printf(RED "   Type de travaux : %s\n" RESET, tOffre[i]->travaux);
         printf(CYAN BOLD "----------------------------------------\n" RESET);
-        afficherListeDevis(tOffre[i]->ldevis, i + 1);
+        afficherListeDevis(tOffre[i]->ldevis);
         printf(CYAN BOLD "========================================\n\n" RESET);
     }
 }
 
-void afficherListeDevis(ListeDevis l, int nbDevis) {
+void afficherListeDevis(ListeDevis l) {
     if (l == NULL) {
         printf(RED BOLD "Aucun devis disponible.\n" RESET);
         return;
@@ -73,7 +73,7 @@ void afficherDevisPourType(Offre** tOffre, int nbOffre) {
         if (strcmp(tOffre[i]->travaux, typeTravaux) == 0) {
             trouve = 1;
             printf("Type de travaux : %s\n", tOffre[i]->travaux);
-            afficherListeDevis(tOffre[i]->ldevis, i + 1);
+            afficherListeDevis(tOffre[i]->ldevis);
             printf("\n");
             break;
         }
@@ -102,7 +102,7 @@ void afficherDevisEntreprisePourType(Offre** tOffre, int nbOffre) {
                 if (strcmp(ldevis->devis.entreprise, nomEntreprise) == 0) {
                     trouve = 1;
                     printf("Type de travaux : %s\n", tOffre[i]->travaux);
-                    afficherListeDevis(ldevis, i + 1);
+                    afficherListeDevis(ldevis);
                     printf("\n");
                     break;
                 }
@@ -112,14 +112,5 @@ void afficherDevisEntreprisePourType(Offre** tOffre, int nbOffre) {
     }
     if (!trouve) {
         printf("Aucun devis trouvé pour l'entreprise : %s et le type de travaux : %s\n", nomEntreprise, typeTravaux);
-    }
-}
-
-void affichPrecedence(Precedences **tPrec, int tLogique)
-{
-    printf("Liste des précédences : \n");
-    for( int i = 0; i < tLogique; ++i)
-    {
-        printf("%s --> %s\n", tPrec[i]->premier, tPrec[i]->deuxieme);
     }
 }

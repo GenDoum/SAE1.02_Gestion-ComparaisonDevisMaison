@@ -5,6 +5,7 @@
 #ifndef SAE1_02_UTILS_H
 #define SAE1_02_UTILS_H
 #include "tache.h"
+#include "../struct.h"
 
 /**
  * @brief Crée une liste de devis vide.

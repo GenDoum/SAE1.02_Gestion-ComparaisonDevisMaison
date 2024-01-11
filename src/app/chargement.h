@@ -1,7 +1,7 @@
 #ifndef SAE1_02_CHARGEMENT_H
 #define SAE1_02_CHARGEMENT_H
 
-#include "tache.h"
+#include "../struct.h"
 #include "utils.h"
 #include "affichage.h"
 #define MAX_TACHES 100
@@ -20,10 +20,6 @@
  */
 Offre** chargement(char* nomFichier, int* nbOffre, int* max);
 
-Tache** chargerTaches(Precedences **tPrecs, int tLogTabPrecedence, char **nomTache, int *tLogTabNomTache, int *tLogTaches);
-Precedences **chargerPrecedences(char* nomFichier, int *tPhysique, int *nbPrec);
-void compterPrecedences( Precedences **tPrecs, int tLogTabPrecedence, char **nomTache,int *tLogTabNomTache, Precedence **tPrec);
-char **listerNomTache( Precedences **tPrecs, int tLogPrecs, int *tLogique, int *tPhysique);
-void affichageeeeee( char **nomTache, int tLogique );
+//int chargerTache(Offre** tOffres, Tache** tabTaches, ListeFile* fileAttente, int nbrTache, char* nomFichier);
 
 #endif //SAE1_02_CHARGEMENT_H
