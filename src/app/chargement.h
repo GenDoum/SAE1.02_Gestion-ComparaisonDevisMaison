@@ -20,6 +20,6 @@
  */
 Offre** chargement(char* nomFichier, int* nbOffre, int* max);
 
-//int chargerTache(Offre** tOffres, Tache** tabTaches, ListeFile* fileAttente, int nbrTache, char* nomFichier);
+int chargerTache(Offre** tOffre, Tache** tTache, ListeFile * fileAttente, int nbrTache, char* nomFichier);
 
 #endif //SAE1_02_CHARGEMENT_H

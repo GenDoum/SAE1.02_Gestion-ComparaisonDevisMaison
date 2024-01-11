@@ -15,7 +15,5 @@ void listerTachesRestantes(Tache** tTache, int nbrTache, int dateDonnee);
 void afficherTachesParOrdreExecution(Tache** tTache, int nbrTache);
 void ajouterSuccesseur(Tache* tache, const char* nom);
 int trouverTache(Tache** tTache, int tMax, const char* nom, int i);
-int chargerTache(Offre** tOffre, Tache** tTache, ListeFile * fileAttente, int nbrTache, char* nomFichier);
-void libererTaches(Tache** tTache, int tMax);
 
 #endif // TACHE_H

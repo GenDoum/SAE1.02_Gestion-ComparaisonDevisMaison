@@ -76,10 +76,9 @@ void global(void) {
                 selectionnerEntreprises(tOffre, nbOffre);
                 break;
             case 9:
-                // Afficher les informations sur le projet
                 afficherTachesParOrdreExecution(tabTaches, nbOffre);
                 calculerDureeProjet(tabTaches, nbOffre);
-                listerTachesRestantes(tabTaches, nbOffre, 8);
+                listerTachesRestantes(tabTaches, nbOffre, 0);
                 break;
             case 10:
                 return;
