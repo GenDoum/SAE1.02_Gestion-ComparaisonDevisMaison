@@ -190,7 +190,7 @@ Offre** chargement(char* nomFichier, int* nbOffre, int* max){
             exit(EXIT_FAILURE);
         }
         printf("ici\n");
-        if ( sscanf(line, "%s %[^\n]", tPrec[*nbPrec]->premier, tPrec[*nbPrec]->deuxieme ) == 2 )
+        if ( sscanf(line, "%s %s", tPrec[*nbPrec]->premier, tPrec[*nbPrec]->deuxieme ) == 2 )
         {
             ++(*nbPrec);
         }
@@ -357,11 +357,6 @@ Tache **listerTache( Precedences **tPrecs, int tLogPrecs, int *tLogique, int *tP
                 }
             }
 
-            if ( (tabTaches[*tLogique] = malloc(sizeof(Tache))) == NULL)
-            {
-                perror("malloc");
-                exit(EXIT_FAILURE);
-            }
 
             strcpy(tabTaches[*tLogique]->tache, tPrecs[i]->premier);
             tabTaches[*tLogique]->duree = 0;
