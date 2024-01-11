@@ -38,10 +38,11 @@ void global(void) {
     int choix;
     char fichierPrecedences[100] = "donnee/precedences.txt";
     char fichierDevis[100] = "donnee/devis.txt";
-    int nbOffre = 0, max, tPhysique = 100, nbPrec;
+    int nbOffre = 0, max, tPhysique = 100, tLogPrecs = 0, *tLogNomTache = 0, tLogTaches = 0, tPhyTaches = MAX_TACHES;
     Offre** tOffre = chargement(fichierDevis, &nbOffre, &max);
-    Precedences **tPrecs = chargerPrecedences(fichierPrecedences, &tPhysique, &nbPrec);
-
+    Precedences **tPrecs = chargerPrecedences(fichierPrecedences, &tPhysique, &tLogPrecs);
+    Tache** taches = NULL;
+    char **nomTache = NULL;
     do {
         menu_client(&choix);
 
@@ -56,7 +57,9 @@ void global(void) {
                 afficher(tOffre, nbOffre);
                 break;
             case 4:
-                affichPrecedence(tPrecs, nbPrec);
+                taches = listerTache(tPrecs, tLogPrecs, &tLogTaches, &tPhyTaches);
+                //taches = chargerTaches(tPrecs, tLogPrecs, nomTache, tLogNomTache, &tLogTaches);
+                //affichPrecedence(tPrecs, tLogPrecs);
                 break;
             case 5:
                 afficherDevisPourType(tOffre, nbOffre);

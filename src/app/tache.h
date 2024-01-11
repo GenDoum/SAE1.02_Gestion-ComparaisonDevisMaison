@@ -71,15 +71,24 @@ typedef struct Offre {
     ListeDevis ldevis; /**< La liste de devis associée à l'offre. */
 } Offre;
 
+typedef struct MaillonSucc{
+    char nom[MAX_LIGNE];
+    struct MaillonSucc* suivant;
+} Maillon;
+
+typedef struct MaillonSucc* ListeSucc;
+
 typedef struct
 {
     char tache[20]; /**< Le nom de la tâche. */
     int duree; /**< La durée de la tâche. */
     int nbPred; /**< Le nombre de prédécesseurs de la tâche. */
-    ListeDevis succ; /**< La liste des successeurs de la tâche. */
+    ListeSucc succ; /**< La liste des successeurs de la tâche. */
     int dateDebut;   /**< La date de début de la tâche. */
     bool traite; /**< Un booléen indiquant si la tâche a été traitée. */
 } Tache;
+
+
 
 /**
  * @struct Précédences
@@ -140,6 +149,15 @@ void ajouterMaillonDevisFin(ListeDevis *liste);
 void supprimerMaillonFin( ListeDevis *liste );
 void comparerDevis(Offre ** tOffre, int nbOffre);
 void selectionnerEntreprises(Offre** tOffre, int nbOffre);
+
+void rechercheTache(Tache **tabTache, int tLogique, char *val, int *trouve);
+Maillon* creerMaillon(char nom[MAX_LIGNE]);
+void ajouterSuccesseur(ListeSucc* liste, char nom[MAX_LIGNE]);
+ListeSucc creerListeSucc(void);
+ListeSucc chercherSuccesseur(Precedences** tPrecs, int tLogique, char predecesseur[MAX_LIGNE]);
+int nombrePredecesseurs(Precedences** tPrecs, int tLogique, char successeur[MAX_LIGNE]);
+Tache **listerTache( Precedences **tPrecs, int tLogPrecs, int *tLogique, int *tPhysique);
+
 
 
 #endif // TACHE_H

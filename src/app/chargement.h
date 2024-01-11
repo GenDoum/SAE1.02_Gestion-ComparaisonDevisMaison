@@ -20,7 +20,10 @@
  */
 Offre** chargement(char* nomFichier, int* nbOffre, int* max);
 
-Tache** chargerTaches(char* nomFichier, Precedences **tPrecs, int tLogTabPrecedence, char **nomTache, int tLogTabNomTache);
+Tache** chargerTaches(Precedences **tPrecs, int tLogTabPrecedence, char **nomTache, int *tLogTabNomTache, int *tLogTaches);
 Precedences **chargerPrecedences(char* nomFichier, int *tPhysique, int *nbPrec);
-void compterPrecedences( Precedences **tPrecs, int tLogTabPrecedence, char **nomTache,int tLogTabNomTache, Precedence **tPrec);
+void compterPrecedences( Precedences **tPrecs, int tLogTabPrecedence, char **nomTache,int *tLogTabNomTache, Precedence **tPrec);
+char **listerNomTache( Precedences **tPrecs, int tLogPrecs, int *tLogique, int *tPhysique);
+void affichageeeeee( char **nomTache, int tLogique );
+
 #endif //SAE1_02_CHARGEMENT_H

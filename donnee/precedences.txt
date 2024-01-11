@@ -1,6 +1,6 @@
-Gros-Oeuvre Electricité
+GrosOeuvre Electricite
 Plomberie Peinture
-Electricité Peinture
+Ellectricite Peinture
 Plomberie Carrelage
 test test2
 oui non
