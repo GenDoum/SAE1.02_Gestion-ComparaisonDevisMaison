@@ -184,25 +184,15 @@ Offre** chargement(char* nomFichier, int* nbOffre, int* max){
         }
         Precedences *prec;
 
-        if ( (prec = malloc(sizeof(Precedences))) == NULL )
+        if ( (tPrec[*nbPrec] = malloc(sizeof(Precedences))) == NULL )
         {
             perror("malloc prec");
             exit(EXIT_FAILURE);
         }
-
-        if ( sscanf(line, "%s %[^\n]", prec->premier, prec->deuxieme ) == 2 )
+        printf("ici\n");
+        if ( sscanf(line, "%s %[^\n]", tPrec[*nbPrec]->premier, tPrec[*nbPrec]->deuxieme ) == 2 )
         {
-            tPrec[*nbPrec] = prec;
             ++(*nbPrec);
-            
-
-
-
-            #ifdef DEBUG
-            printf("Ligne actuel : %s\n", line);
-            printf("Première précédence : %s\nDeuxième précédence : %s\n", prec->premier, prec->deuxieme);
-            printf("Nouveau nbPrec : %d\n\n\n", *nbPrec);
-            #endif
         }
         else
         {
@@ -232,14 +222,27 @@ void affichageeeeee( char **nomTache, int tLogique )
 
 void rechercheTache(Tache **tabTache, int tLogique, char *val, int *trouve)
 {
+    if (tabTache == NULL)
+    {
+        fprintf(stderr, "1Problème chargement liste nomTache.");
+        exit(EXIT_FAILURE);
+    }
+
     for ( int i = 0; i <tLogique; ++i)
     {
-        printf("tLog : %d\n", tLogique);
-        printf("rech i = %d\n", i);
-        printf("val : %s\n", val);
+        if (tabTache[i] == NULL){
+            fprintf(stderr, "2Problème chargement liste nomTache.");
+            exit(EXIT_FAILURE);
+        }
+
+        printf("RechercheTache, iteration: %d\n", i);
+        printf("tLogique rechercheTache: %d\n", tLogique);
+        printf("val rechercheTache: %s\n", val);
+        printf("tabTache[i]->tache rechercheTache: %s\n", tabTache[i]->tache);
+
         if ( strcmp(val, tabTache[i]->tache) == 0)
         {
-            printf("ff\n");
+            printf("Trouvé rechercheTache\n");
             *trouve = 1;
             return;
         }
@@ -328,22 +331,26 @@ Tache **listerTache( Precedences **tPrecs, int tLogPrecs, int *tLogique, int *tP
         exit(EXIT_FAILURE);
     }
 
-    
     for(int i = 0; i < tLogPrecs; ++i)
     {
-        printf("dd\n");
+        if ( (tabTaches[i] = malloc(sizeof(Tache))) == NULL)
+        {
+            perror("malloc");
+            exit(EXIT_FAILURE);
+        }
+
+        printf("Iteration: %d\n", i);
 
         rechercheTache(tabTaches, *tLogique, tPrecs[i]->premier, &trouve);
-        printf("trouve : %d\n", trouve);
-        printf("dd\n");
+        printf("trouve après rechercheTache: %d\n", trouve);
 
         if ( trouve == 0 )
         {
-            if (*tLogique == *tPhysique - 1) 
+            if (*tLogique == *tPhysique - 1)
             {
-                *tPhysique += 10;  // ou toute autre valeur selon votre choix
+                *tPhysique += 10;
                 tabTaches = realloc(tabTaches, (*tPhysique) * sizeof(Tache*));
-                if (tabTaches == NULL) 
+                if (tabTaches == NULL)
                 {
                     perror("realloc");
                     exit(EXIT_FAILURE);
@@ -355,6 +362,7 @@ Tache **listerTache( Precedences **tPrecs, int tLogPrecs, int *tLogique, int *tP
                 perror("malloc");
                 exit(EXIT_FAILURE);
             }
+
             strcpy(tabTaches[*tLogique]->tache, tPrecs[i]->premier);
             tabTaches[*tLogique]->duree = 0;
             tabTaches[*tLogique]->nbPred = nombrePredecesseurs(tPrecs, *tLogique, tabTaches[*tLogique]->tache);
@@ -376,7 +384,6 @@ Tache **listerTache( Precedences **tPrecs, int tLogPrecs, int *tLogique, int *tP
             ++(*tLogique);
         }
     }
-
 
     return tabTaches;
 }

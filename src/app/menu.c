@@ -42,6 +42,7 @@ void global(void) {
     Offre** tOffre = chargement(fichierDevis, &nbOffre, &max);
     Precedences **tPrecs = chargerPrecedences(fichierPrecedences, &tPhysique, &tLogPrecs);
     Tache** taches = NULL;
+    printf("%s", tPrecs[0]->premier);
     char **nomTache = NULL;
     do {
         menu_client(&choix);
