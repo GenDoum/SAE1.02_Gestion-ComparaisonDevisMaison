@@ -35,9 +35,16 @@ void selectionnerEntreprises(Offre** tOffre, int nbOffre) {
         MaillonDevis* meilleurDevis = courant;
         ListeDevis aSupprimer = listeVide();
 
+        printf("\n***************************************\n");
+        printf("   OFFRE %d\n", i + 1);
+        printf("***************************************\n");
+
         while (courant != NULL) {
+
+#ifdef DEBUG
             // Débogage : Affichage des informations courantes
-            printf("Courant : %s, %d\n", courant->devis.nomTache, courant->devis.cout);
+            printf("\t%s - Coût : %d\n", courant->devis.nomTache, courant->devis.cout);
+#endif
 
             // Comparaison pour trouver la meilleure entreprise
             if (courant->devis.cout < meilleurDevis->devis.cout ||
@@ -49,6 +56,7 @@ void selectionnerEntreprises(Offre** tOffre, int nbOffre) {
             if (courant != meilleurDevis) {
                 aSupprimer = insererEnTete(aSupprimer, courant->devis.nomTache, "", (Adresse){0, "", "", 0}, 0, 0, 0);
             }
+
             courant = courant->suivant;
         }
 
@@ -56,11 +64,14 @@ void selectionnerEntreprises(Offre** tOffre, int nbOffre) {
         supprimerMauvaisDevis(tOffre, i, meilleurDevis);
 
         // Affichage des informations de la meilleure entreprise sélectionnée
-        printf("Tâche : %s\nEntreprise : %s\nCoût : %d\nCapital : %d\n", meilleurDevis->devis.nomTache, meilleurDevis->devis.entreprise, meilleurDevis->devis.cout, meilleurDevis->devis.capital);
+        printf("\nMeilleure entreprise sélectionnée :\n");
+        printf("\tTâche : %s\n", meilleurDevis->devis.nomTache);
+        printf("\tEntreprise : %s\n", meilleurDevis->devis.entreprise);
+        printf("\tCoût : %d\n", meilleurDevis->devis.cout);
+        printf("\tCapital : %d\n", meilleurDevis->devis.capital);
+
     }
 }
-
-// ============================================================================================== //
 
 Tache** tacheVide(int tLog){
 
