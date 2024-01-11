@@ -82,7 +82,7 @@ void enfilerTete(ListeFile* tache, Tache* tacheCourrante){
         return;
     }
 
-    m->tacheCourrante = *tacheCourrante;
+    m->tacheCourante = *tacheCourrante;
     m->suivant = *tache;
     *tache = m;
 }
@@ -98,11 +98,11 @@ Tache* defilerFin(ListeFile* tache) {
     Tache* tacheRetiree;
 
     if ((*tache)->suivant == NULL) {
-        tacheRetiree = &((*tache)->tacheCourrante);
+        tacheRetiree = &((*tache)->tacheCourante);
         free(*tache);
         *tache = NULL;
     } else {
-        tacheRetiree = &((*tache)->suivant->tacheCourrante);
+        tacheRetiree = &((*tache)->suivant->tacheCourante);
         free((*tache)->suivant);
         (*tache)->suivant = NULL;
     }
@@ -112,16 +112,18 @@ Tache* defilerFin(ListeFile* tache) {
 
 void trierTachesParDateDebut(Tache** tTaches, int nbrTache){
 
-    for (int i = 1; i < nbrTache; i++){
+    printf("nbrTache : %d\n", nbrTache);
+    for (int i = 1; i < nbrTache; i++){ // pq i = 1 et pas i = 0
+        printf("i = %d\n", i);
         Tache* premier = tTaches[i];
         int j = i - 1;
 
         while (j >= 0 && tTaches[j]->dateDebut > premier->dateDebut){
-            tTaches[j++] = tTaches[j];
+            tTaches[j+1] = tTaches[j]; 
             j--;
         }
 
-        tTaches[j++] = premier;
+        tTaches[j+1] = premier;
     }
 }
 
@@ -135,7 +137,13 @@ void traitementFile(ListeFile* tache, Tache** tTaches, int nbTache){
             int idxSucc = trouverTache(tTaches, nbTache, succ->nomTache, 0);
             if (idxSucc != -1){
                 Tache* succTache = tTaches[idxSucc];
-                succTache->dateDebut = (succTache->dateDebut > cTache->dateDebut + cTache->duree) ? succTache->dateDebut : cTache->dateDebut + cTache->duree;
+                
+                if (succTache->dateDebut > cTache->dateDebut + cTache->duree) {
+                    succTache->dateDebut = succTache->dateDebut;
+                } else {
+                    succTache->dateDebut = cTache->dateDebut + cTache->duree;
+                }
+
                 succTache->nbPred--;
 
                 if (!succTache->nbPred) {
@@ -216,4 +224,3 @@ int trouverTache(Tache** tTache, int tMax, const char* nom, int i){
 
     return trouverTache(tTache, tMax, nom, i + 1);
 }
-

@@ -134,7 +134,7 @@ Offre** chargement(char* nomFichier, int* nbOffre, int* max){
     return tOffre;
 }
 
-int chargerTache(Offre** tOffre, Tache** tTache, ListeFile * fileAttente, int nbrTache, char* nomFichier){
+int chargerTache(Offre** tOffre, Tache** tTache, ListeFile * fileAttente, int tLogique, char* nomFichier){
     FILE* fichier;
     char prec[30], succ[30];
     int i, iPrec;
@@ -144,7 +144,7 @@ int chargerTache(Offre** tOffre, Tache** tTache, ListeFile * fileAttente, int nb
         exit(EXIT_FAILURE);
     }
 
-    for(i = 0; i < nbrTache; i++){
+    for(i = 0; i < tLogique; i++){
         if (( tTache[i] = (Tache*)malloc(sizeof(Tache))) == NULL)
         {
             perror("malloc");
@@ -177,22 +177,22 @@ int chargerTache(Offre** tOffre, Tache** tTache, ListeFile * fileAttente, int nb
             exit(EXIT_FAILURE);
         }
 
-        iPrec = trouverTache(tTache, nbrTache, prec, 0);
+        iPrec = trouverTache(tTache, tLogique, prec, 0);
 
         if (iPrec != -1){
             ajouterSuccesseur(tTache[iPrec], succ);
 
-            int idxSucc = trouverTache(tTache, nbrTache, succ, 0);
+            int trouve = trouverTache(tTache, tLogique, succ, 0);
 
-            if (idxSucc != -1) {
-                tTache[idxSucc]->nbPred++;
+            if (trouve != -1) {
+                tTache[trouve]->nbPred++;
             }
         }
     }
 
     fclose(fichier);
 
-    for(i = 0; i < nbrTache; i++)
+    for(i = 0; i < tLogique; i++)
     {
         if(!tTache[i]) continue;
 
@@ -205,7 +205,7 @@ int chargerTache(Offre** tOffre, Tache** tTache, ListeFile * fileAttente, int nb
         exit(EXIT_FAILURE);
     }
 
-    traitementFile(fileAttente, tTache, nbrTache);
+    traitementFile(fileAttente, tTache, tLogique);
 
     return 0;
 }

@@ -69,36 +69,53 @@ typedef struct Offre {
     ListeDevis ldevis; /**< La liste de devis associée à l'offre. */
 } Offre;
 
-typedef struct ListeSuccesseur
-{
-    char nomTache[30];
-    struct ListeSuccesseur* suivant;
-} ListeSuccesseur;
-
-typedef struct ListeSuccesseur* ListeSucc;
+/**
+ * @struct ListeSuccesseur
+ * @brief Structure représentant un maillon d'une liste de successeurs pour une tâche.
+ *
+ * Cette structure contient le nom d'une tâche successeur et un pointeur vers le maillon suivant dans la liste.
+ */
+typedef struct ListeSuccesseur {
+    char nomTache[30]; /**< Le nom de la tâche successeur. */
+    struct ListeSuccesseur* suivant; /**< Le pointeur vers le maillon suivant dans la liste. */
+} ListeSuccesseur, *ListeSucc;
 
 /**
- * @typedef ListeOffre
- * @brief Type de pointeur vers un MaillonOffre.
+ * @struct Tache
+ * @brief Structure représentant une tâche.
  *
- * Ce type représente une liste d'offres, qui est essentiellement une liste chaînée de MaillonOffre.
+ * Cette structure contient les détails d'une tâche, tels que le nom, la durée, le nombre de prédécesseurs,
+ * une liste de successeurs, la date de début, et un indicateur de traitement.
  */
 typedef struct
 {
     char tache[20]; /**< Le nom de la tâche. */
-    int duree; /**< La durée de la tâche. */
+    int duree; /**< La durée estimée de la tâche. */
     int nbPred; /**< Le nombre de prédécesseurs de la tâche. */
     ListeSucc succ; /**< La liste des successeurs de la tâche. */
-    int dateDebut;   /**< La date de début de la tâche. */
-    bool traite; /**< Un booléen indiquant si la tâche a été traitée. */
+    int dateDebut; /**< La date de début planifiée de la tâche. */
+    bool traite; /**< Un indicateur de traitement de la tâche. */
 } Tache;
 
+/**
+ * @struct MaillonFile
+ * @brief Structure représentant un maillon d'une file de tâches.
+ *
+ * Cette structure contient une tâche courante et un pointeur vers le maillon suivant dans la file.
+ */
 typedef struct MaillonFile
 {
-    Tache tacheCourrante;
-    struct MaillonFile* suivant;
+    Tache tacheCourante; /**< La tâche contenue dans le maillon. */
+    struct MaillonFile* suivant; /**< Le pointeur vers le maillon suivant dans la file. */
 } File;
 
+/**
+ * @typedef ListeFile
+ * @brief Type de pointeur vers un MaillonFile.
+ *
+ * Ce type représente une liste de tâches, qui est essentiellement une liste chaînée de MaillonFile.
+ */
 typedef File * ListeFile;
+
 
 #endif //SAE1_02_STRUCT_H

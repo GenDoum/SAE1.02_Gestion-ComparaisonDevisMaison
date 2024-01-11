@@ -70,6 +70,7 @@ void global(void) {
                 afficherDevisEntreprisePourType(tOffre, nbOffre);
                 break;
             case 7:
+                
                 // Ajouter la fonction pour passer au paiement
                 break;
             case 8:
@@ -77,8 +78,11 @@ void global(void) {
                 break;
             case 9:
                 afficherTachesParOrdreExecution(tabTaches, nbOffre);
+                printf("\n\nDebug menu.c : pb pas dans afficherTachesParOrdreExecution\n\n");
                 calculerDureeProjet(tabTaches, nbOffre);
+                printf("\n\nDebug menu.c : pb pas dans calculerDureeProjet\n\n");
                 listerTachesRestantes(tabTaches, nbOffre, 0);
+                printf("\n\nDebug menu.c : pb de Problème !\n\n");
                 break;
             case 10:
                 return;
