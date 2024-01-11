@@ -134,22 +134,24 @@ Offre** chargement(char* nomFichier, int* nbOffre, int* max){
     return tOffre;
 }
 
-int chargerTache(Offre** tOffre, Tache** tTache, ListeFile * fileAttente, int tLogique, char* nomFichier){
+int chargerTache(Offre** tOffre, Tache** tTache, ListeFile* fileAttente, int tLogique, char* nomFichier) {
     FILE* fichier;
     char prec[30], succ[30];
     int i, iPrec;
 
-    if ((fichier = fopen(nomFichier, "r")) == NULL){
+    // Ouverture du fichier
+    if ((fichier = fopen(nomFichier, "r")) == NULL) {
         perror("fopen");
         exit(EXIT_FAILURE);
     }
 
-    for(i = 0; i < tLogique; i++){
-        if (( tTache[i] = (Tache*)malloc(sizeof(Tache))) == NULL)
-        {
+    // Initialisation des tâches
+    for (i = 0; i < tLogique; i++) {
+        if ((tTache[i] = (Tache*)malloc(sizeof(Tache))) == NULL) {
             perror("malloc");
 
-            for (int k = 0; k < i; ++k){
+            // Libération de la mémoire allouée précédemment
+            for (int k = 0; k < i; ++k) {
                 free(tTache[k]);
             }
 
@@ -158,11 +160,12 @@ int chargerTache(Offre** tOffre, Tache** tTache, ListeFile * fileAttente, int tL
             return -1;
         }
 
-        // Si l'offre est vide ou si le devis est vide on passe à la tâche suivante
-        if(tOffre[i] == NULL || tOffre[i]->ldevis == NULL){
+        // Si l'offre est vide ou si le devis est vide, on passe à la tâche suivante
+        if (tOffre[i] == NULL || tOffre[i]->ldevis == NULL) {
             continue;
         }
 
+        // Initialisation des informations de la tâche
         strcpy(tTache[i]->tache, tOffre[i]->travaux);
         tTache[i]->duree = tOffre[i]->ldevis->devis.duree;
         tTache[i]->succ = NULL;
@@ -171,15 +174,17 @@ int chargerTache(Offre** tOffre, Tache** tTache, ListeFile * fileAttente, int tL
         tTache[i]->dateDebut = 0;
     }
 
-    while (!feof(fichier)){
-        if(fscanf(fichier, "%s %s", prec, succ) != 2){
+    // Lecture des précédences depuis le fichier
+    while (!feof(fichier)) {
+        if (fscanf(fichier, "%s %s", prec, succ) != 2) {
             fprintf(stderr, "Erreur lecture des successeurs");
             exit(EXIT_FAILURE);
         }
 
+        // Recherche des indices des tâches précédente et successeure
         iPrec = trouverTache(tTache, tLogique, prec, 0);
 
-        if (iPrec != -1){
+        if (iPrec != -1) {
             ajouterSuccesseur(tTache[iPrec], succ);
 
             int trouve = trouverTache(tTache, tLogique, succ, 0);
@@ -190,21 +195,24 @@ int chargerTache(Offre** tOffre, Tache** tTache, ListeFile * fileAttente, int tL
         }
     }
 
+    // Fermeture du fichier
     fclose(fichier);
 
-    for(i = 0; i < tLogique; i++)
-    {
-        if(!tTache[i]) continue;
+    // Initialisation de la file d'attente avec les tâches sans prédécesseurs
+    for (i = 0; i < tLogique; i++) {
+        if (!tTache[i]) continue;
 
-        if(!tTache[i]->nbPred)
+        if (!tTache[i]->nbPred)
             enfilerTete(fileAttente, tTache[i]);
     }
 
-    if(fileAttente == NULL || *fileAttente == NULL){
+    // Vérification que la file d'attente n'est pas vide
+    if (fileAttente == NULL || *fileAttente == NULL) {
         fprintf(stderr, "File d'attente vide");
         exit(EXIT_FAILURE);
     }
 
+    // Traitement de la file d'attente
     traitementFile(fileAttente, tTache, tLogique);
 
     return 0;

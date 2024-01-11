@@ -4,6 +4,16 @@
 #include "../struct.h"
 
 /**
+ * @brief Crée une nouvelle précédence entre deux tâches et l'ajoute à un fichier.
+ *
+ * Cette fonction permet à l'utilisateur de créer une nouvelle précédence entre deux tâches
+ * et de l'ajouter à un fichier spécifié.
+ *
+ * @param nomFichier Le chemin du fichier où ajouter la précédence.
+ */
+void creerPrecedences(char* nomFichier);
+
+/**
  * @brief Sélectionne les meilleures entreprises pour chaque type de travaux.
  *
  * Cette fonction parcourt toutes les offres de travaux et sélectionne la meilleure entreprise pour chaque type de travaux.

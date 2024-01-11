@@ -13,20 +13,18 @@ void affiche_client(void) {
     printf("||\t1 : Afficher les précédences.\t\t\t\t\t\t\t||\n");
     printf("||\t2 : Ajouter une précédence.\t\t\t\t\t\t\t||\n");
     printf("||\t3 : Afficher les devis.   \t\t\t\t\t\t\t||\n");
-    printf("||\t4 : Supprimer un devis.\t\t\t\t\t\t\t\t||\n");
-    printf("||\t5 : Afficher l’ensemble des devis pour un type de travaux. \t\t\t||\n");
-    printf("||\t6 : Afficher le devis d’une entreprise donnée pour un type de travaux donnée.\t||\n");
-    printf("||\t7 : Passer au payement.\t\t\t\t\t\t\t\t||\n");
-    printf("||\t8 : Comparer Devis\t\t\t\t\t\t\t\t||\n");
-    printf("||\t9 : Afficher les informations sur le projet.\t\t\t\t\t||\n");
-    printf("||\t10 : Quitter.\t\t\t\t\t\t\t\t\t||\n");
+    printf("||\t4 : Afficher l’ensemble des devis pour un type de travaux. \t\t\t||\n");
+    printf("||\t5 : Afficher le devis d’une entreprise donnée pour un type de travaux donnée.\t||\n");
+    printf("||\t6 : Sélectionne les meilleures entreprises pour chaque type de travaux.\t\t||\n");
+    printf("||\t7 : Afficher les informations sur le projet.\t\t\t\t\t||\n");
+    printf("||\t8 : Quitter.\t\t\t\t\t\t\t\t\t||\n");
     printf("+----------------------------------------------------------------------------------------+\n");
 }
 
 void menu_client(int *choix) {
     affiche_client();
     printf("Vous choisissez: ");
-    while (scanf("%d", choix) != 1 || *choix < 0 || *choix > 10 ) {
+    while (scanf("%d", choix) != 1 || *choix < 0 || *choix > 8 ) {
         while (getchar() != '\n');
         fprintf(stderr, "\x1B[31mERREUR : Veuillez entrer un choix valide :\x1B[0m ");
     }
@@ -55,37 +53,27 @@ void global(void) {
                 afficherPrecedences(fichierPrecedences);
                 break;
             case 2:
-                // Ajouter la fonction pour ajouter une précédence
+                creerPrecedences(fichierPrecedences);
                 break;
             case 3:
                 afficher(tOffre, nbOffre);
                 break;
             case 4:
-                // Ajouter la fonction pour supprimer un devis
-                break;
-            case 5:
                 afficherDevisPourType(tOffre, nbOffre);
                 break;
-            case 6:
+            case 5:
                 afficherDevisEntreprisePourType(tOffre, nbOffre);
                 break;
-            case 7:
-                
-                // Ajouter la fonction pour passer au paiement
-                break;
-            case 8:
+            case 6:
                 selectionnerEntreprises(tOffre, nbOffre);
                 break;
-            case 9:
+            case 7:
                 afficherTachesParOrdreExecution(tabTaches, nbOffre);
-                printf("\n\nDebug menu.c : pb pas dans afficherTachesParOrdreExecution\n\n");
                 calculerDureeProjet(tabTaches, nbOffre);
-                printf("\n\nDebug menu.c : pb pas dans calculerDureeProjet\n\n");
                 listerTachesRestantes(tabTaches, nbOffre, 0);
-                printf("\n\nDebug menu.c : pb de Problème !\n\n");
                 break;
-            case 10:
-                return;
+            case 8:
+                break;
         }
-    } while (choix != 10);
+    } while (choix != 8);
 }

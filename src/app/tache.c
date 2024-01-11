@@ -3,8 +3,7 @@
 #include <string.h>
 #include "utils.h"
 
-void creerPrecedences(char* nomFichier) { // Je sais pas si c'est fait exprès masi pk pas faire en sorte que si la tache1 entré est la tache2 d'un autre alors 
-// afficcher dans le fichier en mode : tache1 -> tache2 -> tache 3 ?
+void creerPrecedences(char* nomFichier) {
     FILE* fe;
     char tache1[21], tache2[21];
 
@@ -25,7 +24,7 @@ void creerPrecedences(char* nomFichier) { // Je sais pas si c'est fait exprès m
         while (getchar() != '\n');
     }
 
-    fprintf(fe, "%s %s\n", tache1, tache2);
+    fprintf(fe, "\n%s %s", tache1, tache2);
 
     fclose(fe);
 }
@@ -37,23 +36,29 @@ void selectionnerEntreprises(Offre** tOffre, int nbOffre) {
         ListeDevis aSupprimer = listeVide();
 
         while (courant != NULL) {
+            // Débogage : Affichage des informations courantes
             printf("Courant : %s, %d\n", courant->devis.nomTache, courant->devis.cout);
+
+            // Comparaison pour trouver la meilleure entreprise
             if (courant->devis.cout < meilleurDevis->devis.cout ||
                 (courant->devis.cout == meilleurDevis->devis.cout && courant->devis.capital > meilleurDevis->devis.capital)) {
                 meilleurDevis = courant;
             }
+
+            // Ajout des entreprises moins avantageuses à la liste à supprimer
             if (courant != meilleurDevis) {
                 aSupprimer = insererEnTete(aSupprimer, courant->devis.nomTache, "", (Adresse){0, "", "", 0}, 0, 0, 0);
             }
             courant = courant->suivant;
         }
 
+        // Suppression des mauvais devis
         supprimerMauvaisDevis(tOffre, i, meilleurDevis);
 
+        // Affichage des informations de la meilleure entreprise sélectionnée
         printf("Tâche : %s\nEntreprise : %s\nCoût : %d\nCapital : %d\n", meilleurDevis->devis.nomTache, meilleurDevis->devis.entreprise, meilleurDevis->devis.cout, meilleurDevis->devis.capital);
     }
 }
-
 
 // ============================================================================================== //
 
@@ -112,9 +117,14 @@ Tache* defilerFin(ListeFile* tache) {
 
 void trierTachesParDateDebut(Tache** tTaches, int nbrTache){
 
+#ifdef DEBUG
     printf("nbrTache : %d\n", nbrTache);
-    for (int i = 1; i < nbrTache; i++){ // pq i = 1 et pas i = 0
+#endif
+    for (int i = 1; i < nbrTache; i++){
+
+#ifdef DEBUG
         printf("i = %d\n", i);
+#endif
         Tache* premier = tTaches[i];
         int j = i - 1;
 
@@ -212,15 +222,17 @@ void ajouterSuccesseur(Tache* tache, const char* nom){
     tache->succ = nSucc;
 }
 
-int trouverTache(Tache** tTache, int tMax, const char* nom, int i){
-
-    if(i == tMax){
+int trouverTache(Tache** tTache, int tMax, const char* nom, int i) {
+    // Cas de base : atteint la fin du tableau
+    if (i == tMax) {
         return -1;
     }
 
-    if (strcmp(tTache[i]->tache, nom) == 0){
+    // Comparaison des noms
+    if (strcmp(tTache[i]->tache, nom) == 0) {
         return i;
     }
 
+    // Appel récursif avec l'indice suivant
     return trouverTache(tTache, tMax, nom, i + 1);
 }
