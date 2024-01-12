@@ -170,9 +170,24 @@ void supprimerDevis(Offre** tOffre, int nb);
  */
 void supprimerMauvaisDevis(Offre** tOffre, int i, MaillonDevis* meilleurDevis);
 
-
+/**
+ * @brief Libère la mémoire allouée pour un tableau de tâches.
+ *
+ * Cette fonction libère la mémoire allouée pour un tableau de tâches, y compris les successeurs associés.
+ *
+ * @param tabTaches Le tableau de tâches à libérer.
+ * @param nbOffre Le nombre d'éléments dans le tableau.
+ */
 void freeTaches(Tache** tabTaches, int nbOffre);
 
+/**
+ * @brief Libère la mémoire allouée pour un tableau d'offres de travaux.
+ *
+ * Cette fonction libère la mémoire allouée pour un tableau d'offres de travaux, y compris les listes de devis associées.
+ *
+ * @param tOffre Le tableau d'offres de travaux à libérer.
+ * @param nbOffre Le nombre d'éléments dans le tableau.
+ */
 void freeOffres(Offre** tOffre, int nbOffre);
 
 #endif //SAE1_02_UTILS_H

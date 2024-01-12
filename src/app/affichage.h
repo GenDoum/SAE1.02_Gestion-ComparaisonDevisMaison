@@ -40,6 +40,16 @@
 void afficherListeDevis(ListeDevis l);
 
 /**
+ * @brief Affiche la liste des devis pour une entreprise donnée.
+ *
+ * Cette fonction affiche les devis associés à une entreprise spécifiée.
+ *
+ * @param l La liste de devis à afficher.
+ * @param nomEntreprise Le nom de l'entreprise pour laquelle afficher les devis.
+ */
+void afficherListeDevisPourEntreprise(ListeDevis l, char* nomEntreprise);
+
+/**
  * @brief Affiche les informations de toutes les offres.
  *
  * Cette fonction parcourt un tableau d'offres et affiche les informations de chaque offre.

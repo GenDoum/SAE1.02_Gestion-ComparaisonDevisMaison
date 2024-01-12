@@ -62,6 +62,32 @@ void afficherListeDevis(ListeDevis l) {
     }
 }
 
+void afficherListeDevisPourEntreprise(ListeDevis l, char* nomEntreprise) {
+    if (l == NULL) {
+        printf(RED BOLD "Aucun devis disponible.\n" RESET);
+        return;
+    }
+
+    int count = 1;
+    while (l != NULL) {
+        if (strcmp(l->devis.entreprise, nomEntreprise) == 0) {
+            printf(BOLD GREEN "   DEVIS %d\n" RESET, count);
+
+            // Affichage des informations avec soulignement
+            printf("\t%sNom de la tâche :%s %s\n", UNDERLINE RED, RESET, l->devis.nomTache);
+            printf("\t%sEntreprise :%s %s\n", UNDERLINE RED, RESET, l->devis.entreprise);
+            printf("\t%sAdresse :%s %d %s %s\n", UNDERLINE RED, RESET, l->devis.adresse.numero, l->devis.adresse.nomRue, l->devis.adresse.ville);
+            printf("\t%sCapital :%s %d €\n", UNDERLINE RED, RESET, l->devis.capital);
+            printf("\t%sDurée :%s %d jours\n", UNDERLINE RED, RESET, l->devis.duree);
+            printf("\t%sCoût :%s %d €\n", UNDERLINE RED, RESET, l->devis.cout);
+
+            printf(CYAN BOLD "----------------------------------------\n" RESET);
+            count++;
+        }
+        l = l->suivant;
+    }
+}
+
 void afficherDevisPourType(Offre** tOffre, int nbOffre) {
     int trouve = 0;
     char typeTravaux[MAX_TRAVAUX];
@@ -102,7 +128,7 @@ void afficherDevisEntreprisePourType(Offre** tOffre, int nbOffre) {
                 if (strcmp(ldevis->devis.entreprise, nomEntreprise) == 0) {
                     trouve = 1;
                     printf("Type de travaux : %s\n", tOffre[i]->travaux);
-                    afficherListeDevis(ldevis);
+                    afficherListeDevisPourEntreprise(ldevis, nomEntreprise);
                     printf("\n");
                     break;
                 }
