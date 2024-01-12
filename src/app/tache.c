@@ -35,9 +35,9 @@ void selectionnerEntreprises(Offre** tOffre, int nbOffre) {
         MaillonDevis* meilleurDevis = courant;
         ListeDevis aSupprimer = listeVide();
 
-        printf("\n***************************************\n");
-        printf("   OFFRE %d\n", i + 1);
-        printf("***************************************\n");
+        printf(CYAN BOLD "***************************************\n" RESET);
+        printf(BOLD GREEN "   OFFRE %d\n" RESET, i + 1);
+        printf(CYAN BOLD "***************************************\n" RESET);
 
         while (courant != NULL) {
 
@@ -64,12 +64,11 @@ void selectionnerEntreprises(Offre** tOffre, int nbOffre) {
         supprimerMauvaisDevis(tOffre, i, meilleurDevis);
 
         // Affichage des informations de la meilleure entreprise sélectionnée
-        printf("\nMeilleure entreprise sélectionnée :\n");
-        printf("\tTâche : %s\n", meilleurDevis->devis.nomTache);
-        printf("\tEntreprise : %s\n", meilleurDevis->devis.entreprise);
-        printf("\tCoût : %d\n", meilleurDevis->devis.cout);
-        printf("\tCapital : %d\n", meilleurDevis->devis.capital);
-
+        printf("\n%sMeilleure entreprise sélectionnée :\n" RESET, BOLD);
+        printf("\t%sTâche : %s %s\n", UNDERLINE RED, RESET, meilleurDevis->devis.nomTache);
+        printf("\t%sEntreprise : %s %s\n", UNDERLINE RED, RESET, meilleurDevis->devis.entreprise);
+        printf("\t%sCoût : %s %d\n", UNDERLINE RED, RESET, meilleurDevis->devis.cout);
+        printf("\t%sCapital : %s %d\n", UNDERLINE RED, RESET, meilleurDevis->devis.capital);
     }
 }
 
@@ -103,6 +102,10 @@ void enfilerTete(ListeFile* tache, Tache* tacheEnfiler){
     m->tacheCourante = *tacheEnfiler;
     m->suivant = *tache;
     *tache = m;
+
+#ifdef DEBUG
+    printf("Tâche enfilée : %s, Date de début : %d\n", tacheEnfiler->tache, tacheEnfiler->dateDebut);
+#endif
 }
 
 Tache* defiler(ListeFile* tache) {
@@ -134,18 +137,20 @@ void trierTaches(Tache** tTaches, int tLogique){
     int j;
 
 #ifdef DEBUG
-    printf("nbrTache : %d\n", nbrTache);
+    printf("Tri des tâches\n");
 #endif
+
     for (int i = 1; i < tLogique; i++){
 
 #ifdef DEBUG
         printf("i = %d\n", i);
 #endif
+
         premier = tTaches[i];
         j = i - 1;
 
         while (j >= 0 && tTaches[j]->dateDebut > premier->dateDebut){
-            tTaches[j+1] = tTaches[j]; 
+            tTaches[j+1] = tTaches[j];
             j--;
         }
 
@@ -197,7 +202,7 @@ void miseAJourDate(ListeFile* tache, Tache** tTaches, int nbTache){
             indiceSucc = trouverTache(tTaches, nbTache, succ->nomTache, 0);
             if (indiceSucc != -1){
                 succTache = tTaches[indiceSucc];
-                
+
                 if (succTache->dateDebut > cTache->dateDebut + cTache->duree) {
                     succTache->dateDebut = succTache->dateDebut;
                 } else {
@@ -209,6 +214,10 @@ void miseAJourDate(ListeFile* tache, Tache** tTaches, int nbTache){
                 if (!succTache->nbPred) {
                     enfilerTete(tache, succTache);
                 }
+
+#ifdef DEBUG
+                printf("Mise à jour de la date de la tâche : %s, Nouvelle date de début : %d\n", succTache->tache, succTache->dateDebut);
+#endif
             }
 
             succ = succ->suivant;
@@ -253,4 +262,8 @@ void ajouterSuccesseur(Tache* tache, char* nomSucc){
     strcpy(succ->nomTache, nomSucc);
     succ->suivant = tache->succ;
     tache->succ = succ;
+
+#ifdef DEBUG
+    printf("Successeur ajouté à la tâche %s : %s\n", tache->tache, nomSucc);
+#endif
 }

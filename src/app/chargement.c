@@ -11,6 +11,10 @@ Offre** chargement(char* nomFichier, int* nbOffre, int* max){
     Adresse adresse;
     FILE* fe;
 
+#ifdef DEBUG
+    printf("Debug chargement Offre : \n\n");
+#endif
+
     if ((fe = fopen(nomFichier, "r")) == NULL){
         perror("fopen");
         exit(EXIT_FAILURE);
@@ -123,7 +127,7 @@ Offre** chargement(char* nomFichier, int* nbOffre, int* max){
         if (fscanf(fe, "%s", travaux) == EOF) {
 
             #ifdef DEBUG
-            printf("Fin du fichier atteinte.\n");
+            printf("Fin du fichier atteinte.\n\n");
             break;
             #endif
         }
@@ -138,6 +142,11 @@ int chargerTache(Offre** tOffre, Tache** tTache, ListeFile* file, int tLogique, 
     FILE* fe;
     char prec[MAX_TRAVAUX], succ[MAX_TRAVAUX];
     int i, indicePrec, trouve;
+
+#ifdef DEBUG
+    printf("Debug chargement tache : \n\n");
+#endif
+
 
     // Ouverture du fichier
     if ((fe = fopen(nomFichier, "r")) == NULL) {
@@ -172,6 +181,10 @@ int chargerTache(Offre** tOffre, Tache** tTache, ListeFile* file, int tLogique, 
         tTache[i]->nbPred = 0;
         tTache[i]->traite = 0;
         tTache[i]->dateDebut = 0;
+
+#ifdef DEBUG
+        printf("Tâche initialisée : %s, Duree : %d\n", tTache[i]->tache, tTache[i]->duree);
+#endif
     }
 
     // Lecture des précédences depuis le fichier
@@ -191,6 +204,10 @@ int chargerTache(Offre** tOffre, Tache** tTache, ListeFile* file, int tLogique, 
 
             if (trouve != -1) {
                 tTache[trouve]->nbPred++;
+
+#ifdef DEBUG
+                printf("Successeur ajouté à la tâche %s\n", tTache[indicePrec]->tache);
+#endif
             }
         }
     }
@@ -206,6 +223,10 @@ int chargerTache(Offre** tOffre, Tache** tTache, ListeFile* file, int tLogique, 
 
         if (!tTache[i]->nbPred) {
             enfilerTete(file, tTache[i]);
+
+#ifdef DEBUG
+            printf("Tâche sans prédécesseur ajoutée à la file d'attente : %s\n", tTache[i]->tache);
+#endif
         }
     }
 
