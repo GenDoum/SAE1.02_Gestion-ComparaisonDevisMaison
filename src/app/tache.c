@@ -67,8 +67,8 @@ void selectionnerEntreprises(Offre** tOffre, int nbOffre) {
         printf("\n%sMeilleure entreprise sélectionnée :\n" RESET, BOLD);
         printf("\t%sTâche : %s %s\n", UNDERLINE RED, RESET, meilleurDevis->devis.nomTache);
         printf("\t%sEntreprise : %s %s\n", UNDERLINE RED, RESET, meilleurDevis->devis.entreprise);
-        printf("\t%sCoût : %s %d\n", UNDERLINE RED, RESET, meilleurDevis->devis.cout);
-        printf("\t%sCapital : %s %d\n", UNDERLINE RED, RESET, meilleurDevis->devis.capital);
+        printf("\t%sCoût : %s %d €\n", UNDERLINE RED, RESET, meilleurDevis->devis.cout);
+        printf("\t%sCapital : %s %d €\n", UNDERLINE RED, RESET, meilleurDevis->devis.capital);
     }
 }
 
