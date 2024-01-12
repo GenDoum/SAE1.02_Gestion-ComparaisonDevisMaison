@@ -7,7 +7,7 @@
 Offre** chargement(char* nomFichier, int* nbOffre, int* max){
     int trouve, pos, i;
     int capital, duree, cout, codePostal, numero;
-    char travaux[MAX_TRAVAUX] = "", ligne[MAX_TRAVAUX], entreprise[MAX_TRAVAUX], nomRue[MAX_TRAVAUX], ville[MAX_TRAVAUX];
+    char travaux[MAX_TRAVAUX], ligne[MAX_TRAVAUX], entreprise[MAX_TRAVAUX], nomRue[MAX_TRAVAUX], ville[MAX_TRAVAUX];
     Adresse adresse;
     FILE* fe;
 
@@ -129,11 +129,6 @@ Offre** chargement(char* nomFichier, int* nbOffre, int* max){
         }
 
     }
-    for (int i = 0; i < *nbOffre; ++i) {
-        free(tOffre[i]); // Libère chaque élément du tableau
-    }
-
-    free(tOffre); // Libère le tableau lui-même
 
     fclose(fe);
     return tOffre;

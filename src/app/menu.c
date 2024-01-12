@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "menu.h"
 #include "chargement.h"
+#include <stdlib.h>
 
 void affiche_client(void) {
     printf("\n");
@@ -30,7 +31,8 @@ void menu_client(int *choix) {
     }
 }
 
-void global(void) {
+void global(void) 
+{
     int choix;
     char fichierPrecedences[100] = "donnee/precedences.txt";
     char fichierDevis[100] = "donnee/devis.txt";
@@ -45,7 +47,8 @@ void global(void) {
         return;
     }
 
-    do {
+    do 
+    {
         menu_client(&choix);
 
         switch (choix) {
@@ -76,4 +79,8 @@ void global(void) {
                 break;
         }
     } while (choix != 8);
+
+    freeTaches(tabTaches, nbOffre);
+    freeOffres(tOffre, nbOffre);
+
 }

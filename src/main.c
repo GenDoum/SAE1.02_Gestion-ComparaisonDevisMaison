@@ -6,8 +6,11 @@
 #include "app/chargement.h"
 #include "struct.h"
 
-int main(void) {
+int main(void) 
+{
     global();
 
-    exit(EXIT_SUCCESS);
+    return 0;
+    
+    //exit(EXIT_SUCCESS);
 }

@@ -3,6 +3,7 @@
 //
 
 #include "utils.h"
+#include "chargement.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -148,7 +149,8 @@ int len(ListeDevis l){
     return cpt;
 }
 
-void supprimerMauvaisDevis(Offre** tOffre, int i, MaillonDevis* meilleurDevis) {
+void supprimerMauvaisDevis(Offre** tOffre, int i, MaillonDevis* meilleurDevis) 
+{
     MaillonDevis* courant = tOffre[i]->ldevis;
     MaillonDevis* prec = NULL;
     while (courant != NULL) {
@@ -171,3 +173,44 @@ void supprimerMauvaisDevis(Offre** tOffre, int i, MaillonDevis* meilleurDevis) {
     }
 }
 
+void freeTaches(Tache** tabTaches, int nbOffre){
+    if (tabTaches != NULL) 
+    {
+        for (int i = 0; i < nbOffre; i++) 
+        {
+            if (tabTaches[i] != NULL) 
+            {
+                ListeSucc courant = tabTaches[i]->succ;
+                while (courant != NULL) 
+                {
+                    ListeSucc temp = courant;
+                    courant = courant->suivant;
+                    free(temp);
+                }           
+                free(tabTaches[i]);
+            }
+        }
+        free(tabTaches);
+    }
+}
+
+void freeOffres(Offre** tOffre, int nbOffre){
+    if (tOffre != NULL) {
+        for (int i = 0; i < nbOffre; i++) 
+        {
+            if (tOffre[i] != NULL) 
+            {
+                ListeDevis courant = tOffre[i]->ldevis;
+                while (courant != NULL) 
+                {
+                    ListeDevis temp = courant;
+                    courant = courant->suivant;
+                    free(temp);
+                }
+                
+                free(tOffre[i]);
+            }
+        }
+        free(tOffre);
+    }
+}

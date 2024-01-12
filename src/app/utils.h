@@ -170,4 +170,9 @@ void supprimerDevis(Offre** tOffre, int nb);
  */
 void supprimerMauvaisDevis(Offre** tOffre, int i, MaillonDevis* meilleurDevis);
 
+
+void freeTaches(Tache** tabTaches, int nbOffre);
+
+void freeOffres(Offre** tOffre, int nbOffre);
+
 #endif //SAE1_02_UTILS_H
