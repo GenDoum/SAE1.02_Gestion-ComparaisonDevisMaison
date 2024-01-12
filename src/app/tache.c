@@ -73,71 +73,76 @@ void selectionnerEntreprises(Offre** tOffre, int nbOffre) {
     }
 }
 
-Tache** tacheVide(int tLog){
-
-    Tache** nouvelleTache = (Tache**)malloc(tLog * sizeof(Tache*));
-    if(nouvelleTache == NULL){
-        perror("malloc");
-        return NULL;
-    }
-
-    return nouvelleTache;
-}
-
 ListeFile fileVide(void){
     return NULL;
 }
 
-void enfilerTete(ListeFile* tache, Tache* tacheCourrante){
+Tache** tacheVide(int tLog){
+    Tache** tache;
 
-    if(!tacheCourrante) return;
+    if((tache = (Tache**)malloc(tLog * sizeof(Tache*))) == NULL){
+        perror("malloc");
+        return NULL;
+    }
 
+    return tache;
+}
+
+void enfilerTete(ListeFile* tache, Tache* tacheEnfiler){
     ListeFile m;
+
+    if(!tacheEnfiler){
+        return;
+    }
+
     if ((m = (ListeFile)malloc(sizeof(File))) == NULL){
         perror("malloc");
         return;
     }
 
-    m->tacheCourante = *tacheCourrante;
+    m->tacheCourante = *tacheEnfiler;
     m->suivant = *tache;
     *tache = m;
 }
 
 Tache* defiler(ListeFile* tache) {
+    Tache* tacheDefiler;
 
-    if (*tache == NULL) return NULL;
+    if (*tache == NULL){
+        return NULL;
+    }
 
     while ((*tache)->suivant != NULL && (*tache)->suivant->suivant != NULL) {
         tache = &((*tache)->suivant);
     }
 
-    Tache* tacheRetiree;
-
     if ((*tache)->suivant == NULL) {
-        tacheRetiree = &((*tache)->tacheCourante);
+        tacheDefiler = &((*tache)->tacheCourante);
         free(*tache);
         *tache = NULL;
     } else {
-        tacheRetiree = &((*tache)->suivant->tacheCourante);
+        tacheDefiler = &((*tache)->suivant->tacheCourante);
         free((*tache)->suivant);
         (*tache)->suivant = NULL;
     }
 
-    return tacheRetiree;
+    return tacheDefiler;
 }
 
-void trierTaches(Tache** tTaches, int nbrTache){
+void trierTaches(Tache** tTaches, int tLogique){
+    Tache* premier;
+    int j;
 
 #ifdef DEBUG
     printf("nbrTache : %d\n", nbrTache);
 #endif
-    for (int i = 1; i < nbrTache; i++){
+    for (int i = 1; i < tLogique; i++){
 
 #ifdef DEBUG
         printf("i = %d\n", i);
 #endif
-        Tache* premier = tTaches[i];
-        int j = i - 1;
+        premier = tTaches[i];
+        j = i - 1;
 
         while (j >= 0 && tTaches[j]->dateDebut > premier->dateDebut){
             tTaches[j+1] = tTaches[j]; 
@@ -148,16 +153,50 @@ void trierTaches(Tache** tTaches, int nbrTache){
     }
 }
 
+void ordreTache(Tache** tTache, int tLogique){
+    trierTaches(tTache, tLogique);
+
+    printf("+----------------------------------------------+\n");
+    printf(" Tâche\t\t\tDate de début\n");
+    printf("+----------------------------------------------+\n");
+
+    for (int i = 0; i < tLogique; i++) {
+        if (tTache[i] != NULL) {
+            printf("| %-20s\t| %-20d |\n", tTache[i]->tache, tTache[i]->dateDebut);
+        }
+    }
+
+    printf("+----------------------------------------------+\n");
+}
+
+int trouverTache(Tache** tTache, int tPhysique, char* nomTache, int i) {
+    // Cas de base : atteint la fin du tableau
+    if (i == tPhysique) {
+        return -1;
+    }
+
+    // Comparaison des noms
+    if (strcmp(tTache[i]->tache, nomTache) == 0) {
+        return i;
+    }
+
+    // Appel récursif avec l'indice suivant
+    return trouverTache(tTache, tPhysique, nomTache, i + 1);
+}
+
 void miseAJourDate(ListeFile* tache, Tache** tTaches, int nbTache){
+    Tache* cTache, *succTache;
+    ListeSuccesseur* succ;
+    int indiceSucc;
 
     while (*tache != NULL){
-        Tache* cTache = defiler(tache);
+        cTache = defiler(tache);
 
-        ListeSuccesseur* succ = cTache->succ;
+        succ = cTache->succ;
         while (succ != NULL){
-            int idxSucc = trouverTache(tTaches, nbTache, succ->nomTache, 0);
-            if (idxSucc != -1){
-                Tache* succTache = tTaches[idxSucc];
+            indiceSucc = trouverTache(tTaches, nbTache, succ->nomTache, 0);
+            if (indiceSucc != -1){
+                succTache = tTaches[indiceSucc];
                 
                 if (succTache->dateDebut > cTache->dateDebut + cTache->duree) {
                     succTache->dateDebut = succTache->dateDebut;
@@ -177,73 +216,41 @@ void miseAJourDate(ListeFile* tache, Tache** tTaches, int nbTache){
     }
 }
 
-void dureeProjet(Tache** tTache, int nbrTache){
+void dureeProjet(Tache** tTache, int tLogique){
+    int dureeProjet = 0, finTache;
 
-    int dureeProjet = 0;
-
-    for (int i = 0; i < nbrTache; i++){
+    for (int i = 0; i < tLogique; i++){
         if (tTache[i] != NULL){
-            int finTache = tTache[i]->dateDebut + tTache[i]->duree;
+            finTache = tTache[i]->dateDebut + tTache[i]->duree;
             if (finTache > dureeProjet) {
                 dureeProjet = finTache;
             }
         }
     }
 
-    printf("\nLe projet durera %d jours.", dureeProjet);
+    printf("Ce projet durera %d jours.\n", dureeProjet);
 }
 
-void tacheNonCommence(Tache** tTache, int nbrTache, int dateDonnee){
+void tacheNonCommence(Tache** tTache, int tLogique, int date){
+    printf("\nTâches restantes après la date %d:\n\n", date);
 
-    printf("\nTâches restantes après la date %d:\n\n", dateDonnee);
-
-    for (int i = 0; i < nbrTache; i++){
-        if (tTache[i] != NULL && tTache[i]->dateDebut > dateDonnee) {
-            printf("Tâche: %s | Date de début: %d\n", tTache[i]->tache, tTache[i]->dateDebut);
+    for (int i = 0; i < tLogique; i++){
+        if (tTache[i] != NULL && tTache[i]->dateDebut > date) {
+            printf("Tâche: %s\n", tTache[i]->tache);
+            printf("Date de début: %d\n\n", tTache[i]->dateDebut);
         }
     }
 }
 
-void ordreTache(Tache** tTache, int nbrTache){
-    trierTaches(tTache, nbrTache);
+void ajouterSuccesseur(Tache* tache, char* nomSucc){
+    ListeSucc succ;
 
-    printf("+----------------------------------------------+\n");
-    printf(" Tâche\t\t\tDate de début\n");
-    printf("+----------------------------------------------+\n");
-
-    for (int i = 0; i < nbrTache; i++) {
-        if (tTache[i] != NULL) {
-            printf("| %-20s\t| %-20d |\n", tTache[i]->tache, tTache[i]->dateDebut);
-        }
-    }
-
-    printf("+----------------------------------------------+\n");
-}
-
-void ajouterSuccesseur(Tache* tache, const char* nom){
-    ListeSucc nSucc;
-
-    if ((nSucc = (ListeSucc)malloc(sizeof(ListeSuccesseur))) == NULL){
+    if ((succ = (ListeSucc)malloc(sizeof(ListeSuccesseur))) == NULL){
         perror("malloc");
         exit(EXIT_FAILURE);
     }
 
-    strcpy(nSucc->nomTache, nom);
-    nSucc->suivant = tache->succ;
-    tache->succ = nSucc;
-}
-
-int trouverTache(Tache** tTache, int tMax, const char* nom, int i) {
-    // Cas de base : atteint la fin du tableau
-    if (i == tMax) {
-        return -1;
-    }
-
-    // Comparaison des noms
-    if (strcmp(tTache[i]->tache, nom) == 0) {
-        return i;
-    }
-
-    // Appel récursif avec l'indice suivant
-    return trouverTache(tTache, tMax, nom, i + 1);
+    strcpy(succ->nomTache, nomSucc);
+    succ->suivant = tache->succ;
+    tache->succ = succ;
 }

@@ -52,9 +52,9 @@ ListeFile fileVide(void);
  * Cette fonction ajoute une tâche en tête de la file. La file est modifiée directement.
  *
  * @param tache Un pointeur vers la file.
- * @param tacheCourrante La tâche à enfiler.
+ * @param tacheEnfiler La tâche à enfiler.
  */
-void enfilerTete(ListeFile* pTache, Tache* tacheCourrante);
+void enfilerTete(ListeFile* pTache, Tache* tacheEnfiler);
 
 /**
  * @brief Retire la dernière tâche de la file.
@@ -73,9 +73,9 @@ Tache* defiler(ListeFile * pTache);
  * Cette fonction trie un tableau de tâches en place selon la date de début croissante.
  *
  * @param tTaches Le tableau de tâches à trier.
- * @param nbrTache Le nombre de tâches dans le tableau.
+ * @param tLogique Le nombre de tâches dans le tableau.
  */
-void trierTaches(Tache** tTaches, int nbrTache);
+void trierTaches(Tache** tTaches, int tLogique);
 
 /**
  * @brief Effectue le traitement des tâches dans une file.
@@ -84,9 +84,9 @@ void trierTaches(Tache** tTaches, int nbrTache);
  *
  * @param tache Un pointeur vers la file de tâches.
  * @param tTaches Le tableau des tâches.
- * @param nbTache Le nombre de tâches dans le tableau.
+ * @param tLogique Le nombre de tâches dans le tableau.
  */
-void miseAJourDate(ListeFile* tache, Tache** tTaches, int nbTache);
+void miseAJourDate(ListeFile* tache, Tache** tTaches, int tLogique);
 
 /**
  * @brief Calcule la durée totale du projet.
@@ -94,9 +94,9 @@ void miseAJourDate(ListeFile* tache, Tache** tTaches, int nbTache);
  * Cette fonction calcule la durée totale du projet en parcourant toutes les tâches.
  *
  * @param tTache Le tableau des tâches.
- * @param nbrTache Le nombre de tâches dans le tableau.
+ * @param tLogique Le nombre de tâches dans le tableau.
  */
-void dureeProjet(Tache** tTache, int nbrTache);
+void dureeProjet(Tache** tTache, int tLogique);
 
 /**
  * @brief Liste les tâches restantes après une date donnée.
@@ -104,10 +104,10 @@ void dureeProjet(Tache** tTache, int nbrTache);
  * Cette fonction affiche les tâches qui n'ont pas encore débuté et dont la date de début est après la date fournie.
  *
  * @param tTache Le tableau des tâches.
- * @param nbrTache Le nombre de tâches dans le tableau.
+ * @param tLogique Le nombre de tâches dans le tableau.
  * @param dateDonnee La date à partir de laquelle les tâches sont listées.
  */
-void tacheNonCommence(Tache** tTache, int nbrTache, int dateDonnee);
+void tacheNonCommence(Tache** tTache, int tLogique, int date);
 
 /**
  * @brief Affiche les tâches par ordre d'exécution.
@@ -115,9 +115,9 @@ void tacheNonCommence(Tache** tTache, int nbrTache, int dateDonnee);
  * Cette fonction trie les tâches par date de début et les affiche dans un format tabulaire.
  *
  * @param tTache Le tableau des tâches.
- * @param nbrTache Le nombre de tâches dans le tableau.
+ * @param tLogique Le nombre de tâches dans le tableau.
  */
-void ordreTache(Tache** tTache, int nbrTache);
+void ordreTache(Tache** tTache, int tLogique);
 
 /**
  * @brief Ajoute un successeur à une tâche.
@@ -125,9 +125,9 @@ void ordreTache(Tache** tTache, int nbrTache);
  * Cette fonction ajoute un successeur à une tâche en créant un nouveau maillon de la liste des successeurs.
  *
  * @param tache La tâche à laquelle ajouter le successeur.
- * @param nom Le nom du successeur.
+ * @param nomSucc Le nom du successeur.
  */
-void ajouterSuccesseur(Tache* tache, const char* nom);
+void ajouterSuccesseur(Tache* tache, char* nomSucc);
 
 /**
  * @brief Trouve l'index d'une tâche dans un tableau par son nom.
@@ -135,11 +135,11 @@ void ajouterSuccesseur(Tache* tache, const char* nom);
  * Cette fonction récursive recherche une tâche spécifique dans un tableau de tâches en comparant les noms.
  *
  * @param tTache Le tableau des tâches.
- * @param tMax Le nombre maximal d'éléments dans le tableau.
- * @param nom Le nom de la tâche à rechercher.
+ * @param tPhysique Le nombre maximal d'éléments dans le tableau.
+ * @param nomTache Le nom de la tâche à rechercher.
  * @param i L'indice de départ de la recherche.
  * @return L'index de la tâche si elle est trouvée, sinon -1.
  */
-int trouverTache(Tache** tTache, int tMax, const char* nom, int i);
+int trouverTache(Tache** tTache, int tPhysique, char* nomTache, int i);
 
 #endif // TACHE_H

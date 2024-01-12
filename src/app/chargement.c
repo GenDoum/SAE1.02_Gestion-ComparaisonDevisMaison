@@ -134,13 +134,13 @@ Offre** chargement(char* nomFichier, int* nbOffre, int* max){
     return tOffre;
 }
 
-int chargerTache(Offre** tOffre, Tache** tTache, ListeFile* fileAttente, int tLogique, char* nomFichier) {
-    FILE* fichier;
-    char prec[30], succ[30];
-    int i, iPrec;
+int chargerTache(Offre** tOffre, Tache** tTache, ListeFile* file, int tLogique, char* nomFichier) {
+    FILE* fe;
+    char prec[MAX_TRAVAUX], succ[MAX_TRAVAUX];
+    int i, indicePrec, trouve;
 
     // Ouverture du fichier
-    if ((fichier = fopen(nomFichier, "r")) == NULL) {
+    if ((fe = fopen(nomFichier, "r")) == NULL) {
         perror("fopen");
         exit(EXIT_FAILURE);
     }
@@ -151,12 +151,12 @@ int chargerTache(Offre** tOffre, Tache** tTache, ListeFile* fileAttente, int tLo
             perror("malloc");
 
             // Libération de la mémoire allouée précédemment
-            for (int k = 0; k < i; ++k) {
-                free(tTache[k]);
+            for (int j = 0; j < i; ++j) {
+                free(tTache[j]);
             }
 
             free(tTache);
-            fclose(fichier);
+            fclose(fe);
             return -1;
         }
 
@@ -175,19 +175,19 @@ int chargerTache(Offre** tOffre, Tache** tTache, ListeFile* fileAttente, int tLo
     }
 
     // Lecture des précédences depuis le fichier
-    while (!feof(fichier)) {
-        if (fscanf(fichier, "%s %s", prec, succ) != 2) {
+    while (!feof(fe)) {
+        if (fscanf(fe, "%s %s", prec, succ) != 2) {
             fprintf(stderr, "Erreur lecture des successeurs");
             exit(EXIT_FAILURE);
         }
 
         // Recherche des indices des tâches précédente et successeure
-        iPrec = trouverTache(tTache, tLogique, prec, 0);
+        indicePrec = trouverTache(tTache, tLogique, prec, 0);
 
-        if (iPrec != -1) {
-            ajouterSuccesseur(tTache[iPrec], succ);
+        if (indicePrec != -1) {
+            ajouterSuccesseur(tTache[indicePrec], succ);
 
-            int trouve = trouverTache(tTache, tLogique, succ, 0);
+            trouve = trouverTache(tTache, tLogique, succ, 0);
 
             if (trouve != -1) {
                 tTache[trouve]->nbPred++;
@@ -196,24 +196,27 @@ int chargerTache(Offre** tOffre, Tache** tTache, ListeFile* fileAttente, int tLo
     }
 
     // Fermeture du fichier
-    fclose(fichier);
+    fclose(fe);
 
     // Initialisation de la file d'attente avec les tâches sans prédécesseurs
     for (i = 0; i < tLogique; i++) {
-        if (!tTache[i]) continue;
+        if (!tTache[i]){
+            continue;
+        }
 
-        if (!tTache[i]->nbPred)
-            enfilerTete(fileAttente, tTache[i]);
+        if (!tTache[i]->nbPred) {
+            enfilerTete(file, tTache[i]);
+        }
     }
 
     // Vérification que la file d'attente n'est pas vide
-    if (fileAttente == NULL || *fileAttente == NULL) {
+    if (file == NULL || *file == NULL) {
         fprintf(stderr, "File d'attente vide");
         exit(EXIT_FAILURE);
     }
 
     // Traitement de la file d'attente
-    miseAJourDate(fileAttente, tTache, tLogique);
+    miseAJourDate(file, tTache, tLogique);
 
     return 0;
 }

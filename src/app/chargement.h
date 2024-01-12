@@ -28,11 +28,11 @@ Offre** chargement(char* nomFichier, int* nbOffre, int* max);
  *
  * @param tOffre Le tableau des offres de travaux.
  * @param tTache Le tableau des tâches à initialiser.
- * @param fileAttente La file d'attente pour le traitement des tâches.
+ * @param file La file d'attente pour le traitement des tâches.
  * @param tLogique Le nombre total d'éléments dans les tableaux.
  * @param nomFichier Le nom du fichier contenant les informations sur les précédences.
  * @return 0 en cas de succès, -1 en cas d'erreur.
  */
-int chargerTache(Offre** tOffre, Tache** tTache, ListeFile * fileAttente, int nbrTache, char* nomFichier);
+int chargerTache(Offre** tOffre, Tache** tTache, ListeFile * file, int nbrTache, char* nomFichier);
 
 #endif //SAE1_02_CHARGEMENT_H
