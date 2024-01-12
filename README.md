@@ -27,6 +27,10 @@ Cette commande nettoie, construit et exécute l'application.
    Si vous avez déjà construit l'application et souhaitez simplement l'exécuter, utilisez l'option `-run` :
    ```bash
    $ ./build.sh -run
+5. **Exécuter l'application en mode déboguage :**
+   Pour afficher tout les messages de déboguage utilisés dans le projet, utilsez l'option `-d` :
+   ```bash
+   $./build.sh -d
 **Notes**
 - Assurez-vous que le script (`build.sh`) a les permissions d'exécution :
    ```bash
