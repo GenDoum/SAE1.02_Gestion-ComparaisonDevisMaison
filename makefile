@@ -6,9 +6,6 @@ TARGETS := $(addprefix $(BUILD_DIR)/, $(TARGETS))
 APP_NAME = app
 DOXYGEN_CONFIG = docs/Doxyfile.in
 
-GREEN = \033[0;32m
-RESET = \033[0m
-
 # Règle pour générer les dépendances
 $(BUILD_DIR)/%.d: %.c
 	@mkdir -p $(@D)
