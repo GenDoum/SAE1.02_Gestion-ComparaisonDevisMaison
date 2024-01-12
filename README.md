@@ -15,7 +15,6 @@ Assurez-vous d'avoir les éléments suivants installés sur votre système :
    ```bash
    $ git clone https://codefirst.iut.uca.fr/git/matheo.hersan/SAE1.02.git
    $ cd SAE1.02
-
 2. **Exécuter le script de lancement :**
    ```bash
    $ ./build.sh -rbuild
