@@ -2,6 +2,19 @@
 #define MENU_H
 
 /**
+ * @file menu.h
+ * @brief Définition des fonctions liées au menu.
+ *
+ * Ce fichier contient les déclarations des fonctions permettant d'afficher
+ * et gérer le menu interactif du programme.
+ *
+ * @date 10/12/2023
+ * @version 1.0
+ * @authors Mathéo Hersan
+ */
+
+
+/**
  * @brief Affiche le menu principal pour le client.
  *
  * Cette fonction affiche un menu interactif avec différentes options que le client peut choisir.

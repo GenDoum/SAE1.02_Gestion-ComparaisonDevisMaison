@@ -1,10 +1,21 @@
-#ifndef SAE1_02_CHARGEMENT_H
-#define SAE1_02_CHARGEMENT_H
+#ifndef CHARGEMENT_H
+#define CHARGEMENT_H
 
 #include "../struct.h"
 #include "utils.h"
 #include "affichage.h"
-#define MAX_TACHES 100
+
+/**
+ * @file chargement.h
+ * @brief Définition des fonctions de chargement des données.
+ *
+ * Ce fichier contient les déclarations des fonctions permettant de charger
+ * les informations sur les offres et les tâches à partir de fichiers.
+ *
+ * @date 20/12/2023
+ * @version 1.0
+ * @authors Mathéo Hersan, Yannis Doumir-Fernandes
+ */
 
 
 /**
@@ -35,4 +46,4 @@ Offre** chargement(char* nomFichier, int* nbOffre, int* max);
  */
 int chargerTache(Offre** tOffre, Tache** tTache, ListeFile * file, int nbrTache, char* nomFichier);
 
-#endif //SAE1_02_CHARGEMENT_H
+#endif //CHARGEMENT_H

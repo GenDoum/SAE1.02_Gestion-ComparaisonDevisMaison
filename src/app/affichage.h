@@ -1,21 +1,27 @@
-//
-// Created by Mathéo Hersan on 03/01/2024.
-//
-
-#ifndef SAE1_02_AFFICHAGE_H
-#define SAE1_02_AFFICHAGE_H
-
-#include "../struct.h"
+#ifndef AFFICHAGE_H
+#define AFFICHAGE_H
 
 #define RESET "\033[0m"
 #define BOLD "\033[1m"
 #define UNDERLINE "\033[4m"
 #define RED "\033[31m"
 #define GREEN "\033[92m"
-#define PURPLE "\033[35m"
-#define BLUE "\033[94m"
-#define MAGENTA "\033[95m"
 #define CYAN "\033[96m"
+
+#include "../struct.h"
+
+/**
+ * @file affichage.h
+ * @brief Définition des fonctions d'affichage.
+ *
+ * Ce fichier contient les déclarations des fonctions permettant d'afficher
+ * les informations sur les précédences, les devis, les offres, etc.
+ *
+ * @date 03/01/2024
+ * @version 1.0
+ * @author Mathéo Hersan, Yannis Doumir-Fernandes
+ */
+
 
 /**
  * @brief Affiche les précédences entre les tâches à partir d'un fichier.
@@ -84,4 +90,4 @@ void afficherDevisPourType(Offre** tOffre, int nbOffre);
  */
 void afficherDevisEntreprisePourType(Offre** tOffre, int nbOffre);
 
-#endif //SAE1_02_AFFICHAGE_H
+#endif //AFFICHAGE_H

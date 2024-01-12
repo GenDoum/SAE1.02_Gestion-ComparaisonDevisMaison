@@ -1,7 +1,21 @@
 #ifndef TACHE_H
 #define TACHE_H
+
 #include "affichage.h"
 #include "../struct.h"
+
+/**
+ * @file tache.h
+ * @brief Définition des fonctions liées aux tâches.
+ *
+ * Ce fichier contient les déclarations des fonctions permettant de gérer les tâches,
+ * les prédécesseurs, et d'autres opérations liées au traitement du projet.
+ *
+ * @date 03/01/2024
+ * @version 1.0
+ * @authors Mathéo Hersan, Yannis Doumir-Fernandes
+ */
+
 
 /**
  * @brief Crée une nouvelle précédence entre deux tâches et l'ajoute à un fichier.

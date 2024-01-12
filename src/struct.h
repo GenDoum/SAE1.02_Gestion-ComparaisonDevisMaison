@@ -1,11 +1,28 @@
-#ifndef SAE1_02_STRUCT_H
-#define SAE1_02_STRUCT_H
+#ifndef STRUCT_H
+#define STRUCT_H
 
 #define MAX_TRAVAUX 500
 #define MAX_LIGNE 200
-#define MAX_OFFRE 100
-#define MAX_PREC 100
 
+/**
+ * @file struct.h
+ * @brief Définition des structures utilisées dans le programme.
+ *
+ * Ce fichier contient les définitions des structures utilisées dans le programme, y compris
+ * les structures représentant une adresse, un devis, une offre de travaux, une liste de successeurs,
+ * une tâche, un maillon de file, et un maillon de liste de devis.
+ *
+ * @date 11/01/2024
+ * @version 1.0
+ * @authors Mathéo Hersan, Yannis Doumir-Fernandes
+ */
+
+/**
+ * @enum bool
+ * @brief Énumération pour représenter les valeurs de vérité.
+ *
+ * Cette énumération définit les valeurs de vérité, soit `false` soit `true`.
+ */
 typedef enum {false, true} bool;
 
 /**
@@ -117,5 +134,4 @@ typedef struct MaillonFile
  */
 typedef File * ListeFile;
 
-
-#endif //SAE1_02_STRUCT_H
+#endif //STRUCT_H

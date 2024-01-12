@@ -2,10 +2,23 @@
 // Created by Mathéo Hersan on 05/01/2024.
 //
 
-#ifndef SAE1_02_UTILS_H
-#define SAE1_02_UTILS_H
+#ifndef UTILS_H
+#define UTILS_H
 #include "tache.h"
 #include "../struct.h"
+
+/**
+ * @file utils.h
+ * @brief Définition des fonctions utilitaires.
+ *
+ * Ce fichier contient les déclarations des fonctions utilitaires telles que la gestion des listes de devis,
+ * les opérations de tri, la recherche dichotomique, etc.
+ *
+ * @date 03/01/2024
+ * @version 1.0
+ * @authors Mathéo Hersan, Yannis Doumir-Fernandes
+ */
+
 
 /**
  * @brief Crée une liste de devis vide.
@@ -190,4 +203,4 @@ void freeTaches(Tache** tabTaches, int nbOffre);
  */
 void freeOffres(Offre** tOffre, int nbOffre);
 
-#endif //SAE1_02_UTILS_H
+#endif //UTILS_H
