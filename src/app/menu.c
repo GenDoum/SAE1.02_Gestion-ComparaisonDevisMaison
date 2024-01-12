@@ -71,9 +71,9 @@ void global(void)
                 selectionnerEntreprises(tOffre, nbOffre);
                 break;
             case 7:
-                afficherTachesParOrdreExecution(tabTaches, nbOffre);
-                calculerDureeProjet(tabTaches, nbOffre);
-                listerTachesRestantes(tabTaches, nbOffre, 0);
+                ordreTache(tabTaches, nbOffre);
+                dureeProjet(tabTaches, nbOffre);
+                tacheNonCommence(tabTaches, nbOffre, 0);
                 break;
             case 8:
                 break;

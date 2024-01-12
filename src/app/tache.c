@@ -103,7 +103,7 @@ void enfilerTete(ListeFile* tache, Tache* tacheCourrante){
     *tache = m;
 }
 
-Tache* defilerFin(ListeFile* tache) {
+Tache* defiler(ListeFile* tache) {
 
     if (*tache == NULL) return NULL;
 
@@ -126,7 +126,7 @@ Tache* defilerFin(ListeFile* tache) {
     return tacheRetiree;
 }
 
-void trierTachesParDateDebut(Tache** tTaches, int nbrTache){
+void trierTaches(Tache** tTaches, int nbrTache){
 
 #ifdef DEBUG
     printf("nbrTache : %d\n", nbrTache);
@@ -148,10 +148,10 @@ void trierTachesParDateDebut(Tache** tTaches, int nbrTache){
     }
 }
 
-void traitementFile(ListeFile* tache, Tache** tTaches, int nbTache){
+void miseAJourDate(ListeFile* tache, Tache** tTaches, int nbTache){
 
     while (*tache != NULL){
-        Tache* cTache = defilerFin(tache);
+        Tache* cTache = defiler(tache);
 
         ListeSuccesseur* succ = cTache->succ;
         while (succ != NULL){
@@ -177,7 +177,7 @@ void traitementFile(ListeFile* tache, Tache** tTaches, int nbTache){
     }
 }
 
-void calculerDureeProjet(Tache** tTache, int nbrTache){
+void dureeProjet(Tache** tTache, int nbrTache){
 
     int dureeProjet = 0;
 
@@ -193,7 +193,7 @@ void calculerDureeProjet(Tache** tTache, int nbrTache){
     printf("\nLe projet durera %d jours.", dureeProjet);
 }
 
-void listerTachesRestantes(Tache** tTache, int nbrTache, int dateDonnee){
+void tacheNonCommence(Tache** tTache, int nbrTache, int dateDonnee){
 
     printf("\nTâches restantes après la date %d:\n\n", dateDonnee);
 
@@ -204,8 +204,8 @@ void listerTachesRestantes(Tache** tTache, int nbrTache, int dateDonnee){
     }
 }
 
-void afficherTachesParOrdreExecution(Tache** tTache, int nbrTache){
-    trierTachesParDateDebut(tTache, nbrTache);
+void ordreTache(Tache** tTache, int nbrTache){
+    trierTaches(tTache, nbrTache);
 
     printf("+----------------------------------------------+\n");
     printf(" Tâche\t\t\tDate de début\n");

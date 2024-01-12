@@ -213,7 +213,7 @@ int chargerTache(Offre** tOffre, Tache** tTache, ListeFile* fileAttente, int tLo
     }
 
     // Traitement de la file d'attente
-    traitementFile(fileAttente, tTache, tLogique);
+    miseAJourDate(fileAttente, tTache, tLogique);
 
     return 0;
 }

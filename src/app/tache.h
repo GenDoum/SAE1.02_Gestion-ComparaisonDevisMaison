@@ -65,7 +65,7 @@ void enfilerTete(ListeFile* pTache, Tache* tacheCourrante);
  * @param tache Un pointeur vers la file.
  * @return Un pointeur vers la dernière tâche retirée ou NULL si la file est vide.
  */
-Tache* defilerFin(ListeFile * pTache);
+Tache* defiler(ListeFile * pTache);
 
 /**
  * @brief Trie un tableau de tâches par date de début.
@@ -75,7 +75,7 @@ Tache* defilerFin(ListeFile * pTache);
  * @param tTaches Le tableau de tâches à trier.
  * @param nbrTache Le nombre de tâches dans le tableau.
  */
-void trierTachesParDateDebut(Tache** tTaches, int nbrTache);
+void trierTaches(Tache** tTaches, int nbrTache);
 
 /**
  * @brief Effectue le traitement des tâches dans une file.
@@ -86,7 +86,7 @@ void trierTachesParDateDebut(Tache** tTaches, int nbrTache);
  * @param tTaches Le tableau des tâches.
  * @param nbTache Le nombre de tâches dans le tableau.
  */
-void traitementFile(ListeFile* tache, Tache** tTaches, int nbTache);
+void miseAJourDate(ListeFile* tache, Tache** tTaches, int nbTache);
 
 /**
  * @brief Calcule la durée totale du projet.
@@ -96,7 +96,7 @@ void traitementFile(ListeFile* tache, Tache** tTaches, int nbTache);
  * @param tTache Le tableau des tâches.
  * @param nbrTache Le nombre de tâches dans le tableau.
  */
-void calculerDureeProjet(Tache** tTache, int nbrTache);
+void dureeProjet(Tache** tTache, int nbrTache);
 
 /**
  * @brief Liste les tâches restantes après une date donnée.
@@ -107,7 +107,7 @@ void calculerDureeProjet(Tache** tTache, int nbrTache);
  * @param nbrTache Le nombre de tâches dans le tableau.
  * @param dateDonnee La date à partir de laquelle les tâches sont listées.
  */
-void listerTachesRestantes(Tache** tTache, int nbrTache, int dateDonnee);
+void tacheNonCommence(Tache** tTache, int nbrTache, int dateDonnee);
 
 /**
  * @brief Affiche les tâches par ordre d'exécution.
@@ -117,7 +117,7 @@ void listerTachesRestantes(Tache** tTache, int nbrTache, int dateDonnee);
  * @param tTache Le tableau des tâches.
  * @param nbrTache Le nombre de tâches dans le tableau.
  */
-void afficherTachesParOrdreExecution(Tache** tTache, int nbrTache);
+void ordreTache(Tache** tTache, int nbrTache);
 
 /**
  * @brief Ajoute un successeur à une tâche.
