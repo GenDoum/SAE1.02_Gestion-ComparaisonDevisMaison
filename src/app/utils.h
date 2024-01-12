@@ -1,7 +1,3 @@
-//
-// Created by Mathéo Hersan on 05/01/2024.
-//
-
 #ifndef UTILS_H
 #define UTILS_H
 #include "tache.h"

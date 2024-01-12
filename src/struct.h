@@ -17,6 +17,7 @@
  * @authors Mathéo Hersan, Yannis Doumir-Fernandes
  */
 
+
 /**
  * @enum bool
  * @brief Énumération pour représenter les valeurs de vérité.
